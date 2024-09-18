@@ -1,0 +1,114 @@
+C:\Users\noske\Desktop\Studijom\MindBLow\MindBlow\MindBlow\bin\Debug\net8.0\appsettings.Development.json
+C:\Users\noske\Desktop\Studijom\MindBLow\MindBlow\MindBlow\bin\Debug\net8.0\appsettings.json
+C:\Users\noske\Desktop\Studijom\MindBLow\MindBlow\MindBlow\bin\Debug\net8.0\MindBlow.exe
+C:\Users\noske\Desktop\Studijom\MindBLow\MindBlow\MindBlow\bin\Debug\net8.0\MindBlow.deps.json
+C:\Users\noske\Desktop\Studijom\MindBLow\MindBlow\MindBlow\bin\Debug\net8.0\MindBlow.runtimeconfig.json
+C:\Users\noske\Desktop\Studijom\MindBLow\MindBlow\MindBlow\bin\Debug\net8.0\MindBlow.dll
+C:\Users\noske\Desktop\Studijom\MindBLow\MindBlow\MindBlow\bin\Debug\net8.0\MindBlow.pdb
+C:\Users\noske\Desktop\Studijom\MindBLow\MindBlow\MindBlow\bin\Debug\net8.0\Microsoft.AspNetCore.OpenApi.dll
+C:\Users\noske\Desktop\Studijom\MindBLow\MindBlow\MindBlow\bin\Debug\net8.0\Microsoft.OpenApi.dll
+C:\Users\noske\Desktop\Studijom\MindBLow\MindBlow\MindBlow\bin\Debug\net8.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\noske\Desktop\Studijom\MindBLow\MindBlow\MindBlow\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\noske\Desktop\Studijom\MindBLow\MindBlow\MindBlow\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\noske\Desktop\Studijom\MindBLow\MindBlow\MindBlow\obj\Debug\net8.0\MindBlow.csproj.AssemblyReference.cache
+C:\Users\noske\Desktop\Studijom\MindBLow\MindBlow\MindBlow\obj\Debug\net8.0\MindBlow.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\noske\Desktop\Studijom\MindBLow\MindBlow\MindBlow\obj\Debug\net8.0\MindBlow.AssemblyInfoInputs.cache
+C:\Users\noske\Desktop\Studijom\MindBLow\MindBlow\MindBlow\obj\Debug\net8.0\MindBlow.AssemblyInfo.cs
+C:\Users\noske\Desktop\Studijom\MindBLow\MindBlow\MindBlow\obj\Debug\net8.0\MindBlow.csproj.CoreCompileInputs.cache
+C:\Users\noske\Desktop\Studijom\MindBLow\MindBlow\MindBlow\obj\Debug\net8.0\MindBlow.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\noske\Desktop\Studijom\MindBLow\MindBlow\MindBlow\obj\Debug\net8.0\MindBlow.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\noske\Desktop\Studijom\MindBLow\MindBlow\MindBlow\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\noske\Desktop\Studijom\MindBLow\MindBlow\MindBlow\obj\Debug\net8.0\staticwebassets.development.json
+C:\Users\noske\Desktop\Studijom\MindBLow\MindBlow\MindBlow\obj\Debug\net8.0\staticwebassets\msbuild.MindBlow.Microsoft.AspNetCore.StaticWebAssets.props
+C:\Users\noske\Desktop\Studijom\MindBLow\MindBlow\MindBlow\obj\Debug\net8.0\staticwebassets\msbuild.build.MindBlow.props
+C:\Users\noske\Desktop\Studijom\MindBLow\MindBlow\MindBlow\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.MindBlow.props
+C:\Users\noske\Desktop\Studijom\MindBLow\MindBlow\MindBlow\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.MindBlow.props
+C:\Users\noske\Desktop\Studijom\MindBLow\MindBlow\MindBlow\obj\Debug\net8.0\staticwebassets.pack.json
+C:\Users\noske\Desktop\Studijom\MindBLow\MindBlow\MindBlow\obj\Debug\net8.0\scopedcss\bundle\MindBlow.styles.css
+C:\Users\noske\Desktop\Studijom\MindBLow\MindBlow\MindBlow\obj\Debug\net8.0\MindBlow.csproj.Up2Date
+C:\Users\noske\Desktop\Studijom\MindBLow\MindBlow\MindBlow\obj\Debug\net8.0\MindBlow.dll
+C:\Users\noske\Desktop\Studijom\MindBLow\MindBlow\MindBlow\obj\Debug\net8.0\refint\MindBlow.dll
+C:\Users\noske\Desktop\Studijom\MindBLow\MindBlow\MindBlow\obj\Debug\net8.0\MindBlow.pdb
+C:\Users\noske\Desktop\Studijom\MindBLow\MindBlow\MindBlow\obj\Debug\net8.0\MindBlow.genruntimeconfig.cache
+C:\Users\noske\Desktop\Studijom\MindBLow\MindBlow\MindBlow\obj\Debug\net8.0\ref\MindBlow.dll
+C:\Users\noske\Desktop\Studijom\MindBLow\MindBlow\MindBlow\bin\Debug\net8.0\Mnemonics.json
+C:\Users\noske\Desktop\Studijom\MindBLow\MindBlow\MindBlow\bin\Debug\net8.0\MindBlow.staticwebassets.runtime.json
+C:\Users\noske\Desktop\Studijom\MindBLow\MindBlow\MindBlow\obj\Debug\net8.0\MindBlow.RazorAssemblyInfo.cache
+C:\Users\noske\Desktop\Studijom\MindBLow\MindBlow\MindBlow\obj\Debug\net8.0\MindBlow.RazorAssemblyInfo.cs
+C:\Users\noske\Desktop\Studijom\MindBLow\MindBlow\MindBlow\obj\Debug\net8.0\MindBlow.sourcelink.json
+C:\Users\noske\Desktop\Projektas\MindBlow\bin\Debug\net8.0\appsettings.Development.json
+C:\Users\noske\Desktop\Projektas\MindBlow\bin\Debug\net8.0\appsettings.json
+C:\Users\noske\Desktop\Projektas\MindBlow\bin\Debug\net8.0\Mnemonics.json
+C:\Users\noske\Desktop\Projektas\MindBlow\bin\Debug\net8.0\MindBlow.staticwebassets.runtime.json
+C:\Users\noske\Desktop\Projektas\MindBlow\bin\Debug\net8.0\MindBlow.exe
+C:\Users\noske\Desktop\Projektas\MindBlow\bin\Debug\net8.0\MindBlow.deps.json
+C:\Users\noske\Desktop\Projektas\MindBlow\bin\Debug\net8.0\MindBlow.runtimeconfig.json
+C:\Users\noske\Desktop\Projektas\MindBlow\bin\Debug\net8.0\MindBlow.dll
+C:\Users\noske\Desktop\Projektas\MindBlow\bin\Debug\net8.0\MindBlow.pdb
+C:\Users\noske\Desktop\Projektas\MindBlow\bin\Debug\net8.0\Microsoft.AspNetCore.OpenApi.dll
+C:\Users\noske\Desktop\Projektas\MindBlow\bin\Debug\net8.0\Microsoft.OpenApi.dll
+C:\Users\noske\Desktop\Projektas\MindBlow\bin\Debug\net8.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\noske\Desktop\Projektas\MindBlow\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\noske\Desktop\Projektas\MindBlow\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\noske\Desktop\Projektas\MindBlow\obj\Debug\net8.0\MindBlow.csproj.AssemblyReference.cache
+C:\Users\noske\Desktop\Projektas\MindBlow\obj\Debug\net8.0\MindBlow.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\noske\Desktop\Projektas\MindBlow\obj\Debug\net8.0\MindBlow.AssemblyInfoInputs.cache
+C:\Users\noske\Desktop\Projektas\MindBlow\obj\Debug\net8.0\MindBlow.AssemblyInfo.cs
+C:\Users\noske\Desktop\Projektas\MindBlow\obj\Debug\net8.0\MindBlow.csproj.CoreCompileInputs.cache
+C:\Users\noske\Desktop\Projektas\MindBlow\obj\Debug\net8.0\MindBlow.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\noske\Desktop\Projektas\MindBlow\obj\Debug\net8.0\MindBlow.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\noske\Desktop\Projektas\MindBlow\obj\Debug\net8.0\MindBlow.RazorAssemblyInfo.cache
+C:\Users\noske\Desktop\Projektas\MindBlow\obj\Debug\net8.0\MindBlow.RazorAssemblyInfo.cs
+C:\Users\noske\Desktop\Projektas\MindBlow\obj\Debug\net8.0\MindBlow.sourcelink.json
+C:\Users\noske\Desktop\Projektas\MindBlow\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\noske\Desktop\Projektas\MindBlow\obj\Debug\net8.0\staticwebassets.development.json
+C:\Users\noske\Desktop\Projektas\MindBlow\obj\Debug\net8.0\staticwebassets\msbuild.MindBlow.Microsoft.AspNetCore.StaticWebAssets.props
+C:\Users\noske\Desktop\Projektas\MindBlow\obj\Debug\net8.0\staticwebassets\msbuild.build.MindBlow.props
+C:\Users\noske\Desktop\Projektas\MindBlow\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.MindBlow.props
+C:\Users\noske\Desktop\Projektas\MindBlow\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.MindBlow.props
+C:\Users\noske\Desktop\Projektas\MindBlow\obj\Debug\net8.0\staticwebassets.pack.json
+C:\Users\noske\Desktop\Projektas\MindBlow\obj\Debug\net8.0\scopedcss\bundle\MindBlow.styles.css
+C:\Users\noske\Desktop\Projektas\MindBlow\obj\Debug\net8.0\MindBlow.csproj.Up2Date
+C:\Users\noske\Desktop\Projektas\MindBlow\obj\Debug\net8.0\MindBlow.dll
+C:\Users\noske\Desktop\Projektas\MindBlow\obj\Debug\net8.0\refint\MindBlow.dll
+C:\Users\noske\Desktop\Projektas\MindBlow\obj\Debug\net8.0\MindBlow.pdb
+C:\Users\noske\Desktop\Projektas\MindBlow\obj\Debug\net8.0\MindBlow.genruntimeconfig.cache
+C:\Users\noske\Desktop\Projektas\MindBlow\obj\Debug\net8.0\ref\MindBlow.dll
+C:\Users\noske\Desktop\PSI Projektas\MindBlown\MindBlow\bin\Debug\net8.0\appsettings.Development.json
+C:\Users\noske\Desktop\PSI Projektas\MindBlown\MindBlow\bin\Debug\net8.0\appsettings.json
+C:\Users\noske\Desktop\PSI Projektas\MindBlown\MindBlow\bin\Debug\net8.0\Mnemonics.json
+C:\Users\noske\Desktop\PSI Projektas\MindBlown\MindBlow\bin\Debug\net8.0\MindBlow.staticwebassets.runtime.json
+C:\Users\noske\Desktop\PSI Projektas\MindBlown\MindBlow\bin\Debug\net8.0\MindBlow.exe
+C:\Users\noske\Desktop\PSI Projektas\MindBlown\MindBlow\bin\Debug\net8.0\MindBlow.deps.json
+C:\Users\noske\Desktop\PSI Projektas\MindBlown\MindBlow\bin\Debug\net8.0\MindBlow.runtimeconfig.json
+C:\Users\noske\Desktop\PSI Projektas\MindBlown\MindBlow\bin\Debug\net8.0\MindBlow.dll
+C:\Users\noske\Desktop\PSI Projektas\MindBlown\MindBlow\bin\Debug\net8.0\MindBlow.pdb
+C:\Users\noske\Desktop\PSI Projektas\MindBlown\MindBlow\bin\Debug\net8.0\Microsoft.AspNetCore.OpenApi.dll
+C:\Users\noske\Desktop\PSI Projektas\MindBlown\MindBlow\bin\Debug\net8.0\Microsoft.OpenApi.dll
+C:\Users\noske\Desktop\PSI Projektas\MindBlown\MindBlow\bin\Debug\net8.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\noske\Desktop\PSI Projektas\MindBlown\MindBlow\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\noske\Desktop\PSI Projektas\MindBlown\MindBlow\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\noske\Desktop\PSI Projektas\MindBlown\MindBlow\obj\Debug\net8.0\MindBlow.csproj.AssemblyReference.cache
+C:\Users\noske\Desktop\PSI Projektas\MindBlown\MindBlow\obj\Debug\net8.0\MindBlow.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\noske\Desktop\PSI Projektas\MindBlown\MindBlow\obj\Debug\net8.0\MindBlow.AssemblyInfoInputs.cache
+C:\Users\noske\Desktop\PSI Projektas\MindBlown\MindBlow\obj\Debug\net8.0\MindBlow.AssemblyInfo.cs
+C:\Users\noske\Desktop\PSI Projektas\MindBlown\MindBlow\obj\Debug\net8.0\MindBlow.csproj.CoreCompileInputs.cache
+C:\Users\noske\Desktop\PSI Projektas\MindBlown\MindBlow\obj\Debug\net8.0\MindBlow.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\noske\Desktop\PSI Projektas\MindBlown\MindBlow\obj\Debug\net8.0\MindBlow.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\noske\Desktop\PSI Projektas\MindBlown\MindBlow\obj\Debug\net8.0\MindBlow.RazorAssemblyInfo.cache
+C:\Users\noske\Desktop\PSI Projektas\MindBlown\MindBlow\obj\Debug\net8.0\MindBlow.RazorAssemblyInfo.cs
+C:\Users\noske\Desktop\PSI Projektas\MindBlown\MindBlow\obj\Debug\net8.0\MindBlow.sourcelink.json
+C:\Users\noske\Desktop\PSI Projektas\MindBlown\MindBlow\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\noske\Desktop\PSI Projektas\MindBlown\MindBlow\obj\Debug\net8.0\staticwebassets.development.json
+C:\Users\noske\Desktop\PSI Projektas\MindBlown\MindBlow\obj\Debug\net8.0\staticwebassets\msbuild.MindBlow.Microsoft.AspNetCore.StaticWebAssets.props
+C:\Users\noske\Desktop\PSI Projektas\MindBlown\MindBlow\obj\Debug\net8.0\staticwebassets\msbuild.build.MindBlow.props
+C:\Users\noske\Desktop\PSI Projektas\MindBlown\MindBlow\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.MindBlow.props
+C:\Users\noske\Desktop\PSI Projektas\MindBlown\MindBlow\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.MindBlow.props
+C:\Users\noske\Desktop\PSI Projektas\MindBlown\MindBlow\obj\Debug\net8.0\staticwebassets.pack.json
+C:\Users\noske\Desktop\PSI Projektas\MindBlown\MindBlow\obj\Debug\net8.0\scopedcss\bundle\MindBlow.styles.css
+C:\Users\noske\Desktop\PSI Projektas\MindBlown\MindBlow\obj\Debug\net8.0\MindBlow.csproj.Up2Date
+C:\Users\noske\Desktop\PSI Projektas\MindBlown\MindBlow\obj\Debug\net8.0\MindBlow.dll
+C:\Users\noske\Desktop\PSI Projektas\MindBlown\MindBlow\obj\Debug\net8.0\refint\MindBlow.dll
+C:\Users\noske\Desktop\PSI Projektas\MindBlown\MindBlow\obj\Debug\net8.0\MindBlow.pdb
+C:\Users\noske\Desktop\PSI Projektas\MindBlown\MindBlow\obj\Debug\net8.0\MindBlow.genruntimeconfig.cache
+C:\Users\noske\Desktop\PSI Projektas\MindBlown\MindBlow\obj\Debug\net8.0\ref\MindBlow.dll
