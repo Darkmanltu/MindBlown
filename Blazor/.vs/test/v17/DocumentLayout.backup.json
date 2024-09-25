@@ -1,0 +1,37 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Carbon\\Desktop\\Haskell\\MindBlown\\Blazor\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{1B1147E8-AAD6-4A8A-8808-CC29264FB6E6}|MindBlow\\MindBlow.csproj|c:\\users\\carbon\\desktop\\haskell\\mindblown\\blazor\\mindblow\\pages\\bandymas2.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{1B1147E8-AAD6-4A8A-8808-CC29264FB6E6}|MindBlow\\MindBlow.csproj|solutionrelative:mindblow\\pages\\bandymas2.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Bandymas2.razor",
+              "DocumentMoniker": "C:\\Users\\Carbon\\Desktop\\Haskell\\MindBlown\\Blazor\\MindBlow\\Pages\\Bandymas2.razor",
+              "RelativeDocumentMoniker": "MindBlow\\Pages\\Bandymas2.razor",
+              "ToolTip": "C:\\Users\\Carbon\\Desktop\\Haskell\\MindBlown\\Blazor\\MindBlow\\Pages\\Bandymas2.razor",
+              "RelativeToolTip": "MindBlow\\Pages\\Bandymas2.razor",
+              "ViewState": "AgIAAEMAAAAAAAAAAAAqwGcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-09-25T12:02:29.864Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

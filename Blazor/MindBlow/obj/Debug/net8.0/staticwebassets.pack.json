@@ -1,0 +1,69 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\noske\\Desktop\\test\\MindBlow\\bin\\Debug\\net8.0\\wwwroot\\_framework\\blazor.webassembly.js",
+      "PackagePath": "staticwebassets\\_framework\\blazor.webassembly.js"
+    },
+    {
+      "Id": "C:\\Users\\noske\\Desktop\\test\\MindBlow\\obj\\Debug\\net8.0\\compressed\\dwnm02ylkt.gz",
+      "PackagePath": "staticwebassets\\_framework\\blazor.webassembly.js.gz"
+    },
+    {
+      "Id": "C:\\Users\\noske\\Desktop\\test\\MindBlow\\obj\\Debug\\net8.0\\scopedcss\\bundle\\MindBlow.styles.css",
+      "PackagePath": "staticwebassets\\MindBlow.styles.css"
+    },
+    {
+      "Id": "C:\\Users\\noske\\Desktop\\test\\MindBlow\\wwwroot\\css\\MnemonicsAddForm.css",
+      "PackagePath": "staticwebassets\\css\\MnemonicsAddForm.css"
+    },
+    {
+      "Id": "C:\\Users\\noske\\Desktop\\test\\MindBlow\\wwwroot\\css\\app.css",
+      "PackagePath": "staticwebassets\\css\\app.css"
+    },
+    {
+      "Id": "C:\\Users\\noske\\Desktop\\test\\MindBlow\\wwwroot\\css\\bootstrap\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\css\\bootstrap\\bootstrap.min.css"
+    },
+    {
+      "Id": "C:\\Users\\noske\\Desktop\\test\\MindBlow\\wwwroot\\css\\bootstrap\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\css\\bootstrap\\bootstrap.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\noske\\Desktop\\test\\MindBlow\\wwwroot\\favicon.png",
+      "PackagePath": "staticwebassets\\favicon.png"
+    },
+    {
+      "Id": "C:\\Users\\noske\\Desktop\\test\\MindBlow\\wwwroot\\icon-192.png",
+      "PackagePath": "staticwebassets\\icon-192.png"
+    },
+    {
+      "Id": "C:\\Users\\noske\\Desktop\\test\\MindBlow\\wwwroot\\index.html",
+      "PackagePath": "staticwebassets\\index.html"
+    },
+    {
+      "Id": "C:\\Users\\noske\\Desktop\\test\\MindBlow\\wwwroot\\localstorage.js",
+      "PackagePath": "staticwebassets\\localstorage.js"
+    },
+    {
+      "Id": "C:\\Users\\noske\\Desktop\\test\\MindBlow\\wwwroot\\sample-data\\weather.json",
+      "PackagePath": "staticwebassets\\sample-data\\weather.json"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.MindBlow.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.MindBlow.props",
+      "PackagePath": "build\\MindBlow.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.MindBlow.props",
+      "PackagePath": "buildMultiTargeting\\MindBlow.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.MindBlow.props",
+      "PackagePath": "buildTransitive\\MindBlow.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

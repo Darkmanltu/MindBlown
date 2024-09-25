@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MindBlow")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7fd1c87b822bd5596688c9314bded0aaac605ce9")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fa836b95c7b7e007aa2970c42b684c1c6f274d14")]
 [assembly: System.Reflection.AssemblyProductAttribute("MindBlow")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MindBlow")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
