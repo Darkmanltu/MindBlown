@@ -1,0 +1,63 @@
+@page "/addMnemonictess2"
+@inject HttpClient HttpClient
+@inject IJSRuntime JS
+
+<link rel="stylesheet" href="css/MnemonicsAddForm.css" />
+<PageTitle>Add Mnemonics</PageTitle>
+
+<h1 id="main_name">Mnemonics Form</h1>
+<form @onsubmit="OnSubmit">
+    <label for="textM">TextM:</label>
+    <input type="text" id="textM" name="textM" @bind="Model.TextM" required />
+    <br />
+    <label for="textW">TextW:</label>
+    <input type="text" id="textW" name="textW" @bind="Model.TextW" required />
+    <br />
+    <button type="submit">Submit</button>
+</form>
+
+@code {
+    private MnemonicsType Model { get; set; } = new MnemonicsType();
+
+    private async Task OnSubmit() {
+        string filePath = "Mnemonics.json";
+
+        // Read existing mnemonics from the file
+        List<MnemonicsType> mnemonicsList;
+        if (System.IO.File.Exists(filePath)) {
+            var jsonData = await System.IO.File.ReadAllTextAsync(filePath);
+            mnemonicsList = !string.IsNullOrEmpty(jsonData)
+                ? JsonSerializer.Deserialize<List<MnemonicsType>>(jsonData) ?? new List<MnemonicsType>()
+                : new List<MnemonicsType>();
+        } else {
+            mnemonicsList = new List<MnemonicsType>();
+        }
+
+        // Add new mnemonic from the form
+        var newMnemonic = new MnemonicsType {
+            Id = Guid.NewGuid(),
+            TextM = Model.TextM,
+            TextW = Model.TextW
+        };
+
+        mnemonicsList.Add(newMnemonic);
+
+        // Save updated list back to the JSON file
+        var updatedJson = JsonSerializer.Serialize(mnemonicsList, new JsonSerializerOptions { WriteIndented = true });
+        await System.IO.File.WriteAllTextAsync(filePath, updatedJson);
+
+        // Save to local storage
+        await JS.InvokeVoidAsync("localStorageHelper.saveItems", "userMnemonics", mnemonicsList);
+
+        // Clear the form model after submission
+        Model = new MnemonicsType();
+
+        // Optionally: Notify the user of successful submission
+    }
+
+    class MnemonicsType {
+        public Guid Id { get; init; }
+        public string? TextM { get; set; }
+        public string? TextW { get; set; }
+    }
+}
