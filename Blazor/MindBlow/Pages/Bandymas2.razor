@@ -1,4 +1,4 @@
-@page "/addMnemonictess2"
+@page "/addMnemonic2"
 @inject HttpClient HttpClient
 @inject IJSRuntime JS
 
@@ -16,25 +16,47 @@
     <button type="submit">Submit</button>
 </form>
 
+<h2>Saved Mnemonics</h2>
+@if (showMnemonics)
+{
+    <ul>
+        @if (mnemonicsList != null && mnemonicsList.Count > 0)
+        {
+            foreach (var mnemonic in mnemonicsList)
+            {
+                <li>@mnemonic.TextM - @mnemonic.TextW</li>
+            }
+        }
+        else
+        {
+            <li>No mnemonics available.</li>
+        }
+    </ul>
+}
+
+<button @onclick="LoadMnemonics">Load Mnemonics</button>
+
 @code {
     private MnemonicsType Model { get; set; } = new MnemonicsType();
+    private List<MnemonicsType> mnemonicsList = new List<MnemonicsType>();
+    private bool showMnemonics = false; // Flag to control the visibility of mnemonics
 
-    private async Task OnSubmit() {
+    private async Task OnSubmit()
+    {
         string filePath = "Mnemonics.json";
 
         // Read existing mnemonics from the file
-        List<MnemonicsType> mnemonicsList;
-        if (System.IO.File.Exists(filePath)) {
+        if (System.IO.File.Exists(filePath))
+        {
             var jsonData = await System.IO.File.ReadAllTextAsync(filePath);
             mnemonicsList = !string.IsNullOrEmpty(jsonData)
                 ? JsonSerializer.Deserialize<List<MnemonicsType>>(jsonData) ?? new List<MnemonicsType>()
                 : new List<MnemonicsType>();
-        } else {
-            mnemonicsList = new List<MnemonicsType>();
         }
 
         // Add new mnemonic from the form
-        var newMnemonic = new MnemonicsType {
+        var newMnemonic = new MnemonicsType
+        {
             Id = Guid.NewGuid(),
             TextM = Model.TextM,
             TextW = Model.TextW
@@ -46,16 +68,34 @@
         var updatedJson = JsonSerializer.Serialize(mnemonicsList, new JsonSerializerOptions { WriteIndented = true });
         await System.IO.File.WriteAllTextAsync(filePath, updatedJson);
 
-        // Save to local storage
+        // Save to local storage (optional, if you want to keep a copy)
         await JS.InvokeVoidAsync("localStorageHelper.saveItems", "userMnemonics", mnemonicsList);
 
         // Clear the form model after submission
         Model = new MnemonicsType();
-
-        // Optionally: Notify the user of successful submission
     }
 
-    class MnemonicsType {
+    private async Task LoadMnemonics()
+    {
+        // Clear the current list before loading
+        mnemonicsList.Clear();
+
+        // Read from the JSON file to get only the submitted mnemonics
+        string filePath = "Mnemonics.json";
+        if (System.IO.File.Exists(filePath))
+        {
+            var jsonData = await System.IO.File.ReadAllTextAsync(filePath);
+            mnemonicsList = !string.IsNullOrEmpty(jsonData)
+                ? JsonSerializer.Deserialize<List<MnemonicsType>>(jsonData) ?? new List<MnemonicsType>()
+                : new List<MnemonicsType>();
+        }
+
+        // Show the mnemonics after loading
+        showMnemonics = true;
+    }
+
+    class MnemonicsType
+    {
         public Guid Id { get; init; }
         public string? TextM { get; set; }
         public string? TextW { get; set; }
