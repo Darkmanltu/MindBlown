@@ -1,0 +1,102 @@
+﻿@page "/weather"
+@inject HttpClient Http
+
+<PageTitle>Weather</PageTitle>
+
+<h1>Weather</h1>
+
+<p>This component demonstrates fetching data from the server and adding your own forecasts.</p>
+
+@if (forecasts == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Temp. (C)</th>
+                <th>Temp. (F)</th>
+                <th>Summary</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var forecast in forecasts)
+            {
+                <tr>
+                    <td>@forecast.Date.ToShortDateString()</td>
+                    <td>@forecast.TemperatureC</td>
+                    <td>@forecast.TemperatureF</td>
+                    <td>@forecast.Summary</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<h3>Add Your Own Forecast</h3>
+
+<form @onsubmit="HandleSubmit">
+    <div>
+        <label>Date: </label>
+        <input type="date" @bind="newForecast.Date" required />
+    </div>
+    <div>
+        <label>Temperature (C): </label>
+        <input type="number" @bind="newForecast.TemperatureC" required />
+    </div>
+    <div>
+        <label>Summary: </label>
+        <input type="text" @bind="newForecast.Summary" required />
+    </div>
+    <button type="submit">Add Forecast</button>
+</form>
+
+@code {
+    private WeatherForecast[]? forecasts;
+    private List<WeatherForecast> forecastList = new();
+    private WeatherForecast newForecast = new WeatherForecast();
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            // Fetching the data from the JSON file.
+            forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("sample-data/weather.json");
+
+            if (forecasts != null)
+            {
+                forecastList = forecasts.ToList();
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error loading data: {ex.Message}");
+        }
+    }
+
+    private void HandleSubmit()
+    {
+        // Add the new forecast to the list
+        forecastList.Add(newForecast);
+
+        // Reset the form
+        newForecast = new WeatherForecast();
+
+        // Refresh the forecasts list to update the UI
+        forecasts = forecastList.ToArray();
+    }
+
+    public class WeatherForecast
+    {
+        public DateTime Date { get; set; } = DateTime.Now;
+
+        public int TemperatureC { get; set; }
+
+        public string? Summary { get; set; }
+
+        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+    }
+}

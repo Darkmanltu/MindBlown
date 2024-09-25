@@ -1,0 +1,54 @@
+@page "/Bandymas"
+@inject HttpClient Http
+@inject HttpClient HttpClient
+@using System.Text.Json
+
+<link rel="stylesheet" href="css/MnemonicsAddForm.css" />
+<PageTitle>Add Mnemonics</PageTitle>
+
+<body>
+    <h1 id = "main_name">Mnemonics Form</h1>
+    <form @onsubmit="OnSubmit">
+        <label for="textM">TextM:</label>
+        <input type="text" id="textM" name="textM" @bind="Model.TextM" required />
+        <br />
+        <label for="textW">TextW:</label>
+        <input type="text" id="textW" name="textW" @bind="Model.TextW" required>
+        <br />
+        <button type="submit">Submit</button>
+    </form>
+</body>
+
+@code {
+    private MnemonicsType Model { get; set; } = new MnemonicsType();
+
+    private readonly string filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "data", "Mnemonics.json");
+    private async Task OnSubmit()
+    {
+        // Load the existing JSON data
+        
+        var existingData = await File.ReadAllTextAsync(filePath);
+
+        // Deserialize the JSON data into a list of FormData objects
+        var formDataList = JsonSerializer.Deserialize<List<MnemonicsType>>(existingData) ?? new List<MnemonicsType>();
+
+        // Add the new form data to the list
+        formDataList.Add(Model);
+
+        // Serialize the updated list back to JSON
+        var updatedJson = JsonSerializer.Serialize(formDataList, new JsonSerializerOptions { WriteIndented = true });
+
+        // Write the updated JSON data to the file
+        await File.WriteAllTextAsync("data/Mnemonics.json", updatedJson);
+
+        // Clear the form fields
+        Model = new MnemonicsType();
+    }
+    
+
+    class MnemonicsType {
+        public Guid Id {get; init;}
+        public string? TextM { get; set; }
+        public string? TextW  { get; set; }
+    }
+}

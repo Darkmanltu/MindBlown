@@ -1,0 +1,27 @@
+@page "/addmnemonic"
+@inject MnemonicsService MnemonicsService
+
+<link rel="stylesheet" href="css/MnemonicsAddForm.css" />
+<PageTitle>Add Mnemonics</PageTitle>
+
+<form @onsubmit="OnSubmit">
+    <div>
+        <label for="textM">Text M:</label>
+        <input id="textM" @bind="Model.TextM" />
+    </div>
+    <div>
+        <label for="textW">Text W:</label>
+        <input id="textW" @bind="Model.TextW" />
+    </div>
+    <button type="submit">Submit</button>
+</form>
+
+@code {
+    private MnemonicsType Model { get; set; } = new MnemonicsType();
+
+    private async Task OnSubmit()
+    {
+        await MnemonicsService.SaveMnemonicsAsync(Model);
+        Model = new MnemonicsType();  // Clear the form
+    }
+}

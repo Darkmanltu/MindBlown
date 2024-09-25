@@ -1,12 +1,56 @@
 {
   "Files": [
     {
-      "Id": "C:\\Users\\noske\\Desktop\\PSI Projektas\\MindBlown\\MindBlow\\wwwroot\\css\\style.css",
-      "PackagePath": "staticwebassets\\css\\style.css"
+      "Id": "C:\\Users\\noske\\Desktop\\PSI Projektas\\MindBlow\\bin\\Debug\\net8.0\\wwwroot\\_framework\\blazor.webassembly.js",
+      "PackagePath": "staticwebassets\\_framework\\blazor.webassembly.js"
     },
     {
-      "Id": "C:\\Users\\noske\\Desktop\\PSI Projektas\\MindBlown\\MindBlow\\wwwroot\\index.html",
+      "Id": "C:\\Users\\noske\\Desktop\\PSI Projektas\\MindBlow\\obj\\Debug\\net8.0\\compressed\\dwnm02ylkt.gz",
+      "PackagePath": "staticwebassets\\_framework\\blazor.webassembly.js.gz"
+    },
+    {
+      "Id": "C:\\Users\\noske\\Desktop\\PSI Projektas\\MindBlow\\obj\\Debug\\net8.0\\scopedcss\\bundle\\MindBlow.styles.css",
+      "PackagePath": "staticwebassets\\MindBlow.styles.css"
+    },
+    {
+      "Id": "C:\\Users\\noske\\Desktop\\PSI Projektas\\MindBlow\\wwwroot\\css\\MnemonicsAddForm.css",
+      "PackagePath": "staticwebassets\\css\\MnemonicsAddForm.css"
+    },
+    {
+      "Id": "C:\\Users\\noske\\Desktop\\PSI Projektas\\MindBlow\\wwwroot\\css\\app.css",
+      "PackagePath": "staticwebassets\\css\\app.css"
+    },
+    {
+      "Id": "C:\\Users\\noske\\Desktop\\PSI Projektas\\MindBlow\\wwwroot\\css\\bootstrap\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\css\\bootstrap\\bootstrap.min.css"
+    },
+    {
+      "Id": "C:\\Users\\noske\\Desktop\\PSI Projektas\\MindBlow\\wwwroot\\css\\bootstrap\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\css\\bootstrap\\bootstrap.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\noske\\Desktop\\PSI Projektas\\MindBlow\\wwwroot\\data\\Mnemonics.json",
+      "PackagePath": "staticwebassets\\data\\Mnemonics.json"
+    },
+    {
+      "Id": "C:\\Users\\noske\\Desktop\\PSI Projektas\\MindBlow\\wwwroot\\favicon.png",
+      "PackagePath": "staticwebassets\\favicon.png"
+    },
+    {
+      "Id": "C:\\Users\\noske\\Desktop\\PSI Projektas\\MindBlow\\wwwroot\\icon-192.png",
+      "PackagePath": "staticwebassets\\icon-192.png"
+    },
+    {
+      "Id": "C:\\Users\\noske\\Desktop\\PSI Projektas\\MindBlow\\wwwroot\\index.html",
       "PackagePath": "staticwebassets\\index.html"
+    },
+    {
+      "Id": "C:\\Users\\noske\\Desktop\\PSI Projektas\\MindBlow\\wwwroot\\localstorage.js",
+      "PackagePath": "staticwebassets\\localstorage.js"
+    },
+    {
+      "Id": "C:\\Users\\noske\\Desktop\\PSI Projektas\\MindBlow\\wwwroot\\sample-data\\weather.json",
+      "PackagePath": "staticwebassets\\sample-data\\weather.json"
     },
     {
       "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.MindBlow.Microsoft.AspNetCore.StaticWebAssets.props",
