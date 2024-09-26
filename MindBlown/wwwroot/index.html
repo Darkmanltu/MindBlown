@@ -26,6 +26,19 @@
         <a href="" class="reload">Reload</a>
         <a class="dismiss">🗙</a>
     </div>
+
+    <!-- Add the localStorageHelper script here -->
+    <script>
+        window.localStorageHelper = {
+            saveItems: function (key, items) {
+                localStorage.setItem(key, JSON.stringify(items));
+            },
+            getItems: function (key) {
+                return JSON.parse(localStorage.getItem(key));
+            }
+        };
+    </script>
+
     <script src="_framework/blazor.webassembly.js"></script>
 </body>
 

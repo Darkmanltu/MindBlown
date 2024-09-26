@@ -1,43 +1,43 @@
 {
   "Files": [
     {
-      "Id": "C:\\Users\\juran\\OneDrive\\Stalinis kompiuteris\\stud\\PSI\\Projektas\\MindBlown\\MindBlown\\bin\\Debug\\net8.0\\wwwroot\\_framework\\blazor.webassembly.js",
+      "Id": "C:\\Users\\Carbon\\Desktop\\Haskell\\MindBlown\\MindBlown\\bin\\Debug\\net8.0\\wwwroot\\_framework\\blazor.webassembly.js",
       "PackagePath": "staticwebassets\\_framework\\blazor.webassembly.js"
     },
     {
-      "Id": "C:\\Users\\juran\\OneDrive\\Stalinis kompiuteris\\stud\\PSI\\Projektas\\MindBlown\\MindBlown\\obj\\Debug\\net8.0\\compressed\\31bx1qmr79.gz",
+      "Id": "C:\\Users\\Carbon\\Desktop\\Haskell\\MindBlown\\MindBlown\\obj\\Debug\\net8.0\\compressed\\5nhso08fgy.gz",
       "PackagePath": "staticwebassets\\_framework\\blazor.webassembly.js.gz"
     },
     {
-      "Id": "C:\\Users\\juran\\OneDrive\\Stalinis kompiuteris\\stud\\PSI\\Projektas\\MindBlown\\MindBlown\\obj\\Debug\\net8.0\\scopedcss\\bundle\\MindBlown.styles.css",
+      "Id": "C:\\Users\\Carbon\\Desktop\\Haskell\\MindBlown\\MindBlown\\obj\\Debug\\net8.0\\scopedcss\\bundle\\MindBlown.styles.css",
       "PackagePath": "staticwebassets\\MindBlown.styles.css"
     },
     {
-      "Id": "C:\\Users\\juran\\OneDrive\\Stalinis kompiuteris\\stud\\PSI\\Projektas\\MindBlown\\MindBlown\\wwwroot\\css\\app.css",
+      "Id": "C:\\Users\\Carbon\\Desktop\\Haskell\\MindBlown\\MindBlown\\wwwroot\\css\\app.css",
       "PackagePath": "staticwebassets\\css\\app.css"
     },
     {
-      "Id": "C:\\Users\\juran\\OneDrive\\Stalinis kompiuteris\\stud\\PSI\\Projektas\\MindBlown\\MindBlown\\wwwroot\\css\\bootstrap\\bootstrap.min.css",
+      "Id": "C:\\Users\\Carbon\\Desktop\\Haskell\\MindBlown\\MindBlown\\wwwroot\\css\\bootstrap\\bootstrap.min.css",
       "PackagePath": "staticwebassets\\css\\bootstrap\\bootstrap.min.css"
     },
     {
-      "Id": "C:\\Users\\juran\\OneDrive\\Stalinis kompiuteris\\stud\\PSI\\Projektas\\MindBlown\\MindBlown\\wwwroot\\css\\bootstrap\\bootstrap.min.css.map",
+      "Id": "C:\\Users\\Carbon\\Desktop\\Haskell\\MindBlown\\MindBlown\\wwwroot\\css\\bootstrap\\bootstrap.min.css.map",
       "PackagePath": "staticwebassets\\css\\bootstrap\\bootstrap.min.css.map"
     },
     {
-      "Id": "C:\\Users\\juran\\OneDrive\\Stalinis kompiuteris\\stud\\PSI\\Projektas\\MindBlown\\MindBlown\\wwwroot\\favicon.png",
+      "Id": "C:\\Users\\Carbon\\Desktop\\Haskell\\MindBlown\\MindBlown\\wwwroot\\favicon.png",
       "PackagePath": "staticwebassets\\favicon.png"
     },
     {
-      "Id": "C:\\Users\\juran\\OneDrive\\Stalinis kompiuteris\\stud\\PSI\\Projektas\\MindBlown\\MindBlown\\wwwroot\\icon-192.png",
+      "Id": "C:\\Users\\Carbon\\Desktop\\Haskell\\MindBlown\\MindBlown\\wwwroot\\icon-192.png",
       "PackagePath": "staticwebassets\\icon-192.png"
     },
     {
-      "Id": "C:\\Users\\juran\\OneDrive\\Stalinis kompiuteris\\stud\\PSI\\Projektas\\MindBlown\\MindBlown\\wwwroot\\index.html",
+      "Id": "C:\\Users\\Carbon\\Desktop\\Haskell\\MindBlown\\MindBlown\\wwwroot\\index.html",
       "PackagePath": "staticwebassets\\index.html"
     },
     {
-      "Id": "C:\\Users\\juran\\OneDrive\\Stalinis kompiuteris\\stud\\PSI\\Projektas\\MindBlown\\MindBlown\\wwwroot\\sample-data\\weather.json",
+      "Id": "C:\\Users\\Carbon\\Desktop\\Haskell\\MindBlown\\MindBlown\\wwwroot\\sample-data\\weather.json",
       "PackagePath": "staticwebassets\\sample-data\\weather.json"
     },
     {

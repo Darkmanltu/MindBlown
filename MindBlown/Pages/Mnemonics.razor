@@ -1,0 +1,83 @@
+@page "/addMnemonic2"
+
+@using System.Text.Json
+@inject HttpClient HttpClient
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+
+<link rel="stylesheet" href="css/MnemonicsAddForm.css" />
+<PageTitle>Add Mnemonics</PageTitle>
+
+<h1 id="main_name">Mnemonics Form</h1>
+<form @onsubmit="OnSubmit">
+    <label for="textM">TextM:</label>
+    <input type="text" id="textM" name="textM" @bind="Model.TextM" required />
+    <br />
+    <label for="textW">TextW:</label>
+    <input type="text" id="textW" name="textW" @bind="Model.TextW" required />
+    <br />
+    <button type="submit">Submit</button>
+</form>
+
+<h2>Saved Mnemonics</h2>
+@if (showMnemonics)
+{
+    <ul>
+        @if (mnemonicsList != null && mnemonicsList.Count > 0)
+        {
+            foreach (var mnemonic in mnemonicsList)
+            {
+                <li>@mnemonic.TextM - @mnemonic.TextW</li>
+            }
+        }
+        else
+        {
+            <li>No mnemonics available.</li>
+        }
+    </ul>
+}
+
+<button @onclick="LoadMnemonics">Load Mnemonics</button>
+
+@code {
+    private MnemonicsType Model { get; set; } = new MnemonicsType();
+    private List<MnemonicsType> mnemonicsList = new List<MnemonicsType>();
+   //gali neprireikt private List<MnemonicsType> loadedMnemonicsList = new List<MnemonicsType>();
+    private bool showMnemonics = false; 
+
+    private async Task OnSubmit()
+    {
+        // ????
+        var existingMnemonics = await localStorage.GetItemAsync<List<MnemonicsType>>("userMnemonics") ?? new List<MnemonicsType>();
+        
+        var newMnemonic = new MnemonicsType
+        {
+            Id = Guid.NewGuid(),
+            TextM = Model.TextM,
+            TextW = Model.TextW
+        };
+
+        existingMnemonics.Add(newMnemonic);
+
+        // save the values to local storage
+        await localStorage.SetItemAsync("userMnemonics", existingMnemonics);
+
+        // clear for new input i think
+        Model = new MnemonicsType();
+    }
+
+    private async Task LoadMnemonics()
+    {
+        // read the value as list
+        mnemonicsList = await localStorage.GetItemAsync<List<MnemonicsType>>("userMnemonics") ?? new List<MnemonicsType>();
+
+        // Show the mnemonics after loading
+        showMnemonics = true;
+    }
+
+    class MnemonicsType
+    {
+        public Guid Id { get; init; }
+        public string? TextM { get; set; }
+        public string? TextW { get; set; }
+    }
+}
