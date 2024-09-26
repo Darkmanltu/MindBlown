@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "MindBlown",
   "resources": {
-    "hash": "sha256-hMlmXbVVA6hWRIBSZPeTzZByRKY1sBe5+t15aZejSeU=",
+    "hash": "sha256-C8WNjvgqqrmzVW7AmK6gbulD06VsFxBzCUQ5A3S5KGI=",
     "jsModuleNative": {
       "dotnet.native.8.0.8.wbhyoo4i4z.js": "sha256-juC5sA7gHTLXFEhAKgdM2/RavswpwCtDfjYGsAz2FXg="
     },
@@ -209,10 +209,10 @@
       "mscorlib.wasm": "sha256-Gz8PyW2/fwihe5ul81OwmRUrU71r+KtbyRw6xlOGD+Q=",
       "netstandard.wasm": "sha256-jMTqIQzoDS810lyhZpMO5eEC36EzntXqSVn+2qwkOMQ=",
       "System.Private.CoreLib.wasm": "sha256-NFj5WE5VLP2LptZIRJCUIc1AMk06FmxpsSILfPISwAw=",
-      "MindBlown.wasm": "sha256-jAEr1+nOjFdTb+Gi75lYx8Cnal+XY7Srkn/TkQRlUE4="
+      "MindBlown.wasm": "sha256-TO3F6fxUzyuv9Wpo2WLn8/iRofxm+0UehmmHMXkyxUE="
     },
     "pdb": {
-      "MindBlown.pdb": "sha256-8JE9Ei0Td6Ex735kdQqN8kZTGmx4Xj0M4KEC2YA4W2A="
+      "MindBlown.pdb": "sha256-4eQmq0l35+lCf6uhBAlJo9AQB/crRtlRBI7hCQDokns="
     }
   },
   "cacheBootResources": true,

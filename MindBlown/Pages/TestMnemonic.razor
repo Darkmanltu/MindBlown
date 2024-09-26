@@ -1,0 +1,65 @@
+@page "/TM"
+
+
+
+@using static MindBlown.Pages.Mnemonics
+@using System.Text.Json
+@inject HttpClient HttpClient
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+
+
+<h1>Test Mnemonics</h1>
+<h2>Place to test your created Mnemonics</h2>
+
+
+<input type="text" id="textW" name="textW" @bind="textW" required />
+
+
+
+@code{
+    // TODO: Implement the test of Mnemonics:
+    /*
+    -implement loading of Mnemonics from local storage
+    -impleemnt striping the string text spaces and special characters from textW
+    -implement displaying mnemonic
+    -implement user input for textw
+    -implement checking if the user input is correct (if it matches the textW)
+    -implement displaying the result of the test
+
+    */
+    private List<MnemonicsType> mnemonicsList = new List<MnemonicsType>();
+    private string textM = "";
+    private string textW = "";
+
+//loading from local storage
+    private async Task LoadMnemonics()
+    {
+        //load the strings from local storage 
+       mnemonicsList = await localStorage.GetItemAsync<List<MnemonicsType>>("userMnemonics") ?? new List<MnemonicsType>();
+    }
+
+
+    //striping the string text spaces and special characters from textW
+
+    /*
+    WIP do not use
+    public string StripString(string text)
+    {
+        return new string(text.Where(c => char.IsLetter(c)).ToArray());
+    }
+    */
+
+    //displaying mnemonic
+
+
+
+    //user input for textw
+
+
+
+    //checking if the user input is correct (if it matches the textW)
+
+
+
+    //displaying the result of the test
+}

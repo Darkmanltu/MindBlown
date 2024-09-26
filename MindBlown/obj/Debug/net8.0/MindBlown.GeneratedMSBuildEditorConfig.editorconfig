@@ -38,6 +38,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTW5lbW9uaWNzLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/Carbon/Desktop/Haskell/MindBlown/MindBlown/Pages/TestMnemonic.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVGVzdE1uZW1vbmljLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Carbon/Desktop/Haskell/MindBlown/MindBlown/Pages/Weather.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcV2VhdGhlci5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
