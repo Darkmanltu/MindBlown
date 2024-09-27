@@ -1,25 +1,28 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\juran\\OneDrive\\Stalinis kompiuteris\\stud\\PSI\\Projektas\\MindBlown\\MindBlown\\MindBlown.csproj": {}
+    "C:\\Users\\Carbon\\Desktop\\Haskell\\MindBlown\\MindBlown\\MindBlown.csproj": {}
   },
   "projects": {
-    "C:\\Users\\juran\\OneDrive\\Stalinis kompiuteris\\stud\\PSI\\Projektas\\MindBlown\\MindBlown\\MindBlown.csproj": {
+    "C:\\Users\\Carbon\\Desktop\\Haskell\\MindBlown\\MindBlown\\MindBlown.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\juran\\OneDrive\\Stalinis kompiuteris\\stud\\PSI\\Projektas\\MindBlown\\MindBlown\\MindBlown.csproj",
+        "projectUniqueName": "C:\\Users\\Carbon\\Desktop\\Haskell\\MindBlown\\MindBlown\\MindBlown.csproj",
         "projectName": "MindBlown",
-        "projectPath": "C:\\Users\\juran\\OneDrive\\Stalinis kompiuteris\\stud\\PSI\\Projektas\\MindBlown\\MindBlown\\MindBlown.csproj",
-        "packagesPath": "C:\\Users\\juran\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\juran\\OneDrive\\Stalinis kompiuteris\\stud\\PSI\\Projektas\\MindBlown\\MindBlown\\obj\\",
+        "projectPath": "C:\\Users\\Carbon\\Desktop\\Haskell\\MindBlown\\MindBlown\\MindBlown.csproj",
+        "packagesPath": "C:\\Users\\Carbon\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Carbon\\Desktop\\Haskell\\MindBlown\\MindBlown\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\juran\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\Carbon\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -43,6 +46,10 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "Blazored.LocalStorage": {
+              "target": "Package",
+              "version": "[4.5.0, )"
+            },
             "Microsoft.AspNetCore.Components.WebAssembly": {
               "target": "Package",
               "version": "[8.0.8, )"
