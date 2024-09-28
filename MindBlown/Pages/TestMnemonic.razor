@@ -1,4 +1,4 @@
-@page "/TM"
+@page "/testMnemonic"
 
 
 
@@ -7,14 +7,40 @@
 @inject HttpClient HttpClient
 @inject Blazored.LocalStorage.ILocalStorageService localStorage
 
+<link rel="stylesheet" href="css/MnemonicsTest.css" />
 
 <h1>Test Mnemonics</h1>
 <h2>Place to test your created Mnemonics</h2>
 
+@if(testingMnemonic != null)
+{
+    <div>Mnemonic: @testingMnemonic.TextM</div>
+}
+else
+{
+    <div>Mnemonic is loading...</div>
+}
+<br />
+<input type="text" id="userGivenTextW" name="userGivenTextW" @bind="userGivenTextW" required />
+<br />
+<button @onclick="checkMnemonic">Check</button>
 
-<input type="text" id="textW" name="textW" @bind="textW" required />
 
+@if (answeringStats.allAnswerCount != 0)
+{
+    <div class="statsResults">
+        Your result: @(Math.Round(((double)answeringStats.correctAnswerCount / answeringStats.allAnswerCount) * 100, answeringStats.precision)) %
+    </div>
+}
 
+@if(lastWrongAnswer != null)
+{
+    <br />
+    <h4>Last wrong mnemonic answered</h4>
+    <div>Mnemonic text: @lastWrongAnswer.textM</div>
+    <div>Mnemonic whole text: @lastWrongAnswer.textW</div>
+    <div>Answered wrongly: @lastWrongAnswer.wrongTextW</div>
+}
 
 @code{
     // TODO: Implement the test of Mnemonics:
@@ -26,16 +52,89 @@
     -implement checking if the user input is correct (if it matches the textW)
     -implement displaying the result of the test
 
+
+    --Use enum, give it all the mnemonics id and then with random generator generate int and get guid with int from enum
     */
     private List<MnemonicsType> mnemonicsList = new List<MnemonicsType>();
-    private string textM = "";
-    private string textW = "";
+    private string userGivenTextW = "";
 
-//loading from local storage
-    private async Task LoadMnemonics()
+    // Initializes to 0 both values
+    public AnsweringStatsStruct answeringStats = new AnsweringStatsStruct();
+
+    private MnemonicsType? testingMnemonic;
+
+    //LastWrongAnswerRecord is defined below
+    public LastWrongAnswerRecord? lastWrongAnswer;
+
+    private bool nextMnemonic = false;
+
+
+    //Checks whether testingMnemonic is no longer null every 1s
+    protected override async Task OnInitializedAsync()
     {
-        //load the strings from local storage 
-       mnemonicsList = await localStorage.GetItemAsync<List<MnemonicsType>>("userMnemonics") ?? new List<MnemonicsType>();
+        while (testingMnemonic == null)
+        {
+            await Task.Delay(1000);
+        }
+
+        //testingMnemonic is no longer null
+    }
+
+    /*
+    Loads mnemonicsList and gets random mnemonic from mnemonicsList after going into this website.
+    Also updates what mnemonic is being tested now and shows it on website.
+    */
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if(firstRender)
+        {
+            await loadMnemonics();
+            System.Console.WriteLine("new random mnemonic: " + getRandomMnemonic().TextM);
+        }
+
+        if(nextMnemonic)
+        {
+            nextMnemonic = false;
+            System.Console.WriteLine("new random mnemonic: " + getRandomMnemonic().TextM + " " + nextMnemonic);
+            StateHasChanged();
+        }
+    }
+
+
+    //Loading from local storage
+    private async Task loadMnemonics()
+    {
+        //Load the mnemonics from local storage 
+        mnemonicsList = await localStorage.GetItemAsync<List<MnemonicsType>>("userMnemonics") ?? new List<MnemonicsType>();
+    }
+
+    //Task when Check button is pressed
+    private async Task checkMnemonic()
+    {
+        if(testingMnemonic?.TextW == userGivenTextW && testingMnemonic != null)
+        {
+            answeringStats.correctAnswerCount++;
+        }
+        else
+        {
+            //Use record for last wrong answered mnemonic
+            if(testingMnemonic?.TextM != null && testingMnemonic?.TextW != null)
+            {
+                lastWrongAnswer = new LastWrongAnswerRecord { Id = testingMnemonic.Id, textM = testingMnemonic?.TextM, textW = testingMnemonic?.TextW, wrongTextW = userGivenTextW  };
+            }
+        }
+        nextMnemonic = true;
+
+        answeringStats.allAnswerCount++;
+    }
+
+
+    private MnemonicsType getRandomMnemonic()
+    {
+        System.Random random = new System.Random();
+        int randomNumber = random.Next(0, mnemonicsList.Count());
+        MnemonicsType randomMnemonic = mnemonicsList[randomNumber];
+        return testingMnemonic = randomMnemonic;
     }
 
 
@@ -62,4 +161,27 @@
 
 
     //displaying the result of the test
+
+
+    // Struct for stats
+    public struct AnsweringStatsStruct {
+        public int correctAnswerCount { get; set; }
+        public int allAnswerCount { get; set; }
+        public int precision { get; set; }
+
+        public AnsweringStatsStruct() : this(2) {}
+
+        public AnsweringStatsStruct(int setPrecision = 2)
+        {
+            precision = setPrecision;
+        }
+    }
+
+    public record LastWrongAnswerRecord
+    {
+        public Guid Id { get; set; }
+        public required string? textM { get; set; }
+        public required string? textW { get; set; }
+        public required string? wrongTextW { get; set; }
+    }
 }
