@@ -1,4 +1,4 @@
-@page "/addMnemonic2"
+@page "/addMnemonic"
 
 @using System.Text.Json
 @inject HttpClient HttpClient
@@ -18,22 +18,29 @@
     <button type="submit">Submit</button>
 </form>
 
-<h2>Saved Mnemonics</h2>
+<h2 >Saved Mnemonics</h2>
 @if (showMnemonics)
 {
-    <ul>
+    <table>
         @if (mnemonicsList != null && mnemonicsList.Count > 0)
         {
+            <tr>
+                <th>Mnemonics text</th>
+                <th>Whole text</th>
+            </tr>
             foreach (var mnemonic in mnemonicsList)
             {
-                <li>@mnemonic.TextM - @mnemonic.TextW</li>
+                <tr>
+                    <td>@mnemonic.TextM</td>
+                    <td>@mnemonic.TextW</td>
+                </tr>
             }
         }
         else
         {
-            <li>No mnemonics available.</li>
+            <p>No mnemonics available.</p>
         }
-    </ul>
+    </table>
 }
 
 <button @onclick="LoadMnemonics">Load Mnemonics</button>
@@ -46,7 +53,7 @@
 
     private async Task OnSubmit()
     {
-        // ????
+        // Getting mnemonics from local storage
         var existingMnemonics = await localStorage.GetItemAsync<List<MnemonicsType>>("userMnemonics") ?? new List<MnemonicsType>();
         
         var newMnemonic = new MnemonicsType
@@ -61,7 +68,7 @@
         // save the values to local storage
         await localStorage.SetItemAsync("userMnemonics", existingMnemonics);
 
-        // clear for new input i think
+        // clear for new input
         Model = new MnemonicsType();
     }
 
