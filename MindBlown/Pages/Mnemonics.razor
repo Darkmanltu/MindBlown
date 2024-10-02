@@ -4,19 +4,29 @@
 @inject HttpClient HttpClient
 @inject Blazored.LocalStorage.ILocalStorageService localStorage
 
-<link rel="stylesheet" href="css/MnemonicsAddForm.css" />
+<link rel="stylesheet" href="css/Mnemonics.css" />
 <PageTitle>Add Mnemonics</PageTitle>
 
-<h1 id="main_name">Mnemonics Form</h1>
 <form @onsubmit="OnSubmit">
+<h1 id="main_name">Mnemonics Form</h1>
     <label for="textM">TextM:</label>
     <input type="text" id="textM" name="textM" @bind="Model.TextM" required />
     <br />
     <label for="textW">TextW:</label>
     <input type="text" id="textW" name="textW" @bind="Model.TextW" required />
     <br />
+    
+    <label for="category">Category:</label>
+    <select id="category" @bind="Model.Category">
+        @foreach (var category in Enum.GetValues(typeof(MnemonicCategory)).Cast<MnemonicCategory>())
+        {
+            <option value="@category">@category</option>
+        }
+    </select>
+    <br />
     <button type="submit">Submit</button>
 </form>
+
 
 <h2 >Saved Mnemonics</h2>
 @if (showMnemonics)
@@ -27,12 +37,14 @@
             <tr>
                 <th>Mnemonics text</th>
                 <th>Whole text</th>
+                <th>Category</th>
             </tr>
-            foreach (var mnemonic in mnemonicsList)
+            @foreach (var mnemonic in mnemonicsList)
             {
                 <tr>
                     <td>@mnemonic.TextM</td>
                     <td>@mnemonic.TextW</td>
+                    <td>@mnemonic.Category</td>
                 </tr>
             }
         }
@@ -60,7 +72,8 @@
         {
             Id = Guid.NewGuid(),
             TextM = Model.TextM,
-            TextW = Model.TextW
+            TextW = Model.TextW,
+            Category = Model.Category
         };
 
         existingMnemonics.Add(newMnemonic);
@@ -86,5 +99,14 @@
         public Guid Id { get; init; }
         public string? TextM { get; set; }
         public string? TextW { get; set; }
+
+        public MnemonicCategory Category { get; set; }
+    }
+
+    public enum MnemonicCategory
+    {
+        Acronym,
+        Rhyme,
+        StoryMethod,
     }
 }
