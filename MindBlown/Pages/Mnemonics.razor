@@ -1,6 +1,7 @@
 @page "/addMnemonic"
 
 @using System.Text.Json
+@using static MnemonicsType
 @inject HttpClient HttpClient
 @inject Blazored.LocalStorage.ILocalStorageService localStorage
 
@@ -94,19 +95,4 @@
         showMnemonics = true;
     }
 
-    public class MnemonicsType
-    {
-        public Guid Id { get; init; }
-        public string? TextM { get; set; }
-        public string? TextW { get; set; }
-
-        public MnemonicCategory Category { get; set; }
-    }
-
-    public enum MnemonicCategory
-    {
-        Acronym,
-        Rhyme,
-        StoryMethod,
-    }
 }
