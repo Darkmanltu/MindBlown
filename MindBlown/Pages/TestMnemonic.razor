@@ -1,7 +1,8 @@
 @page "/testMnemonic"
 
 
-
+@using static AnsweringStatsStruct
+@using static LastWrongAnswerRecord
 @using static MindBlown.Pages.Mnemonics
 @using System.Text.Json
 @inject HttpClient HttpClient
@@ -54,15 +55,7 @@
 @code{
     // TODO: Implement the test of Mnemonics:
     /*
-    -implement loading of Mnemonics from local storage
-    -impleemnt striping the string text spaces and special characters from textW
-    -implement displaying mnemonic
-    -implement user input for textw
-    -implement checking if the user input is correct (if it matches the textW)
-    -implement displaying the result of the test
 
-
-    --Use enum, give it all the mnemonics id and then with random generator generate int and get guid with int from enum
     */
     private List<MnemonicsType> mnemonicsList = new List<MnemonicsType>();
     private string userGivenTextW = "";
@@ -120,7 +113,11 @@
     //Task when Check button is pressed
     private async Task checkMnemonic()
     {
-        if(testingMnemonic?.TextW == userGivenTextW && testingMnemonic != null)
+        object userMnemonic = new MnemonicsType(userGivenTextW);
+
+        @* userMnemonic.TextW = userGivenTextW; *@
+        @* if(testingMnemonic?.TextW == userGivenTextW && testingMnemonic != null) *@
+        if(testingMnemonic != null && testingMnemonic.Equals((MnemonicsType)userMnemonic))
         {
             answeringStats.correctAnswerCount++;
         }
@@ -148,51 +145,12 @@
         return testingMnemonic = randomMnemonic;
     }
 
-
-    //striping the string text spaces and special characters from textW
-
-    /*
-    WIP do not use
-    public string StripString(string text)
-    {
-        return new string(text.Where(c => char.IsLetter(c)).ToArray());
-    }
-    */
-
-    //displaying mnemonic
-
-
-
-    //user input for textw
-
-
-
-    //checking if the user input is correct (if it matches the textW)
-
-
-
-    //displaying the result of the test
-
-
-    // Struct for stats
-    public struct AnsweringStatsStruct {
-        public int correctAnswerCount { get; set; }
-        public int allAnswerCount { get; set; }
-        public int precision { get; set; }
-
-        public AnsweringStatsStruct() : this(2) {}
-
-        public AnsweringStatsStruct(int setPrecision = 2)
-        {
-            precision = setPrecision;
-        }
-    }
-
-    public record LastWrongAnswerRecord
-    {
-        public Guid Id { get; set; }
-        public required string? textM { get; set; }
-        public required string? textW { get; set; }
-        public required string? wrongTextW { get; set; }
-    }
 }
+
+@* 
+// Pagalbinis ir pagrindinis tekstas.
+// Patobulinti enum 
+
+
+
+*@
