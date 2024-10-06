@@ -2,6 +2,7 @@
 
 @using System.Text.Json
 @using static MnemonicsType
+@using static StringExtensions
 @inject HttpClient HttpClient
 @inject Blazored.LocalStorage.ILocalStorageService localStorage
 
@@ -9,7 +10,7 @@
 <PageTitle>Add Mnemonics</PageTitle>
 
 <form @onsubmit="OnSubmit">
-<h1 id="main_name">Mnemonics Form</h1>
+<h1 id="main_name">@StringExtensions.CapitalizeWords("mnemonics form")</h1>
     <label for="textM">TextM:</label>
     <input type="text" id="textM" name="textM" @bind="Model.TextM" required />
     <br />
@@ -24,12 +25,17 @@
             <option value="@category">@category</option>
         }
     </select>
+    @if(mnemonicAlreadyExists)
+    {
+        <br />
+        <div class="invalid-input-message">@invalidInputMessage</div>
+    }
     <br />
     <button type="submit">Submit</button>
 </form>
 
 
-<h2 >Saved Mnemonics</h2>
+<h2>@StringExtensions.CapitalizeWords("saved mnemonics")</h2>
 @if (showMnemonics)
 {
     <table>
@@ -56,19 +62,30 @@
     </table>
 }
 
-<button @onclick="LoadMnemonics">Load Mnemonics</button>
+<button @onclick="LoadMnemonics">@StringExtensions.CapitalizeWords("load mnemonics")</button>
 
 @code {
     private MnemonicsType Model { get; set; } = new MnemonicsType();
     private List<MnemonicsType> mnemonicsList = new List<MnemonicsType>();
    //gali neprireikt private List<MnemonicsType> loadedMnemonicsList = new List<MnemonicsType>();
-    private bool showMnemonics = false; 
+    private bool showMnemonics = false;
+    private bool mnemonicAlreadyExists; 
+    private string invalidInputMessage = "Mnemonic with given TextM already exists.";
 
     private async Task OnSubmit()
     {
         // Getting mnemonics from local storage
         var existingMnemonics = await localStorage.GetItemAsync<List<MnemonicsType>>("userMnemonics") ?? new List<MnemonicsType>();
         
+        mnemonicAlreadyExists = existingMnemonics.Where(m => m.TextM == Model.TextM).Count() > 0;
+
+        if(mnemonicAlreadyExists)
+        {
+            await localStorage.SetItemAsync("userMnemonics", existingMnemonics);
+            Model = new MnemonicsType();
+            return;
+        }
+
         var newMnemonic = new MnemonicsType
         {
             Id = Guid.NewGuid(),
