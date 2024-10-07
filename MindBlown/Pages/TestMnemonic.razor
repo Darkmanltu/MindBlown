@@ -4,6 +4,7 @@
 @using static AnsweringStatsStruct
 @using static LastWrongAnswerRecord
 @using static MindBlown.Pages.Mnemonics
+@using static StringExtensions
 @using System.Text.Json
 @inject HttpClient HttpClient
 @inject Blazored.LocalStorage.ILocalStorageService localStorage
@@ -11,7 +12,7 @@
 <link rel="stylesheet" href="css/TestMnemonic.css" />
 
 <div class="mnemonics-container">
-    <h1>Test Your Mnemonics</h1>
+    <h1>@StringExtensions.CapitalizeWords("test your mnemonics")</h1>
     <h4>A place to test your created mnemonics</h4>
 
     <div class="mnemonic-status">
@@ -44,10 +45,10 @@
     {
         <br />
         <div class="wrong-answer-container">
-            <h4>Last Wrong Answer</h4>
-            <div><strong>Mnemonic:</strong> @lastWrongAnswer.textM</div>
-            <div><strong>Full Mnemonic:</strong> @lastWrongAnswer.textW</div>
-            <div><strong>Wrongly Answered:</strong> @lastWrongAnswer.wrongTextW</div>
+            <h4>@StringExtensions.CapitalizeWords("last wrong answer")</h4>
+            <div><strong>@StringExtensions.CapitalizeWords("mnemonic"):</strong> @lastWrongAnswer.textM</div>
+            <div><strong>@StringExtensions.CapitalizeWords("full mnemonic"):</strong> @lastWrongAnswer.textW</div>
+            <div><strong>@StringExtensions.CapitalizeWords("wrongly answered"):</strong> @lastWrongAnswer.wrongTextW</div>
         </div>
     }
 </div>
