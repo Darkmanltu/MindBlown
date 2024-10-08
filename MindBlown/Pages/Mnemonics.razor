@@ -12,7 +12,7 @@
 <form @onsubmit="OnSubmit">
 <h1 id="main_name">@StringExtensions.CapitalizeWords("mnemonics form")</h1>
     <label for="textM">Helper text:</label>
-    <input type="text" id="textM" name="textM" @bind="Model.TextM" required />
+    <input type="text" @onkeydown="@Enter" id="textM" name="textM" @bind="Model.TextM" required />
     <br />
     <label for="textW">Text to memorize:</label>
     <input type="text" id="textW" name="textW" @bind="Model.TextW" required />
@@ -129,4 +129,11 @@
             mnemonicsList = existingMnemonics;
         }
     }
+    // On Users button press Enter, submit the form couse its cringe to click with mouse
+    public async Task Enter(KeyboardEventArgs e){
+        if(e.Key == "Enter" || e.Key == "NumpadEnter"){
+            await OnSubmit();
+        }
+    }
+
 }
