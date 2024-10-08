@@ -15,34 +15,46 @@
     <h1>@StringExtensions.CapitalizeWords("test your mnemonics")</h1>
     <h4>A place to test your created mnemonics</h4>
 
-    <div class="mnemonic-status">
+    @if (mnemonicsList.Count() != 0)
+    {
         @if (testingMnemonic != null)
         {
-            <div class="mnemonic-display">Mnemonic: <span>@testingMnemonic.TextM</span></div>
-            <div class="mnemonic-display">Category: <span>@testingMnemonic.Category</span></div>
+            <div class="mnemonic-status">
+                <div class="mnemonic-display">Mnemonic: <span>@testingMnemonic.TextM</span></div>
+                <div class="mnemonic-display">Category: <span>@testingMnemonic.Category</span></div>
+            </div>
+
+            <div class="input-container">
+                <input type="text" id="userGivenTextW" name="userGivenTextW" placeholder="Enter mnemonic..."
+                    @bind="userGivenTextW" required class="input-text" />
+                <br />
+                <button @onclick="checkMnemonic">Check</button>
+            </div>
         }
         else
         {
-            <div class="loading-message">Mnemonic is loading...</div>
+            <div class="mnemonic-status">
+                <div class="loading-message">Mnemonic is loading...</div>
+            </div>
         }
-    </div>
-
+    }
+    else
+    {
+        <div class="mnemonic-status">
+            No mnemonics to test
+        </div>
+    }
     <br />
-
-  <div class="input-container">
-    <input type="text" id="userGivenTextW" name="userGivenTextW" placeholder="Enter mnemonic..." @bind="userGivenTextW" required class="input-text" />
-    <br />
-    <button @onclick="checkMnemonic">Check</button>
-</div>
 
     @if (answeringStats.allAnswerCount != 0)
     {
         <div class="stats-results">
-            Your result: <strong>@(Math.Round(((double)answeringStats.correctAnswerCount / answeringStats.allAnswerCount) * 100, answeringStats.precision)) %</strong>
+            Your result: <strong>@(Math.Round(((double)answeringStats.correctAnswerCount / answeringStats.allAnswerCount) *
+            100, answeringStats.precision)) %</strong>
         </div>
     }
 
-    @if(lastWrongAnswer != null)
+    @if (lastWrongAnswer != null)
     {
         <br />
         <div class="wrong-answer-container">
@@ -54,7 +66,7 @@
     }
 </div>
 
-@code{
+@code {
     // TODO: Implement the test of Mnemonics:
     /*
 
@@ -78,7 +90,7 @@
     {
         while (testingMnemonic == null)
         {
-            await Task.Delay(1000);
+            await Task.Delay(50);
         }
 
         //testingMnemonic is no longer null
@@ -90,13 +102,16 @@
     */
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if(firstRender)
+        if (firstRender)
         {
             await loadMnemonics();
-            System.Console.WriteLine("new random mnemonic: " + getRandomMnemonic().TextM);
+            if (mnemonicsList.Count() != 0)
+            {
+                System.Console.WriteLine("new random mnemonic: " + getRandomMnemonic().TextM);
+            }
         }
 
-        if(nextMnemonic)
+        if (nextMnemonic)
         {
             nextMnemonic = false;
             System.Console.WriteLine("new random mnemonic: " + getRandomMnemonic().TextM + " " + nextMnemonic);
@@ -108,7 +123,7 @@
     //Loading from local storage
     private async Task loadMnemonics()
     {
-        //Load the mnemonics from local storage 
+        //Load the mnemonics from local storage
         mnemonicsList = await localStorage.GetItemAsync<List<MnemonicsType>>("userMnemonics") ?? new List<MnemonicsType>();
     }
 
@@ -119,16 +134,23 @@
 
         @* userMnemonic.TextW = userGivenTextW; *@
         @* if(testingMnemonic?.TextW == userGivenTextW && testingMnemonic != null) *@
-        if(testingMnemonic != null && testingMnemonic.Equals((MnemonicsType)userMnemonic))
+        if (testingMnemonic != null && testingMnemonic.Equals((MnemonicsType)userMnemonic))
         {
             answeringStats.correctAnswerCount++;
         }
         else
         {
             //Use record for last wrong answered mnemonic
-            if(testingMnemonic?.TextM != null && testingMnemonic?.TextW != null)
+            if (testingMnemonic?.TextM != null && testingMnemonic?.TextW != null)
             {
-                lastWrongAnswer = new LastWrongAnswerRecord { Id = testingMnemonic.Id, textM = testingMnemonic?.TextM, textW = testingMnemonic?.TextW, wrongTextW = userGivenTextW  };
+                lastWrongAnswer = new LastWrongAnswerRecord
+                    {
+                        Id = testingMnemonic.Id,
+                        textM = testingMnemonic?.TextM,
+                        textW =
+                    testingMnemonic?.TextW,
+                        wrongTextW = userGivenTextW
+                    };
             }
         }
         nextMnemonic = true;
@@ -148,11 +170,3 @@
     }
 
 }
-
-@* 
-// Pagalbinis ir pagrindinis tekstas.
-// Patobulinti enum 
-
-
-
-*@
