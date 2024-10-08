@@ -1,7 +1,7 @@
     public record LastWrongAnswerRecord
     {
-        public Guid Id { get; set; }
-        public required string? textM { get; set; }
-        public required string? textW { get; set; }
-        public required string? wrongTextW { get; set; }
+        public Guid Id { get; init; }
+        public required string? textM { get; init; }
+        public required string? textW { get; init; }
+        public required string? wrongTextW { get; init; }
     }

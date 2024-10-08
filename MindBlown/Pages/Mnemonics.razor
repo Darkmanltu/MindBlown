@@ -11,10 +11,10 @@
 
 <form @onsubmit="OnSubmit">
 <h1 id="main_name">@StringExtensions.CapitalizeWords("mnemonics form")</h1>
-    <label for="textM">TextM:</label>
+    <label for="textM">Helper text:</label>
     <input type="text" id="textM" name="textM" @bind="Model.TextM" required />
     <br />
-    <label for="textW">TextW:</label>
+    <label for="textW">Text to memorize:</label>
     <input type="text" id="textW" name="textW" @bind="Model.TextW" required />
     <br />
     
@@ -45,6 +45,7 @@
                 <th>Mnemonics text</th>
                 <th>Whole text</th>
                 <th>Category</th>
+                <th>Action</th>
             </tr>
             @foreach (var mnemonic in mnemonicsList)
             {
@@ -52,6 +53,7 @@
                     <td>@mnemonic.TextM</td>
                     <td>@mnemonic.TextW</td>
                     <td>@mnemonic.Category</td>
+                    <td><button class="delete-button" @onclick="() => RemoveMnemonic(mnemonic.Id)">X</button></td>
                 </tr>
             }
         }
@@ -112,4 +114,19 @@
         showMnemonics = true;
     }
 
+    private async Task RemoveMnemonic(Guid mnemonicId)
+    {
+        var existingMnemonics = await localStorage.GetItemAsync<List<MnemonicsType>>("userMnemonics") ?? new
+        List<MnemonicsType>();
+
+        var mnemonicToRemove = existingMnemonics.FirstOrDefault(m => m.Id == mnemonicId);
+        if (mnemonicToRemove != null)
+        {
+            existingMnemonics.Remove(mnemonicToRemove);
+            await localStorage.SetItemAsync("userMnemonics", existingMnemonics);
+
+            // Refresh the mnemonics list after removal
+            mnemonicsList = existingMnemonics;
+        }
+    }
 }
