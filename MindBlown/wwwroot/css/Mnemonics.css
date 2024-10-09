@@ -59,8 +59,9 @@ th {
     color: white;
 }
 .invalid-input-message {
-    color: d1e3ddff;
-    font-size: 12px;
-    margin-top: 5px;
-    text-align: left;
+    color: #e76f51;
+    font-size: 18px;
+    margin-top: 8px;
+    text-align: center;
+
 }
