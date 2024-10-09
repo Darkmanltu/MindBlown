@@ -25,10 +25,13 @@
             </div>
 
             <div class="input-container">
-                <input type="text" id="userGivenTextW" name="userGivenTextW" placeholder="Enter mnemonic..."
-                    @bind="userGivenTextW" required class="input-text" />
+                 <form @onsubmit="checkMnemonic">
+                    <input type="text" id="userGivenTextW" name="userGivenTextW" 
+               placeholder="Enter mnemonic..." 
+               @bind="userGivenTextW" required class="input-text" />
                 <br />
-                <button @onclick="checkMnemonic">Check</button>
+                    <button type="submit">Check</button>
+                </form>
             </div>
         }
         else
@@ -100,6 +103,7 @@
     Loads mnemonicsList and gets random mnemonic from mnemonicsList after going into this website.
     Also updates what mnemonic is being tested now and shows it on website.
     */
+    
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
@@ -130,6 +134,7 @@
     //Task when Check button is pressed
     private async Task checkMnemonic()
     {
+        
         object userMnemonic = new MnemonicsType(userGivenTextW);
 
         @* userMnemonic.TextW = userGivenTextW; *@
@@ -156,7 +161,9 @@
         nextMnemonic = true;
 
         answeringStats.allAnswerCount++;
-
+        userGivenTextW = string.Empty;
+       // userGivenTextW = "debug_123";
+        StateHasChanged();
         await Task.Delay(1); // Fixes the warning (asyn methods must have await inside them)
     }
 
@@ -168,5 +175,11 @@
         MnemonicsType randomMnemonic = mnemonicsList[randomNumber];
         return testingMnemonic = randomMnemonic;
     }
-
+    public async Task Enter(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter" || e.Key == "NumpadEnter")
+        {
+            await checkMnemonic();
+        }
+    }
 }
