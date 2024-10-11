@@ -1,0 +1,94 @@
+@page "/json-upload"
+@using Microsoft.AspNetCore.Components.Forms
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+@using System.Text.Json
+@using static MnemonicsType
+@using static MnemonicTypeNoGuid
+@inject NavigationManager Navigation
+
+
+<h3>Upload JSON File</h3>
+
+<InputFile OnChange="HandleFileSelected" accept=".json" />
+@if (fileInfo != null)
+{
+    <p>File name: @fileInfo.Name</p>
+    <p>File size: @fileInfo.Size bytes</p>
+}
+
+<div class="SuccesMessage">@message</div>
+
+<button @onclick="UploadFile">Upload</button>
+<button @onclick="ReturnToSetup">Go back</button>
+
+@code {
+    private IBrowserFile? fileInfo;
+
+    private string? message;
+
+    private void HandleFileSelected(InputFileChangeEventArgs e)
+    {
+        fileInfo = e.GetMultipleFiles(1).FirstOrDefault(); // Get the first selected file
+        message = string.Empty;
+    }
+
+    private void ReturnToSetup()
+    {
+        Navigation.NavigateTo("/addMnemonic");
+    }
+
+    private async Task UploadFile()
+    {
+        if (fileInfo != null)
+        {
+            using var stream = fileInfo.OpenReadStream(maxAllowedSize: 10_000_000);
+            using var reader = new StreamReader(stream);
+            var jsonString = await reader.ReadToEndAsync();
+
+            List<MnemonicTypeNoGuid>? listFromJson = JsonSerializer.Deserialize<List<MnemonicTypeNoGuid>>(jsonString);
+            
+            if(listFromJson != null)
+            {
+                foreach(var mnemonic in listFromJson)
+                {
+                    var existingMnemonics = await localStorage.GetItemAsync<List<MnemonicsType>>("userMnemonics") ?? new List<MnemonicsType>();
+
+                    var mnemonicAlreadyExists = existingMnemonics.Where(m => m.TextM == mnemonic.TextM).Count() > 0;
+                    
+                    if(!mnemonicAlreadyExists)
+                    {
+                        MnemonicCategory jsonCategory;
+                        if (Enum.IsDefined<MnemonicCategory>((MnemonicCategory)mnemonic.Category))
+                        {
+                            jsonCategory = (MnemonicCategory)mnemonic.Category;
+                        }
+                        else
+                        {
+                            jsonCategory = MnemonicCategory.Other;
+                        }
+
+                        var mnemonicFromList = new MnemonicsType
+                        {
+                            Id = Guid.NewGuid(),
+                            TextM = mnemonic.TextM,
+                            TextW = mnemonic.TextW,                            
+                            Category = jsonCategory,
+                        };
+
+                        existingMnemonics.Add(mnemonicFromList);
+                    }
+
+                    await localStorage.SetItemAsync("userMnemonics", existingMnemonics);
+
+                    message = "File uploaded succesfully!";
+                    ResetFileInput();
+                }
+            }
+        }
+    }
+
+    private void ResetFileInput()
+    {
+        fileInfo = null;
+    }
+}
