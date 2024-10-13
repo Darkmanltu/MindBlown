@@ -5,6 +5,8 @@
 @using static StringExtensions
 @inject HttpClient HttpClient
 @inject Blazored.LocalStorage.ILocalStorageService localStorage
+@inject NavigationManager Navigation
+@inject IJSRuntime JS
 
 <link rel="stylesheet" href="css/Mnemonics.css" />
 <PageTitle>Add Mnemonics</PageTitle>
@@ -32,6 +34,7 @@
     }
     <br />
     <button type="submit">Submit</button>
+    <button @onclick="RedirectToUpload" style="">Upload from JSON</button>
 </form>
 
 
@@ -65,6 +68,7 @@
 }
 
 <button @onclick="LoadMnemonics">@StringExtensions.CapitalizeWords("load mnemonics")</button>
+<button @onclick="DownloadJson">@StringExtensions.CapitalizeWords("download as") JSON</button>
 
 @code {
     private MnemonicsType Model { get; set; } = new MnemonicsType();
@@ -136,4 +140,17 @@
         }
     }
 
+    private void RedirectToUpload()
+    {
+        Navigation.NavigateTo("/json-upload");
+    }
+
+    private async Task DownloadJson()
+    {
+        var existingMnemonics = await localStorage.GetItemAsync<List<MnemonicsType>>("userMnemonics") ?? new List<MnemonicsType>();
+        var fileName = "mnemonics.json";
+        var jsonFormattedData = JsonSerializer.Serialize(existingMnemonics, options: new JsonSerializerOptions{WriteIndented = true});
+
+        await JS.InvokeVoidAsync("downloadFile", fileName, jsonFormattedData);
+    }    
 }
