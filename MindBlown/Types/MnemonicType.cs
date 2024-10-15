@@ -44,8 +44,8 @@ public enum MnemonicCategory
 public class MnemonicsType : IEquatable<MnemonicsType>
 {
     public Guid Id { get; init; }
-    public string? TextM { get; set; }
-    public string? TextW { get; set; }
+    public string? HelperText { get; set; }
+    public string? MnemonicText { get; set; }
 
     public MnemonicCategory Category { get; set; }
 
@@ -57,14 +57,14 @@ public class MnemonicsType : IEquatable<MnemonicsType>
 
     public MnemonicsType() { }
 
-    public MnemonicsType(String newTextW)
+    public MnemonicsType(String newMnemonicText)
     {
-        this.TextW = newTextW;
+        this.MnemonicText = newMnemonicText;
     }
 
     public bool Equals(MnemonicsType? mnemonic)
     {
-        return (this.TextW) == (mnemonic?.TextW);
+        return (this.MnemonicText) == (mnemonic?.MnemonicText);
     }
 
 }

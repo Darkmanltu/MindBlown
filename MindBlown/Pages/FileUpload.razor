@@ -59,7 +59,7 @@
                 {
                     var existingMnemonics = await localStorage.GetItemAsync<List<MnemonicsType>>("userMnemonics") ?? new List<MnemonicsType>();
 
-                    var mnemonicAlreadyExists = existingMnemonics.Where(m => m.TextM == mnemonic.TextM).Count() > 0;
+                    var mnemonicAlreadyExists = existingMnemonics.Where(m => m.HelperText == mnemonic.HelperText).Count() > 0;
                     
                     if(!mnemonicAlreadyExists)
                     {
@@ -76,8 +76,8 @@
                         var mnemonicFromList = new MnemonicsType
                         {
                             Id = Guid.NewGuid(),
-                            TextM = mnemonic.TextM,
-                            TextW = mnemonic.TextW,                            
+                            HelperText = mnemonic.HelperText,
+                            MnemonicText = mnemonic.MnemonicText,                            
                             Category = jsonCategory,
                         };
 
