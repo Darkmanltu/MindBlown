@@ -1,0 +1,57 @@
+.upload-container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+h1 {
+    color: #333;
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
+    font-size: 2.2rem;
+    margin-bottom: 10px;
+}
+
+button {
+    background-color: #5762d5ff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 10px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+button:hover {
+    background-color: rgba(87, 97, 213, 0.702);
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.custom-file-label {
+    background-color: #5762d5ff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 10px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.custom-file-label:hover {
+    background-color: rgba(87, 97, 213, 0.702);
+}
+
+.SuccesMessage {
+    color: #28a745;
+    font-size: 16px;
+    margin-top: 10px;
+}

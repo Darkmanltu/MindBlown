@@ -8,6 +8,23 @@ form {
     margin: 20px auto;
 }
 
+h1 {
+    color: #333;
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
+    font-size: 2.2rem;
+    margin-bottom: 10px;
+}
+
+h2 {
+    color: #333;
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
+    font-size: 1.6rem;
+    margin-bottom: 10px;
+}
+
+
 input, select {
     padding: 10px;
     margin: 10px 0;
@@ -64,4 +81,8 @@ th {
     margin-top: 8px;
     text-align: center;
 
+}
+.no-mnemonics {
+    color: #333;
+    font-family: 'Arial', sans-serif;
 }

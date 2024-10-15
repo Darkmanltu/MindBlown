@@ -6,21 +6,27 @@
 @using static MnemonicTypeNoGuid
 @inject NavigationManager Navigation
 
+<link rel="stylesheet" href="css/FileUpload.css" />
 
-<h3>Upload JSON File</h3>
 
-<InputFile OnChange="HandleFileSelected" accept=".json" />
-@if (fileInfo != null)
-{
-    <p>File name: @fileInfo.Name</p>
-    <p>File size: @fileInfo.Size bytes</p>
-}
+<div class="upload-container">
+    <h1>Upload JSON File</h1>
 
-<div class="SuccesMessage">@message</div>
+    <label for="file-upload" class="custom-file-label">Choose File</label>
+    <InputFile id="file-upload" OnChange="HandleFileSelected" accept=".json" />
 
-<button @onclick="UploadFile">Upload</button>
-<button @onclick="ReturnToSetup">Go back</button>
+    @if (fileInfo != null)
+    {
+        <p>File name: @fileInfo.Name</p>
+        <p>File size: @fileInfo.Size bytes</p>
+    }
 
+    <div class="SuccesMessage">@message</div>
+
+    <button @onclick="UploadFile">Upload</button>
+    <button @onclick="ReturnToSetup">Go back</button>
+
+</div>
 @code {
     private IBrowserFile? fileInfo;
 
@@ -45,44 +51,38 @@
             using var reader = new StreamReader(stream);
             var jsonString = await reader.ReadToEndAsync();
 
-            List<MnemonicTypeNoGuid>? listFromJson = JsonSerializer.Deserialize<List<MnemonicTypeNoGuid>>(jsonString);
+            //List<MnemonicTypeNoGuid>? listFromJson = JsonSerializer.Deserialize<List<MnemonicTypeNoGuid>>(jsonString); *@ 
             
-            if(listFromJson != null)
+            List<object>? boxedMnemonicsList = JsonSerializer.Deserialize<List<object>>(jsonString);
+
+        if (boxedMnemonicsList != null)
+        {
+            foreach (var boxedMnemonic in boxedMnemonicsList)
             {
-                foreach(var mnemonic in listFromJson)
+                var boxedString = boxedMnemonic?.ToString();
+                if (!string.IsNullOrEmpty(boxedString))
                 {
-                    var existingMnemonics = await localStorage.GetItemAsync<List<MnemonicsType>>("userMnemonics") ?? new List<MnemonicsType>();
+                    // Unbox the object back to MnemonicsType by casting
+                    var mnemonic = JsonSerializer.Deserialize<MnemonicsType>(boxedString);
 
-                    var mnemonicAlreadyExists = existingMnemonics.Where(m => m.TextM == mnemonic.TextM).Count() > 0;
-                    
-                    if(!mnemonicAlreadyExists)
+                    if (mnemonic != null && mnemonic.HelperText != null)
                     {
-                        MnemonicCategory jsonCategory;
-                        if (Enum.IsDefined<MnemonicCategory>((MnemonicCategory)mnemonic.Category))
+                        var existingMnemonics = await localStorage.GetItemAsync<List<MnemonicsType>>("userMnemonics") ?? new List<MnemonicsType>();
+
+                        var mnemonicAlreadyExists = existingMnemonics.Any(m => m.HelperText == mnemonic.HelperText);
+
+                        if (!mnemonicAlreadyExists)
                         {
-                            jsonCategory = (MnemonicCategory)mnemonic.Category;
-                        }
-                        else
-                        {
-                            jsonCategory = MnemonicCategory.Other;
+                            existingMnemonics.Add(mnemonic);
                         }
 
-                        var mnemonicFromList = new MnemonicsType
-                        {
-                            Id = Guid.NewGuid(),
-                            TextM = mnemonic.TextM,
-                            TextW = mnemonic.TextW,                            
-                            Category = jsonCategory,
-                        };
-
-                        existingMnemonics.Add(mnemonicFromList);
+                        await localStorage.SetItemAsync("userMnemonics", existingMnemonics);
                     }
-
-                    await localStorage.SetItemAsync("userMnemonics", existingMnemonics);
-
-                    message = "File uploaded succesfully!";
-                    ResetFileInput();
                 }
+            }
+
+                message = "File uploaded and mnemonics unboxed successfully!";
+                ResetFileInput();
             }
         }
     }

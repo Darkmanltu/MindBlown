@@ -20,15 +20,15 @@
         @if (testingMnemonic != null)
         {
             <div class="mnemonic-status">
-                <div class="mnemonic-display">Mnemonic: <span>@testingMnemonic.TextM</span></div>
+                <div class="mnemonic-display">Mnemonic: <span>@testingMnemonic.HelperText</span></div>
                 <div class="mnemonic-display">Category: <span>@testingMnemonic.Category</span></div>
             </div>
 
             <div class="input-container">
                  <form @onsubmit="checkMnemonic">
-                    <input type="text" id="userGivenTextW" name="userGivenTextW" 
+                    <input type="text" id="userGivenMnemonicText" name="userGivenMnemonicText" 
                placeholder="Enter mnemonic..." 
-               @bind="userGivenTextW" required class="input-text" />
+               @bind="userGivenMnemonicText" required class="input-text" />
                 <br />
                     <button type="submit">Check</button>
                 </form>
@@ -62,9 +62,9 @@
         <br />
         <div class="wrong-answer-container">
             <h4>@StringExtensions.CapitalizeWords("last wrong answer")</h4>
-            <div><strong>@StringExtensions.CapitalizeWords("mnemonic"):</strong> @lastWrongAnswer.textM</div>
-            <div><strong>@StringExtensions.CapitalizeWords("full mnemonic"):</strong> @lastWrongAnswer.textW</div>
-            <div><strong>@StringExtensions.CapitalizeWords("wrongly answered"):</strong> @lastWrongAnswer.wrongTextW</div>
+            <div><strong>@StringExtensions.CapitalizeWords("mnemonic"):</strong> @lastWrongAnswer.helperText</div>
+            <div><strong>@StringExtensions.CapitalizeWords("full mnemonic"):</strong> @lastWrongAnswer.mnemonicText</div>
+            <div><strong>@StringExtensions.CapitalizeWords("wrongly answered"):</strong> @lastWrongAnswer.wrongTextMnemonic</div>
         </div>
     }
 </div>
@@ -75,7 +75,7 @@
 
     */
     private List<MnemonicsType> mnemonicsList = new List<MnemonicsType>();
-    private string userGivenTextW = "";
+    private string userGivenMnemonicText = "";
 
     // Initializes to 0 both values
     public AnsweringStatsStruct answeringStats = new AnsweringStatsStruct();
@@ -111,14 +111,14 @@
             await loadMnemonics();
             if (mnemonicsList.Count() != 0)
             {
-                System.Console.WriteLine("new random mnemonic: " + getRandomMnemonic().TextM);
+                System.Console.WriteLine("new random mnemonic: " + getRandomMnemonic().HelperText);
             }
         }
 
         if (nextMnemonic)
         {
             nextMnemonic = false;
-            System.Console.WriteLine("new random mnemonic: " + getRandomMnemonic().TextM + " " + nextMnemonic);
+            System.Console.WriteLine("new random mnemonic: " + getRandomMnemonic().HelperText + " " + nextMnemonic);
             StateHasChanged();
         }
     }
@@ -135,7 +135,7 @@
     private async Task checkMnemonic()
     {
         
-        object userMnemonic = new MnemonicsType(userGivenTextW);
+        object userMnemonic = new MnemonicsType(userGivenMnemonicText);
 
         @* userMnemonic.TextW = userGivenTextW; *@
         @* if(testingMnemonic?.TextW == userGivenTextW && testingMnemonic != null) *@
@@ -146,22 +146,22 @@
         else
         {
             //Use record for last wrong answered mnemonic
-            if (testingMnemonic?.TextM != null && testingMnemonic?.TextW != null)
+            if (testingMnemonic?.HelperText != null && testingMnemonic?.MnemonicText != null)
             {
                 lastWrongAnswer = new LastWrongAnswerRecord
                     {
                         Id = testingMnemonic.Id,
-                        textM = testingMnemonic?.TextM,
-                        textW =
-                    testingMnemonic?.TextW,
-                        wrongTextW = userGivenTextW
+                        helperText = testingMnemonic?.HelperText,
+                        mnemonicText =
+                    testingMnemonic?.MnemonicText,
+                        wrongTextMnemonic = userGivenMnemonicText
                     };
             }
         }
         nextMnemonic = true;
 
         answeringStats.allAnswerCount++;
-        userGivenTextW = string.Empty;
+        userGivenMnemonicText = string.Empty;
        // userGivenTextW = "debug_123";
         StateHasChanged();
         await Task.Delay(1); // Fixes the warning (asyn methods must have await inside them)
@@ -183,3 +183,10 @@
         }
     }
 }
+
+@* Pagal kategorijas leist pasirinkt grupes *@
+@* Isskaidyt i smulkesnius failus *@
+@* Pakeisti boxing/unboxing *@
+@* Prideti Mnemonicos pavadinima *@
+@* Aiskesnius kode pavadinimus kintamuju (textM) *@
+@* File streama *@

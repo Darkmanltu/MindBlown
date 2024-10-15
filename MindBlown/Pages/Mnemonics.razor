@@ -13,11 +13,11 @@
 
 <form @onsubmit="OnSubmit">
 <h1 id="main_name">@StringExtensions.CapitalizeWords("mnemonics form")</h1>
-    <label for="textM">Helper text:</label>
-    <input type="text" @onkeydown="@Enter" id="textM" name="textM" @bind="Model.TextM" required />
+    <label for="HelperText">Helper text:</label>
+    <input type="text" @onkeydown="@Enter" id="HelperText" name="HelperText" @bind="Model.HelperText" required />
     <br />
-    <label for="textW">Text to memorize:</label>
-    <input type="text" id="textW" name="textW" @bind="Model.TextW" required />
+    <label for="MnemonicText">Text to memorize:</label>
+    <input type="text" id="MnemonoicText" name="MnemonicText" @bind="Model.MnemonicText" required />
     <br />
     
     <label for="category">Category:</label>
@@ -45,16 +45,16 @@
         @if (mnemonicsList != null && mnemonicsList.Count > 0)
         {
             <tr>
-                <th>Mnemonics text</th>
-                <th>Whole text</th>
+                <th>Helper text</th>
+                <th>Mnemonic</th>
                 <th>Category</th>
                 <th>Action</th>
             </tr>
             @foreach (var mnemonic in mnemonicsList)
             {
                 <tr>
-                    <td>@mnemonic.TextM</td>
-                    <td>@mnemonic.TextW</td>
+                    <td>@mnemonic.HelperText</td>
+                    <td>@mnemonic.MnemonicText</td>
                     <td>@mnemonic.Category</td>
                     <td><button class="delete-button" @onclick="() => RemoveMnemonic(mnemonic.Id)">X</button></td>
                 </tr>
@@ -62,7 +62,7 @@
         }
         else
         {
-            <p>No mnemonics available.</p>
+            <p class="no-mnemonics">No mnemonics available.</p>
         }
     </table>
 }
@@ -83,7 +83,7 @@
         // Getting mnemonics from local storage
         var existingMnemonics = await localStorage.GetItemAsync<List<MnemonicsType>>("userMnemonics") ?? new List<MnemonicsType>();
         
-        mnemonicAlreadyExists = existingMnemonics.Where(m => m.TextM == Model.TextM).Count() > 0;
+        mnemonicAlreadyExists = existingMnemonics.Where(m => m.HelperText == Model.HelperText).Count() > 0;
 
         if(mnemonicAlreadyExists)
         {
@@ -95,8 +95,8 @@
         var newMnemonic = new MnemonicsType
         {
             Id = Guid.NewGuid(),
-            TextM = Model.TextM,
-            TextW = Model.TextW,
+            HelperText = Model.HelperText,
+            MnemonicText = Model.MnemonicText,
             Category = Model.Category
         };
 
@@ -147,9 +147,13 @@
 
     private async Task DownloadJson()
     {
+        
         var existingMnemonics = await localStorage.GetItemAsync<List<MnemonicsType>>("userMnemonics") ?? new List<MnemonicsType>();
+        
+        object boxedMnemonics = (object)existingMnemonics;
+
         var fileName = "mnemonics.json";
-        var jsonFormattedData = JsonSerializer.Serialize(existingMnemonics, options: new JsonSerializerOptions{WriteIndented = true});
+        var jsonFormattedData = JsonSerializer.Serialize(boxedMnemonics, options: new JsonSerializerOptions{WriteIndented = true});
 
         await JS.InvokeVoidAsync("downloadFile", fileName, jsonFormattedData);
     }    
