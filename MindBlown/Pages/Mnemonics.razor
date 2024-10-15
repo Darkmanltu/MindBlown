@@ -147,9 +147,13 @@
 
     private async Task DownloadJson()
     {
+        
         var existingMnemonics = await localStorage.GetItemAsync<List<MnemonicsType>>("userMnemonics") ?? new List<MnemonicsType>();
+        
+        object boxedMnemonics = (object)existingMnemonics;
+
         var fileName = "mnemonics.json";
-        var jsonFormattedData = JsonSerializer.Serialize(existingMnemonics, options: new JsonSerializerOptions{WriteIndented = true});
+        var jsonFormattedData = JsonSerializer.Serialize(boxedMnemonics, options: new JsonSerializerOptions{WriteIndented = true});
 
         await JS.InvokeVoidAsync("downloadFile", fileName, jsonFormattedData);
     }    
