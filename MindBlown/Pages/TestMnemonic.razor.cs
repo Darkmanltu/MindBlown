@@ -77,7 +77,7 @@ namespace MindBlown.Pages
             else
             {
                 //Use record for last wrong answered mnemonic
-                if (testingMnemonic?.HelperText != null && testingMnemonic?.MnemonicText != null)
+                if (testingMnemonic?.HelperText != null && testingMnemonic?.MnemonicText != null && testingMnemonic?.Category != null)
                 {
                     lastWrongAnswer = new LastWrongAnswerRecord
                     {
@@ -85,7 +85,8 @@ namespace MindBlown.Pages
                         helperText = testingMnemonic?.HelperText,
                         mnemonicText =
                         testingMnemonic?.MnemonicText,
-                        wrongTextMnemonic = userGivenMnemonicText
+                        wrongTextMnemonic = userGivenMnemonicText,
+                        category = testingMnemonic.Category
                     };
                 }
             }
