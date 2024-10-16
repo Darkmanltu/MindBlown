@@ -66,7 +66,7 @@ namespace MindBlown.Pages
         private async Task checkMnemonic()
         {
 
-            object userMnemonic = new MnemonicsType(userGivenMnemonicText);
+            object userMnemonic = new MnemonicsType(newMnemonicText: userGivenMnemonicText);
 
             // @* userMnemonic.TextW = userGivenTextW; *@
             // @* if(testingMnemonic?.TextW == userGivenTextW && testingMnemonic != null) *@
@@ -77,7 +77,7 @@ namespace MindBlown.Pages
             else
             {
                 //Use record for last wrong answered mnemonic
-                if (testingMnemonic?.HelperText != null && testingMnemonic?.MnemonicText != null && testingMnemonic?.Category != null)
+                if (testingMnemonic?.HelperText != null && testingMnemonic?.MnemonicText != null )
                 {
                     lastWrongAnswer = new LastWrongAnswerRecord
                     {
@@ -86,7 +86,7 @@ namespace MindBlown.Pages
                         mnemonicText =
                         testingMnemonic?.MnemonicText,
                         wrongTextMnemonic = userGivenMnemonicText,
-                        category = testingMnemonic.Category
+                        category = testingMnemonic?.Category
                     };
                 }
             }

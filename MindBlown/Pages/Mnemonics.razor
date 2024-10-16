@@ -14,10 +14,10 @@
 <form @onsubmit="OnSubmit">
 <h1 id="main_name">@StringExtensions.CapitalizeWords("mnemonics form")</h1>
     <label for="HelperText">Helper text:</label>
-    <input type="text" @onkeydown="@Enter" id="HelperText" name="HelperText" @bind="Model.HelperText" required />
+    <input type="text" @onkeydown="@Enter" id="HelperText" name="HelperText" maxlength="256" @bind="Model.HelperText" required />
     <br />
     <label for="MnemonicText">Text to memorize:</label>
-    <input type="text" id="MnemonoicText" name="MnemonicText" @bind="Model.MnemonicText" required />
+    <input type="text" id="MnemonoicText" name="MnemonicText" @bind="Model.MnemonicText"  maxlength="256" required />
     <br />
     
     <label for="category">Category:</label>

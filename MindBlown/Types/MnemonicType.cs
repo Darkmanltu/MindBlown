@@ -61,6 +61,13 @@ public class MnemonicsType : IEquatable<MnemonicsType>
     {
         this.MnemonicText = newMnemonicText;
     }
+    
+    public MnemonicsType(String newMnemonicText, String newHelperText)
+    {
+        this.MnemonicText = newMnemonicText;
+        this.HelperText = newHelperText;
+    }
+    
 
     public bool Equals(MnemonicsType? mnemonic)
     {
