@@ -1,0 +1,122 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Carbon\\Desktop\\Haskell\\MindBlown\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{3DCF677A-58A6-472E-9A0E-4ADC06D1AEA5}|MindBlown\\MindBlown.csproj|c:\\users\\carbon\\desktop\\haskell\\mindblown\\mindblown\\pages\\mnemonics.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3DCF677A-58A6-472E-9A0E-4ADC06D1AEA5}|MindBlown\\MindBlown.csproj|solutionrelative:mindblown\\pages\\mnemonics.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3DCF677A-58A6-472E-9A0E-4ADC06D1AEA5}|MindBlown\\MindBlown.csproj|c:\\users\\carbon\\desktop\\haskell\\mindblown\\mindblown\\pages\\testmnemonic.razor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3DCF677A-58A6-472E-9A0E-4ADC06D1AEA5}|MindBlown\\MindBlown.csproj|solutionrelative:mindblown\\pages\\testmnemonic.razor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3DCF677A-58A6-472E-9A0E-4ADC06D1AEA5}|MindBlown\\MindBlown.csproj|c:\\users\\carbon\\desktop\\haskell\\mindblown\\mindblown\\pages\\testmnemonic.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3DCF677A-58A6-472E-9A0E-4ADC06D1AEA5}|MindBlown\\MindBlown.csproj|solutionrelative:mindblown\\pages\\testmnemonic.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3DCF677A-58A6-472E-9A0E-4ADC06D1AEA5}|MindBlown\\MindBlown.csproj|c:\\users\\carbon\\desktop\\haskell\\mindblown\\mindblown\\pages\\fileupload.razor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3DCF677A-58A6-472E-9A0E-4ADC06D1AEA5}|MindBlown\\MindBlown.csproj|solutionrelative:mindblown\\pages\\fileupload.razor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3DCF677A-58A6-472E-9A0E-4ADC06D1AEA5}|MindBlown\\MindBlown.csproj|c:\\users\\carbon\\desktop\\haskell\\mindblown\\mindblown\\pages\\fileupload.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3DCF677A-58A6-472E-9A0E-4ADC06D1AEA5}|MindBlown\\MindBlown.csproj|solutionrelative:mindblown\\pages\\fileupload.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3DCF677A-58A6-472E-9A0E-4ADC06D1AEA5}|MindBlown\\MindBlown.csproj|c:\\users\\carbon\\desktop\\haskell\\mindblown\\mindblown\\pages\\mnemonics.razor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3DCF677A-58A6-472E-9A0E-4ADC06D1AEA5}|MindBlown\\MindBlown.csproj|solutionrelative:mindblown\\pages\\mnemonics.razor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 5,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "TestMnemonic.razor.cs",
+              "DocumentMoniker": "C:\\Users\\Carbon\\Desktop\\Haskell\\MindBlown\\MindBlown\\Pages\\TestMnemonic.razor.cs",
+              "RelativeDocumentMoniker": "MindBlown\\Pages\\TestMnemonic.razor.cs",
+              "ToolTip": "C:\\Users\\Carbon\\Desktop\\Haskell\\MindBlown\\MindBlown\\Pages\\TestMnemonic.razor.cs",
+              "RelativeToolTip": "MindBlown\\Pages\\TestMnemonic.razor.cs",
+              "ViewState": "AgIAAD0AAAAAAAAAAAAqwEYAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-16T09:00:05.405Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "TestMnemonic.razor",
+              "DocumentMoniker": "C:\\Users\\Carbon\\Desktop\\Haskell\\MindBlown\\MindBlown\\Pages\\TestMnemonic.razor",
+              "RelativeDocumentMoniker": "MindBlown\\Pages\\TestMnemonic.razor",
+              "ToolTip": "C:\\Users\\Carbon\\Desktop\\Haskell\\MindBlown\\MindBlown\\Pages\\TestMnemonic.razor",
+              "RelativeToolTip": "MindBlown\\Pages\\TestMnemonic.razor",
+              "ViewState": "AgIAAEIAAAAAAAAAAAAAAEgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-10-16T08:50:46.4Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "FileUpload.razor.cs",
+              "DocumentMoniker": "C:\\Users\\Carbon\\Desktop\\Haskell\\MindBlown\\MindBlown\\Pages\\FileUpload.razor.cs",
+              "RelativeDocumentMoniker": "MindBlown\\Pages\\FileUpload.razor.cs",
+              "ToolTip": "C:\\Users\\Carbon\\Desktop\\Haskell\\MindBlown\\MindBlown\\Pages\\FileUpload.razor.cs",
+              "RelativeToolTip": "MindBlown\\Pages\\FileUpload.razor.cs",
+              "ViewState": "AgIAADsAAAAAAAAAAAAgwEEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-16T08:50:37.238Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "FileUpload.razor",
+              "DocumentMoniker": "C:\\Users\\Carbon\\Desktop\\Haskell\\MindBlown\\MindBlown\\Pages\\FileUpload.razor",
+              "RelativeDocumentMoniker": "MindBlown\\Pages\\FileUpload.razor",
+              "ToolTip": "C:\\Users\\Carbon\\Desktop\\Haskell\\MindBlown\\MindBlown\\Pages\\FileUpload.razor",
+              "RelativeToolTip": "MindBlown\\Pages\\FileUpload.razor",
+              "ViewState": "AgIAABIAAAAAAAAAAAAAAB0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-10-16T08:50:23.195Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Mnemonics.razor.cs",
+              "DocumentMoniker": "C:\\Users\\Carbon\\Desktop\\Haskell\\MindBlown\\MindBlown\\Pages\\Mnemonics.razor.cs",
+              "RelativeDocumentMoniker": "MindBlown\\Pages\\Mnemonics.razor.cs",
+              "ToolTip": "C:\\Users\\Carbon\\Desktop\\Haskell\\MindBlown\\MindBlown\\Pages\\Mnemonics.razor.cs",
+              "RelativeToolTip": "MindBlown\\Pages\\Mnemonics.razor.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-16T08:30:42.077Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Mnemonics.razor",
+              "DocumentMoniker": "C:\\Users\\Carbon\\Desktop\\Haskell\\MindBlown\\MindBlown\\Pages\\Mnemonics.razor",
+              "RelativeDocumentMoniker": "MindBlown\\Pages\\Mnemonics.razor",
+              "ToolTip": "C:\\Users\\Carbon\\Desktop\\Haskell\\MindBlown\\MindBlown\\Pages\\Mnemonics.razor",
+              "RelativeToolTip": "MindBlown\\Pages\\Mnemonics.razor",
+              "ViewState": "AgIAADYAAAAAAAAAAAAuwEAAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-10-16T08:30:23.905Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
