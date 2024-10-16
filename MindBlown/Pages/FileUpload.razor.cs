@@ -50,7 +50,25 @@ namespace MindBlown.Pages
 
                                 if (!mnemonicAlreadyExists)
                                 {
-                                    existingMnemonics.Add(mnemonic);
+                                    MnemonicCategory jsonCategory;
+                                    if (Enum.IsDefined<MnemonicCategory>((MnemonicCategory)mnemonic.Category))
+                                    {
+                                        jsonCategory = (MnemonicCategory)mnemonic.Category;
+                                    }
+                                    else
+                                    {
+                                        jsonCategory = MnemonicCategory.Other;
+                                    }
+
+                                    var mnemonicFromList = new MnemonicsType
+                                    {
+                                        Id = Guid.NewGuid(),
+                                        HelperText = mnemonic.HelperText,
+                                        MnemonicText = mnemonic.MnemonicText,
+                                        Category = jsonCategory,
+                                    };
+
+                                    existingMnemonics.Add(mnemonicFromList);
                                 }
 
                                 await localStorage.SetItemAsync("userMnemonics", existingMnemonics);
