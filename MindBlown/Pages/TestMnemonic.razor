@@ -28,7 +28,7 @@
                  <form @onsubmit="checkMnemonic">
                     <input type="text" id="userGivenMnemonicText" name="userGivenMnemonicText" 
                placeholder="Enter mnemonic..." 
-               @bind="userGivenMnemonicText" required class="input-text" />
+               @bind="userGivenMnemonicText" maxlength="256" required class="input-text" />
                 <br />
                     <button type="submit">Check</button>
                 </form>
@@ -70,9 +70,6 @@
     }
 </div>
 
-@code {
-
-}
 
 @* Pagal kategorijas leist pasirinkt grupes *@
 @* Isskaidyt i smulkesnius failus *@
