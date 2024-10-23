@@ -28,8 +28,7 @@ namespace MindBlown.Pages
                 using var reader = new StreamReader(stream);
                 var jsonString = await reader.ReadToEndAsync();
 
-                //List<MnemonicTypeNoGuid>? listFromJson = JsonSerializer.Deserialize<List<MnemonicTypeNoGuid>>(jsonString); *@ 
-
+                
                 List<object>? boxedMnemonicsList = JsonSerializer.Deserialize<List<object>>(jsonString);
 
                 if (boxedMnemonicsList != null)

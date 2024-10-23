@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="css/TestMnemonic.css" />
 
 <div class="mnemonics-container">
-    <h1>@StringExtensions.CapitalizeWords("test your mnemonics")</h1>
+    <h1>@("test your mnemonics".CapitalizeWords())</h1>
     <h4>A place to test your created mnemonics</h4>
 
     @if (mnemonicsList.Count() != 0)
@@ -61,11 +61,11 @@
     {
         <br />
         <div class="wrong-answer-container">
-            <h4>@StringExtensions.CapitalizeWords("last wrong answer")</h4>
-            <div><strong>@StringExtensions.CapitalizeWords("mnemonic"):</strong> @lastWrongAnswer.helperText</div>
-            <div><strong>@StringExtensions.CapitalizeWords("full mnemonic"):</strong> @lastWrongAnswer.mnemonicText</div>
-            <div><strong>@StringExtensions.CapitalizeWords("wrongly answered"):</strong> @lastWrongAnswer.wrongTextMnemonic</div>
-            <div><strong>@StringExtensions.CapitalizeWords("category"):</strong> @lastWrongAnswer.category</div>
+            <h4>@("last wrong answer".CapitalizeWords())</h4>
+            <div><strong>@("mnemonic".CapitalizeWords()):</strong> @lastWrongAnswer.helperText</div>
+            <div><strong>@("full mnemonic".CapitalizeWords()):</strong> @lastWrongAnswer.mnemonicText</div>
+            <div><strong>@("wrongly answered".CapitalizeWords()):</strong> @lastWrongAnswer.wrongTextMnemonic</div>
+            <div><strong>@("category".CapitalizeWords()):</strong> @lastWrongAnswer.category</div>
         </div>
     }
 </div>

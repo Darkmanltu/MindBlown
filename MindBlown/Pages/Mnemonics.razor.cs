@@ -87,7 +87,7 @@ namespace MindBlown.Pages
 
             var existingMnemonics = await localStorage.GetItemAsync<List<MnemonicsType>>("userMnemonics") ?? new List<MnemonicsType>();
 
-            object boxedMnemonics = (object)existingMnemonics;
+            object boxedMnemonics = existingMnemonics;
 
             var fileName = "mnemonics.json";
             var jsonFormattedData = JsonSerializer.Serialize(boxedMnemonics, options: new JsonSerializerOptions { WriteIndented = true });
