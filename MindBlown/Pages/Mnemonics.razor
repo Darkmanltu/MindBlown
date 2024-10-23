@@ -12,7 +12,7 @@
 <PageTitle>Add Mnemonics</PageTitle>
 
 <form @onsubmit="OnSubmit">
-<h1 id="main_name">@StringExtensions.CapitalizeWords("mnemonics form")</h1>
+<h1 id="main_name">@("mnemonics form".CapitalizeWords())</h1>
     <label for="HelperText">Helper text:</label>
     <input type="text" @onkeydown="@Enter" id="HelperText" name="HelperText" maxlength="256" @bind="Model.HelperText" required />
     <br />
@@ -38,7 +38,7 @@
 </form>
 
 
-<h2>@StringExtensions.CapitalizeWords("saved mnemonics")</h2>
+<h2>@("saved mnemonics".CapitalizeWords())</h2>
 @if (showMnemonics)
 {
     <table>
@@ -67,6 +67,6 @@
     </table>
 }
 
-<button @onclick="LoadMnemonics">@StringExtensions.CapitalizeWords("load mnemonics")</button>
-<button @onclick="DownloadJson">@StringExtensions.CapitalizeWords("download as") JSON</button>
+<button @onclick="LoadMnemonics">@("load mnemonics".CapitalizeWords())</button>
+<button @onclick="DownloadJson">@("download as".CapitalizeWords()) JSON</button>
 
