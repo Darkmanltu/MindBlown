@@ -86,3 +86,15 @@ th {
     color: #333;
     font-family: 'Arial', sans-serif;
 }
+.error-meesage {
+    color: #e76f51;
+    font-size: 18px;
+    margin-top: 8px;
+    text-align: center;
+}
+.success-meesage {
+    color: #22ff00;
+    font-size: 18px;
+    margin-top: 8px;
+    text-align: center;
+}

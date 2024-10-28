@@ -1,8 +1,8 @@
 @page "/testMnemonic"
 
 
-@using static AnsweringStatsStruct
-@using static LastWrongAnswerRecord
+@using static MindBlown.Types.AnsweringStatsStruct
+@using static MindBlown.Types.LastWrongAnswerRecord
 @using static MindBlown.Pages.Mnemonics
 @using static StringExtensions
 @using System.Text.Json
@@ -25,7 +25,7 @@
             </div>
 
             <div class="input-container">
-                 <form @onsubmit="checkMnemonic">
+                 <form @onsubmit="CheckMnemonic">
                     <input type="text" id="userGivenMnemonicText" name="userGivenMnemonicText" 
                placeholder="Enter mnemonic..." 
                @bind="userGivenMnemonicText" maxlength="256" required class="input-text" />

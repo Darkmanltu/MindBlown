@@ -1,6 +1,7 @@
 using System.Text.Json;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
+using MindBlown.Types;
 
 namespace MindBlown.Pages
 {
@@ -12,6 +13,10 @@ namespace MindBlown.Pages
         private bool showMnemonics = false;
         private bool mnemonicAlreadyExists;
         private string invalidInputMessage = "Mnemonic with given Helper text already exists.";
+        private string? errorMessage { get; set; }
+        private bool errorMessageIsVisible { get; set; }
+        private string? successMessage { get; set; }
+        private bool successMessageIsVisible { get; set; }
 
         private async Task OnSubmit()
         {
@@ -55,14 +60,19 @@ namespace MindBlown.Pages
 
         private async Task RemoveMnemonic(Guid mnemonicId)
         {
-            var existingMnemonics = await localStorage.GetItemAsync<List<MnemonicsType>>("userMnemonics") ?? new
-            List<MnemonicsType>();
+            var existingMnemonics = await localStorage.GetItemAsync<List<MnemonicsType>>("userMnemonics") ?? new List<MnemonicsType>();
 
             var mnemonicToRemove = existingMnemonics.FirstOrDefault(m => m.Id == mnemonicId);
             if (mnemonicToRemove != null)
             {
                 existingMnemonics.Remove(mnemonicToRemove);
                 await localStorage.SetItemAsync("userMnemonics", existingMnemonics);
+
+                var mnemonicInDB = await MnemonicService.GetMnemonicAsync(mnemonicToRemove.Id);
+                if(mnemonicInDB != null)
+                {
+                    await MnemonicService.DeleteMnemonicAsync(mnemonicToRemove.Id);
+                }
 
                 // Refresh the mnemonics list after removal
                 mnemonicsList = existingMnemonics;
@@ -93,6 +103,59 @@ namespace MindBlown.Pages
             var jsonFormattedData = JsonSerializer.Serialize(boxedMnemonics, options: new JsonSerializerOptions { WriteIndented = true });
 
             await JS.InvokeVoidAsync("downloadFile", fileName, jsonFormattedData);
+        }
+
+        private async Task GetMnemonicsFromDB()
+        {
+            List<MnemonicsType>? mnemonicListFromDB = await MnemonicService.GetMnemonicsAsync() ?? new List<MnemonicsType>();
+
+            if (mnemonicListFromDB.Count() == 0)
+            {
+                await ShowErrorMessage("Database is empty");
+            }
+            else
+            {
+                await ShowSuccessMessage("Upload from database successful");
+            }
+
+            mnemonicsList = mnemonicsList.Union(mnemonicListFromDB).ToList();
+            
+            await localStorage.SetItemAsync("userMnemonics", mnemonicsList);
+        }
+
+        private async Task UpdateDatabase()
+        {
+            if(mnemonicsList.Any())
+            {
+                await MnemonicService.CreateMnemonicsAsync(mnemonicsList);
+                await ShowSuccessMessage("Database updated");
+            }
+            else
+                await ShowErrorMessage("Cannot update database. Mnemonic list is empty");
+        }
+
+        public async Task ShowErrorMessage(string givenErrorMessage)
+        {
+            errorMessage = givenErrorMessage;
+            errorMessageIsVisible = true;
+            StateHasChanged();
+
+            await Task.Delay(3000);
+            
+            errorMessageIsVisible = false;
+            StateHasChanged();
+        }
+
+        public async Task ShowSuccessMessage(string givenSuccessMessage)
+        {
+            successMessage = givenSuccessMessage;
+            successMessageIsVisible = true;
+            StateHasChanged();
+
+            await Task.Delay(3000);
+            
+            successMessageIsVisible = false;
+            StateHasChanged();
         }
     }
 }

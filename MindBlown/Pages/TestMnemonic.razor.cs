@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Components.Web;
+using MindBlown.Types;
 
 namespace MindBlown.Pages
 {
     public partial class TestMnemonic
     {
 
-        private List<MnemonicsType> mnemonicsList = new List<MnemonicsType>();
+        private Repository<MnemonicsType> mnemonicsList = new Repository<MnemonicsType>();
         private string userGivenMnemonicText = "";
 
         // Initializes to 0 both values
@@ -39,31 +40,33 @@ namespace MindBlown.Pages
         {
             if (firstRender)
             {
-                await loadMnemonics();
+                await LoadMnemonics();
                 if (mnemonicsList.Count() != 0)
                 {
-                    System.Console.WriteLine("new random mnemonic: " + getRandomMnemonic().HelperText);
+                    // System.Console.WriteLine("new random mnemonic: " + getRandomMnemonic().HelperText);
+                    getRandomMnemonic();
                 }
             }
 
             if (nextMnemonic)
             {
                 nextMnemonic = false;
-                System.Console.WriteLine("new random mnemonic: " + getRandomMnemonic().HelperText + " " + nextMnemonic);
+                // System.Console.WriteLine("new random mnemonic: " + getRandomMnemonic().HelperText + " " + nextMnemonic);
+                getRandomMnemonic();
                 StateHasChanged();
             }
         }
 
 
         //Loading from local storage
-        private async Task loadMnemonics()
+        private async Task LoadMnemonics()
         {
             //Load the mnemonics from local storage
-            mnemonicsList = await localStorage.GetItemAsync<List<MnemonicsType>>("userMnemonics") ?? new List<MnemonicsType>();
+            mnemonicsList = new Repository<MnemonicsType>(await localStorage.GetItemAsync<List<MnemonicsType>>("userMnemonics") ?? new List<MnemonicsType>());
         }
 
         //Task when Check button is pressed
-        private async Task checkMnemonic()
+        private async Task CheckMnemonic()
         {
 
             object userMnemonic = new MnemonicsType(newMnemonicText: userGivenMnemonicText);
@@ -111,7 +114,7 @@ namespace MindBlown.Pages
         {
             if (e.Key == "Enter" || e.Key == "NumpadEnter")
             {
-                await checkMnemonic();
+                await CheckMnemonic();
             }
         }
 
