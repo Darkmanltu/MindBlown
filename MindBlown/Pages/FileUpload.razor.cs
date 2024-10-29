@@ -1,5 +1,6 @@
 using System.Text.Json;
 using Microsoft.AspNetCore.Components.Forms;
+using MindBlown.Types;
 
 namespace MindBlown.Pages
 {

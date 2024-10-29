@@ -1,12 +1,14 @@
 @page "/addMnemonic"
 
 @using System.Text.Json
-@using static MnemonicsType
+@using MindBlown.Types
 @using static StringExtensions
+@using System.Timers
 @inject HttpClient HttpClient
 @inject Blazored.LocalStorage.ILocalStorageService localStorage
 @inject NavigationManager Navigation
 @inject IJSRuntime JS
+@inject MnemonicService MnemonicService
 
 <link rel="stylesheet" href="css/Mnemonics.css" />
 <PageTitle>Add Mnemonics</PageTitle>
@@ -34,15 +36,28 @@
     }
     <br />
     <button type="submit">Submit</button>
-    <button @onclick="RedirectToUpload" style="">Upload from JSON</button>
+    @* <button @onclick="RedirectToUpload" style="">Upload from JSON</button>
+    <button @onclick="GetMnemonicsFromDB" style="">Upload from Database</button> *@
 </form>
 
+<button @onclick="RedirectToUpload" style="">Upload from JSON</button>
+<button @onclick="GetMnemonicsFromDB" style="">Upload from Database</button>
+
+@if (successMessageIsVisible)
+{
+    <div class="success-meesage">@successMessage</div>
+}
+
+@if (errorMessageIsVisible)
+{
+    <div class="error-meesage">@errorMessage</div>
+}
 
 <h2>@("saved mnemonics".CapitalizeWords())</h2>
 @if (showMnemonics)
 {
     <table>
-        @if (mnemonicsList != null && mnemonicsList.Count > 0)
+        @if (mnemonicsList != null && mnemonicsList.Count() > 0)
         {
             <tr>
                 <th>Helper text</th>
@@ -69,4 +84,5 @@
 
 <button @onclick="LoadMnemonics">@("load mnemonics".CapitalizeWords())</button>
 <button @onclick="DownloadJson">@("download as".CapitalizeWords()) JSON</button>
+<button @onclick="UpdateDatabase">@("update database".CapitalizeWords())</button>
 
