@@ -44,7 +44,7 @@ namespace MindBlown.Pages
 
                             if (mnemonic != null && mnemonic.HelperText != null)
                             {
-                                var existingMnemonics = await localStorage.GetItemAsync<List<MnemonicsType>>("userMnemonics") ?? new List<MnemonicsType>();
+                                var existingMnemonics = await MnemonicService.GetMnemonicsAsync() ?? new List<MnemonicsType>();
 
                                 var mnemonicAlreadyExists = existingMnemonics.Any(m => m.HelperText == mnemonic.HelperText);
 
@@ -69,9 +69,8 @@ namespace MindBlown.Pages
                                     };
 
                                     existingMnemonics.Add(mnemonicFromList);
+                                    await MnemonicService.CreateMnemonicAsync(mnemonicFromList);
                                 }
-
-                                await localStorage.SetItemAsync("userMnemonics", existingMnemonics);
                             }
                         }
                     }

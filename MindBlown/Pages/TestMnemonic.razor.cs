@@ -14,13 +14,13 @@ namespace MindBlown.Pages
 
         private MnemonicsType? testingMnemonic;
 
-        //LastWrongAnswerRecord is defined below
+        // LastWrongAnswerRecord is defined below
         public LastWrongAnswerRecord? lastWrongAnswer;
 
         private bool nextMnemonic = false;
 
 
-        //Checks whether testingMnemonic is no longer null every 1s
+        // Checks whether testingMnemonic is no longer null every 1s
         protected override async Task OnInitializedAsync()
         {
             while (testingMnemonic == null)
@@ -28,7 +28,7 @@ namespace MindBlown.Pages
                 await Task.Delay(50);
             }
 
-            //testingMnemonic is no longer null
+            // testingMnemonic is no longer null
         }
 
         /*
@@ -43,7 +43,6 @@ namespace MindBlown.Pages
                 await LoadMnemonics();
                 if (mnemonicsList.Count() != 0)
                 {
-                    // System.Console.WriteLine("new random mnemonic: " + getRandomMnemonic().HelperText);
                     getRandomMnemonic();
                 }
             }
@@ -51,35 +50,31 @@ namespace MindBlown.Pages
             if (nextMnemonic)
             {
                 nextMnemonic = false;
-                // System.Console.WriteLine("new random mnemonic: " + getRandomMnemonic().HelperText + " " + nextMnemonic);
                 getRandomMnemonic();
                 StateHasChanged();
             }
         }
 
 
-        //Loading from local storage
+        // Loading from local storage
         private async Task LoadMnemonics()
         {
-            //Load the mnemonics from local storage
-            mnemonicsList = new Repository<MnemonicsType>(await localStorage.GetItemAsync<List<MnemonicsType>>("userMnemonics") ?? new List<MnemonicsType>());
+            // Load the mnemonics from database
+            mnemonicsList = new Repository<MnemonicsType>(await MnemonicService.GetMnemonicsAsync() ?? new List<MnemonicsType>());
         }
 
-        //Task when Check button is pressed
+        // Task when Check button is pressed
         private async Task CheckMnemonic()
         {
-
             object userMnemonic = new MnemonicsType(newMnemonicText: userGivenMnemonicText);
 
-            // @* userMnemonic.TextW = userGivenTextW; *@
-            // @* if(testingMnemonic?.TextW == userGivenTextW && testingMnemonic != null) *@
             if (testingMnemonic != null && testingMnemonic.Equals((MnemonicsType)userMnemonic))
             {
                 answeringStats.correctAnswerCount++;
             }
             else
             {
-                //Use record for last wrong answered mnemonic
+                // Use record for last wrong answered mnemonic
                 if (testingMnemonic?.HelperText != null && testingMnemonic?.MnemonicText != null )
                 {
                     lastWrongAnswer = new LastWrongAnswerRecord
@@ -97,9 +92,8 @@ namespace MindBlown.Pages
 
             answeringStats.allAnswerCount++;
             userGivenMnemonicText = string.Empty;
-            // userGivenTextW = "debug_123";
             StateHasChanged();
-            await Task.Delay(1); // Fixes the warning (asyn methods must have await inside them)
+            await Task.Delay(1); // Fixes the warning (async methods must have await inside them)
         }
 
 
