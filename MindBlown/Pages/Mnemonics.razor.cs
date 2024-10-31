@@ -16,6 +16,7 @@ namespace MindBlown.Pages
         private bool errorMessageIsVisible { get; set; }
         private string? successMessage { get; set; }
         private bool successMessageIsVisible { get; set; }
+        private bool loadMnemonicsButtonWasPressed { get; set; }
 
         private async Task OnSubmit()
         {
@@ -41,12 +42,17 @@ namespace MindBlown.Pages
             // Save new mnemonic to database
             var addedMnemonic = await MnemonicService.CreateMnemonicAsync(newMnemonic);
 
+            mnemonicsList.Add(newMnemonic);
+
             // Check if succesfully added to database
             if (addedMnemonic == null)
                 await ShowErrorMessage("Mnemonice could not be added to the database");
 
             // Clear for new input
             Model = new MnemonicsType();
+
+            if (loadMnemonicsButtonWasPressed)
+                StateHasChanged();
         }
 
         private async Task LoadMnemonics()
