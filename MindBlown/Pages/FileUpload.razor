@@ -1,9 +1,9 @@
 @page "/json-upload"
 @using Microsoft.AspNetCore.Components.Forms
-@inject Blazored.LocalStorage.ILocalStorageService localStorage
 @using System.Text.Json
 @using static MindBlown.Types.MnemonicsType
 @inject NavigationManager Navigation
+@inject MnemonicService MnemonicService
 
 <link rel="stylesheet" href="css/FileUpload.css" />
 
@@ -26,4 +26,3 @@
     <button @onclick="ReturnToSetup">Go back</button>
 
 </div>
-

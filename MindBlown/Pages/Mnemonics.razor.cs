@@ -9,7 +9,6 @@ namespace MindBlown.Pages
     {
         private MnemonicsType Model { get; set; } = new MnemonicsType();
         private List<MnemonicsType> mnemonicsList = new List<MnemonicsType>();
-        //gali neprireikt private List<MnemonicsType> loadedMnemonicsList = new List<MnemonicsType>();
         private bool showMnemonics = false;
         private bool mnemonicAlreadyExists;
         private string invalidInputMessage = "Mnemonic with given Helper text already exists.";
@@ -17,17 +16,17 @@ namespace MindBlown.Pages
         private bool errorMessageIsVisible { get; set; }
         private string? successMessage { get; set; }
         private bool successMessageIsVisible { get; set; }
+        private bool loadMnemonicsButtonWasPressed { get; set; }
 
         private async Task OnSubmit()
         {
-            // Getting mnemonics from local storage
-            var existingMnemonics = await localStorage.GetItemAsync<List<MnemonicsType>>("userMnemonics") ?? new List<MnemonicsType>();
+            // Getting mnemonics from database
+            var existingMnemonics = await MnemonicService.GetMnemonicsAsync() ?? new List<MnemonicsType>();
 
             mnemonicAlreadyExists = existingMnemonics.Where(m => m.HelperText == Model.HelperText).Count() > 0;
 
             if (mnemonicAlreadyExists)
             {
-                await localStorage.SetItemAsync("userMnemonics", existingMnemonics);
                 Model = new MnemonicsType();
                 return;
             }
@@ -40,19 +39,26 @@ namespace MindBlown.Pages
                 Category = Model.Category
             };
 
-            existingMnemonics.Add(newMnemonic);
+            // Save new mnemonic to database
+            var addedMnemonic = await MnemonicService.CreateMnemonicAsync(newMnemonic);
 
-            // save the values to local storage
-            await localStorage.SetItemAsync("userMnemonics", existingMnemonics);
+            mnemonicsList.Add(newMnemonic);
 
-            // clear for new input
+            // Check if succesfully added to database
+            if (addedMnemonic == null)
+                await ShowErrorMessage("Mnemonice could not be added to the database");
+
+            // Clear for new input
             Model = new MnemonicsType();
+
+            if (loadMnemonicsButtonWasPressed)
+                StateHasChanged();
         }
 
         private async Task LoadMnemonics()
         {
-            // read the value as list
-            mnemonicsList = await localStorage.GetItemAsync<List<MnemonicsType>>("userMnemonics") ?? new List<MnemonicsType>();
+            // Get mnemonics from database. Returns a list of MnemonicsType
+            mnemonicsList = await MnemonicService.GetMnemonicsAsync() ?? new List<MnemonicsType>();
 
             // Show the mnemonics after loading
             showMnemonics = true;
@@ -60,24 +66,29 @@ namespace MindBlown.Pages
 
         private async Task RemoveMnemonic(Guid mnemonicId)
         {
-            var existingMnemonics = await localStorage.GetItemAsync<List<MnemonicsType>>("userMnemonics") ?? new List<MnemonicsType>();
+            var existingMnemonics = await MnemonicService.GetMnemonicsAsync() ?? new List<MnemonicsType>();
 
             var mnemonicToRemove = existingMnemonics.FirstOrDefault(m => m.Id == mnemonicId);
             if (mnemonicToRemove != null)
             {
                 existingMnemonics.Remove(mnemonicToRemove);
-                await localStorage.SetItemAsync("userMnemonics", existingMnemonics);
 
                 var mnemonicInDB = await MnemonicService.GetMnemonicAsync(mnemonicToRemove.Id);
                 if(mnemonicInDB != null)
                 {
                     await MnemonicService.DeleteMnemonicAsync(mnemonicToRemove.Id);
+
+                }
+                else
+                {
+                    await ShowErrorMessage("Mnemonic to remove not found in database");
                 }
 
                 // Refresh the mnemonics list after removal
                 mnemonicsList = existingMnemonics;
             }
         }
+        
         // On Users button press Enter, submit the form couse its cringe to click with mouse
         public async Task Enter(KeyboardEventArgs e)
         {
@@ -95,7 +106,7 @@ namespace MindBlown.Pages
         private async Task DownloadJson()
         {
 
-            var existingMnemonics = await localStorage.GetItemAsync<List<MnemonicsType>>("userMnemonics") ?? new List<MnemonicsType>();
+            var existingMnemonics = await MnemonicService.GetMnemonicsAsync() ?? new List<MnemonicsType>();
 
             object boxedMnemonics = existingMnemonics;
 
@@ -103,35 +114,6 @@ namespace MindBlown.Pages
             var jsonFormattedData = JsonSerializer.Serialize(boxedMnemonics, options: new JsonSerializerOptions { WriteIndented = true });
 
             await JS.InvokeVoidAsync("downloadFile", fileName, jsonFormattedData);
-        }
-
-        private async Task GetMnemonicsFromDB()
-        {
-            List<MnemonicsType>? mnemonicListFromDB = await MnemonicService.GetMnemonicsAsync() ?? new List<MnemonicsType>();
-
-            if (mnemonicListFromDB.Count() == 0)
-            {
-                await ShowErrorMessage("Database is empty");
-            }
-            else
-            {
-                await ShowSuccessMessage("Upload from database successful");
-            }
-
-            mnemonicsList = mnemonicsList.Union(mnemonicListFromDB).ToList();
-            
-            await localStorage.SetItemAsync("userMnemonics", mnemonicsList);
-        }
-
-        private async Task UpdateDatabase()
-        {
-            if(mnemonicsList.Any())
-            {
-                await MnemonicService.CreateMnemonicsAsync(mnemonicsList);
-                await ShowSuccessMessage("Database updated");
-            }
-            else
-                await ShowErrorMessage("Cannot update database. Mnemonic list is empty");
         }
 
         public async Task ShowErrorMessage(string givenErrorMessage)

@@ -5,7 +5,6 @@
 @using static StringExtensions
 @using System.Timers
 @inject HttpClient HttpClient
-@inject Blazored.LocalStorage.ILocalStorageService localStorage
 @inject NavigationManager Navigation
 @inject IJSRuntime JS
 @inject MnemonicService MnemonicService
@@ -36,12 +35,9 @@
     }
     <br />
     <button type="submit">Submit</button>
-    @* <button @onclick="RedirectToUpload" style="">Upload from JSON</button>
-    <button @onclick="GetMnemonicsFromDB" style="">Upload from Database</button> *@
 </form>
 
 <button @onclick="RedirectToUpload" style="">Upload from JSON</button>
-<button @onclick="GetMnemonicsFromDB" style="">Upload from Database</button>
 
 @if (successMessageIsVisible)
 {
@@ -84,5 +80,3 @@
 
 <button @onclick="LoadMnemonics">@("load mnemonics".CapitalizeWords())</button>
 <button @onclick="DownloadJson">@("download as".CapitalizeWords()) JSON</button>
-<button @onclick="UpdateDatabase">@("update database".CapitalizeWords())</button>
-
