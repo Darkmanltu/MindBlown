@@ -1,9 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
+using MindBlown.Exceptions;
 using MindBlown.Types;
-using System.Collections.Concurrent;
 
 public class MnemonicService
 {
@@ -14,15 +15,23 @@ public class MnemonicService
         _httpClient = httpClient;
     }
 
+    // Fetch all mnemonics
     public async Task<List<MnemonicsType>?> GetMnemonicsAsync()
     {
-        return await _httpClient.GetFromJsonAsync<List<MnemonicsType>>("api/mnemonics");
+        try
+        {
+            return await _httpClient.GetFromJsonAsync<List<MnemonicsType>>("api/mnemonics");
+        }
+        catch (HttpRequestException ex)
+        {
+            await LogErrorToServerAsync("Error fetching mnemonics", ex.Message);
+            throw new MnemonicServiceException("An error occurred while fetching mnemonics.", ex);
+        }
     }
 
+    // Fetch a specific mnemonic by ID
     public async Task<MnemonicsType?> GetMnemonicAsync(Guid id)
     {
-        // return await _httpClient.GetFromJsonAsync<MnemonicsType>($"api/mnemonics/{id}");
-
         try
         {
             return await _httpClient.GetFromJsonAsync<MnemonicsType>($"api/mnemonics/{id}");
@@ -31,9 +40,27 @@ public class MnemonicService
         {
             return null;
         }
-
+        catch (HttpRequestException ex)
+        {
+            await LogErrorToServerAsync($"Error fetching mnemonic with ID: {id}", ex.Message);
+            throw new MnemonicServiceException($"An error occurred while fetching the mnemonic with ID {id}.", ex);
+        }
     }
 
+    // Test to catch an exception
+    // public async Task<MnemonicsType?> GetMnemonicAsync(Guid id)
+    // {
+    //     try
+    //     {
+    //         // Use an invalid endpoint to trigger an error
+    //         return await _httpClient.GetFromJsonAsync<MnemonicsType>($"api/invalid/{id}");
+    //     }
+    //     catch (HttpRequestException ex)
+    //     {
+    //         await LogErrorToServerAsync($"Error fetching mnemonic with ID: {id}", ex.Message);
+    //         throw new MnemonicServiceException($"An error occurred while fetching the mnemonic with ID {id}.", ex);
+    //     }
+    // }
     // Create a new mnemonic
     public async Task<MnemonicsType?> CreateMnemonicAsync(MnemonicsType mnemonic)
     {
@@ -45,33 +72,62 @@ public class MnemonicService
         }
         catch (HttpRequestException ex)
         {
-            // Handle error (logging, rethrowing, etc.)
-            Console.WriteLine($"Error creating mnemonic: {ex.Message}");
-            return null;
+            await LogErrorToServerAsync("Error creating mnemonic", ex.Message);
+            throw new MnemonicServiceException("An error occurred while creating the mnemonic.", ex);
         }
     }
-
-    // Create a new list of mnemonics
-    public async Task CreateMnemonicsAsync(List<MnemonicsType> mnemonics)
-    {
-        var response = await _httpClient.PostAsJsonAsync("api/mnemonics/bulk", mnemonics);
-        response.EnsureSuccessStatusCode();
-    }
-
 
     // Update an existing mnemonic
     public async Task<MnemonicsType?> UpdateMnemonicAsync(MnemonicsType mnemonic)
     {
-        var response = await _httpClient.PutAsJsonAsync($"api/mnemonics/{mnemonic.Id}", mnemonic);
-        response.EnsureSuccessStatusCode();
-        return await response.Content.ReadFromJsonAsync<MnemonicsType>();
+        try
+        {
+            var response = await _httpClient.PutAsJsonAsync($"api/mnemonics/{mnemonic.Id}", mnemonic);
+            response.EnsureSuccessStatusCode();
+            return await response.Content.ReadFromJsonAsync<MnemonicsType>();
+        }
+        catch (HttpRequestException ex)
+        {
+            await LogErrorToServerAsync($"Error updating mnemonic with ID: {mnemonic.Id}", ex.Message);
+            throw new MnemonicServiceException($"An error occurred while updating the mnemonic with ID {mnemonic.Id}.", ex);
+        }
     }
 
     // Delete a mnemonic by ID
     public async Task DeleteMnemonicAsync(Guid id)
     {
-        var response = await _httpClient.DeleteAsync($"api/mnemonics/{id}");
-        response.EnsureSuccessStatusCode();
+        try
+        {
+            var response = await _httpClient.DeleteAsync($"api/mnemonics/{id}");
+            response.EnsureSuccessStatusCode();
+        }
+        catch (HttpRequestException ex)
+        {
+            await LogErrorToServerAsync($"Error deleting mnemonic with ID: {id}", ex.Message);
+            throw new MnemonicServiceException($"An error occurred while deleting the mnemonic with ID {id}.", ex);
+        }
     }
+
+    // Log error to server-side logging API
+    public async Task LogErrorToServerAsync(string message, string details)
+    {
+        var logEntry = new LogEntry
+        {
+            Message = message,
+            Details = details,
+            Timestamp = DateTime.UtcNow
+        };
+
+        try
+        {
+            await _httpClient.PostAsJsonAsync("api/logs", logEntry);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Failed to log to server: {ex.Message}");
+            // Fallback logging (e.g., browser console)
+        }
+    }
+
 
 }
