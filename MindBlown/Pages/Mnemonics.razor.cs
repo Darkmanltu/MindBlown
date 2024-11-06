@@ -2,6 +2,7 @@ using System.Text.Json;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 using MindBlown.Types;
+using MindBlown.Exceptions;
 
 namespace MindBlown.Pages
 {
@@ -18,17 +19,17 @@ namespace MindBlown.Pages
         private bool successMessageIsVisible { get; set; }
         private bool loadMnemonicsButtonWasPressed { get; set; }
 
-        private async Task OnSubmit()
+    private async Task OnSubmit()
+    {
+        try
         {
-            // Getting mnemonics from database
             var existingMnemonics = await MnemonicService.GetMnemonicsAsync() ?? new List<MnemonicsType>();
-
+            // mnemonicAlreadyExists = existingMnemonics.Any(m => m.HelperText == Model.HelperText);
             mnemonicAlreadyExists = existingMnemonics.Where(m => m.HelperText == Model.HelperText).Count() > 0;
 
             if (mnemonicAlreadyExists)
             {
-                Model = new MnemonicsType();
-                return;
+                throw new MnemonicAlreadyExistsException(invalidInputMessage);
             }
 
             var newMnemonic = new MnemonicsType
@@ -39,21 +40,37 @@ namespace MindBlown.Pages
                 Category = Model.Category
             };
 
-            // Save new mnemonic to database
             var addedMnemonic = await MnemonicService.CreateMnemonicAsync(newMnemonic);
-
             mnemonicsList.Add(newMnemonic);
 
-            // Check if succesfully added to database
             if (addedMnemonic == null)
-                await ShowErrorMessage("Mnemonice could not be added to the database");
+                await ShowErrorMessage("Mnemonic could not be added to the database");
 
-            // Clear for new input
             Model = new MnemonicsType();
 
             if (loadMnemonicsButtonWasPressed)
                 StateHasChanged();
         }
+        catch (MnemonicAlreadyExistsException ex)
+        {
+            await LoggingService.LogAsync(new LogEntry
+            {
+                Message = ex.Message,
+                Details = ex.ToString()
+            });
+            await ShowErrorMessage(ex.Message);
+            Model = new MnemonicsType();
+        }
+        catch (Exception ex)
+        {
+            await LoggingService.LogAsync(new LogEntry
+            {
+                Message = "Unexpected error",
+                Details = ex.ToString()
+            });
+            await ShowErrorMessage($"An unexpected error occurred: {ex.Message}");
+        }
+    }
 
         private async Task LoadMnemonics()
         {
@@ -74,7 +91,7 @@ namespace MindBlown.Pages
                 existingMnemonics.Remove(mnemonicToRemove);
 
                 var mnemonicInDB = await MnemonicService.GetMnemonicAsync(mnemonicToRemove.Id);
-                if(mnemonicInDB != null)
+                if (mnemonicInDB != null)
                 {
                     await MnemonicService.DeleteMnemonicAsync(mnemonicToRemove.Id);
 
@@ -88,7 +105,7 @@ namespace MindBlown.Pages
                 mnemonicsList = existingMnemonics;
             }
         }
-        
+
         // On Users button press Enter, submit the form couse its cringe to click with mouse
         public async Task Enter(KeyboardEventArgs e)
         {
@@ -123,7 +140,7 @@ namespace MindBlown.Pages
             StateHasChanged();
 
             await Task.Delay(3000);
-            
+
             errorMessageIsVisible = false;
             StateHasChanged();
         }
@@ -135,7 +152,7 @@ namespace MindBlown.Pages
             StateHasChanged();
 
             await Task.Delay(3000);
-            
+
             successMessageIsVisible = false;
             StateHasChanged();
         }

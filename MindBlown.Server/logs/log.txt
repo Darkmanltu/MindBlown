@@ -1,0 +1,2 @@
+2024-11-05 22:44:29 [Error]: Mnemonic with given Helper text already exists. - MindBlown.Exceptions.MnemonicAlreadyExistsException: Mnemonic with given Helper text already exists.
+   at MindBlown.Pages.Mnemonics.OnSubmit() in C:\Users\noske\Desktop\PSI Projektas\MindBlown\Pages\Mnemonics.razor.cs:line 32
