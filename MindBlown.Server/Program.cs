@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using MindBlown.Server.Singleton;
 using MindBlown.Server.Data;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +12,9 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddControllers();
+// builder for Singleton service to keep track of current active users 
+builder.Services.AddSingleton<ActiveUserService>();
+builder.Services.AddScoped<SessionTrackingService>();
 
 builder.Services.AddCors(options =>
 {

@@ -8,5 +8,7 @@ namespace MindBlown.Server.Data
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
         public DbSet<Mnemonic> Mnemonics { get; set; }
+
+        public DbSet<User> ActiveUserSession { get; set; }
     }
 }
