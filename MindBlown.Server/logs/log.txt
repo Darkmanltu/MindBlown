@@ -1,2 +1,15 @@
 2024-11-05 22:44:29 [Error]: Mnemonic with given Helper text already exists. - MindBlown.Exceptions.MnemonicAlreadyExistsException: Mnemonic with given Helper text already exists.
    at MindBlown.Pages.Mnemonics.OnSubmit() in C:\Users\noske\Desktop\PSI Projektas\MindBlown\Pages\Mnemonics.razor.cs:line 32
+2024-11-06 14:35:00 [Error]: Mnemonic with given Helper text already exists. - MindBlown.Exceptions.MnemonicAlreadyExistsException: Mnemonic with given Helper text already exists.
+   at MindBlown.Pages.Mnemonics.OnSubmit() in C:\Users\Carbon\Desktop\Haskell\MindBlown\MindBlown\Pages\Mnemonics.razor.cs:line 35
+2024-11-06 14:35:16 [Error]: Mnemonic with given Helper text already exists. - MindBlown.Exceptions.MnemonicAlreadyExistsException: Mnemonic with given Helper text already exists.
+   at MindBlown.Pages.Mnemonics.OnSubmit() in C:\Users\Carbon\Desktop\Haskell\MindBlown\MindBlown\Pages\Mnemonics.razor.cs:line 35
+2024-11-06 14:35:17 [Error]: Mnemonic with given Helper text already exists. - MindBlown.Exceptions.MnemonicAlreadyExistsException: Mnemonic with given Helper text already exists.
+   at MindBlown.Pages.Mnemonics.OnSubmit() in C:\Users\Carbon\Desktop\Haskell\MindBlown\MindBlown\Pages\Mnemonics.razor.cs:line 35
+2024-11-12 10:34:59 [Error]: Current active user count - Active users: 1
+2024-11-12 10:35:05 [Error]: Current active user count - Active users: 2
+2024-11-12 10:35:09 [Error]: Current active user count - Active users: 3
+2024-11-12 10:35:15 [Error]: Current active user count - Active users: 4
+2024-11-12 10:35:17 [Error]: Current active user count - Active users: 5
+2024-11-12 10:35:23 [Error]: Current active user count - Active users: 6
+2024-11-13 09:27:51 [Error]: Error fetching mnemonics - TypeError: Failed to fetch

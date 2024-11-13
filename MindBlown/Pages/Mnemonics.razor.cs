@@ -3,12 +3,21 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 using MindBlown.Types;
 using MindBlown.Exceptions;
+using Microsoft.AspNetCore.Components;
+
+
 
 namespace MindBlown.Pages
 {
     public partial class Mnemonics
     {
+
+        // private TimedRemovalService TimedRemovalService { get; set; } = default!;
         private MnemonicsType Model { get; set; } = new MnemonicsType();
+
+        private int ActiveUserCount {get; set;}
+        
+
         private List<MnemonicsType> mnemonicsList = new List<MnemonicsType>();
         private bool showMnemonics = false;
         private bool mnemonicAlreadyExists;
@@ -19,58 +28,58 @@ namespace MindBlown.Pages
         private bool successMessageIsVisible { get; set; }
         private bool loadMnemonicsButtonWasPressed { get; set; }
 
-    private async Task OnSubmit()
-    {
-        try
+        private async Task OnSubmit()
         {
-            var existingMnemonics = await MnemonicService.GetMnemonicsAsync() ?? new List<MnemonicsType>();
-            // mnemonicAlreadyExists = existingMnemonics.Any(m => m.HelperText == Model.HelperText);
-            mnemonicAlreadyExists = existingMnemonics.Where(m => m.HelperText == Model.HelperText).Count() > 0;
-
-            if (mnemonicAlreadyExists)
+            try
             {
-                throw new MnemonicAlreadyExistsException(invalidInputMessage);
+                var existingMnemonics = await MnemonicService.GetMnemonicsAsync() ?? new List<MnemonicsType>();
+                // mnemonicAlreadyExists = existingMnemonics.Any(m => m.HelperText == Model.HelperText);
+                mnemonicAlreadyExists = existingMnemonics.Where(m => m.HelperText == Model.HelperText).Count() > 0;
+
+                if (mnemonicAlreadyExists)
+                {
+                    throw new MnemonicAlreadyExistsException(invalidInputMessage);
+                }
+
+                var newMnemonic = new MnemonicsType
+                {
+                    Id = Guid.NewGuid(),
+                    HelperText = Model.HelperText,
+                    MnemonicText = Model.MnemonicText,
+                    Category = Model.Category
+                };
+
+                var addedMnemonic = await MnemonicService.CreateMnemonicAsync(newMnemonic);
+                mnemonicsList.Add(newMnemonic);
+
+                if (addedMnemonic == null)
+                    await ShowErrorMessage("Mnemonic could not be added to the database");
+
+                Model = new MnemonicsType();
+
+                if (loadMnemonicsButtonWasPressed)
+                    StateHasChanged();
             }
-
-            var newMnemonic = new MnemonicsType
+            catch (MnemonicAlreadyExistsException ex)
             {
-                Id = Guid.NewGuid(),
-                HelperText = Model.HelperText,
-                MnemonicText = Model.MnemonicText,
-                Category = Model.Category
-            };
-
-            var addedMnemonic = await MnemonicService.CreateMnemonicAsync(newMnemonic);
-            mnemonicsList.Add(newMnemonic);
-
-            if (addedMnemonic == null)
-                await ShowErrorMessage("Mnemonic could not be added to the database");
-
-            Model = new MnemonicsType();
-
-            if (loadMnemonicsButtonWasPressed)
-                StateHasChanged();
-        }
-        catch (MnemonicAlreadyExistsException ex)
-        {
-            await LoggingService.LogAsync(new LogEntry
+                await LoggingService.LogAsync(new LogEntry
+                {
+                    Message = ex.Message,
+                    Details = ex.ToString()
+                });
+                await ShowErrorMessage(ex.Message);
+                Model = new MnemonicsType();
+            }
+            catch (Exception ex)
             {
-                Message = ex.Message,
-                Details = ex.ToString()
-            });
-            await ShowErrorMessage(ex.Message);
-            Model = new MnemonicsType();
+                await LoggingService.LogAsync(new LogEntry
+                {
+                    Message = "Unexpected error",
+                    Details = ex.ToString()
+                });
+                await ShowErrorMessage($"An unexpected error occurred: {ex.Message}");
+            }
         }
-        catch (Exception ex)
-        {
-            await LoggingService.LogAsync(new LogEntry
-            {
-                Message = "Unexpected error",
-                Details = ex.ToString()
-            });
-            await ShowErrorMessage($"An unexpected error occurred: {ex.Message}");
-        }
-    }
 
         private async Task LoadMnemonics()
         {
@@ -105,8 +114,61 @@ namespace MindBlown.Pages
                 mnemonicsList = existingMnemonics;
             }
         }
+       protected override async Task OnInitializedAsync()
+{
+    var chechifnull = await JS.InvokeAsync<string>("sessionStorage.getItem", "userId");
 
-        // On Users button press Enter, submit the form couse its cringe to click with mouse
+    // If userId is null or empty, it means it doesn't exist
+    if (string.IsNullOrEmpty(chechifnull))
+    {
+        // Generate a new Guid for the userId
+        chechifnull = Guid.NewGuid().ToString();
+
+        // Store the new userId in sessionStorage
+        await JS.InvokeVoidAsync("sessionStorage.setItem", "userId", chechifnull);
+    }
+
+    // Retrieve user ID from session storage or generate a new one if it doesn't exist
+    var userId = await JS.InvokeAsync<Guid>("sessionStorage.getItem", "userId");
+    
+    
+    System.Console.WriteLine("User ID: " + userId);
+    // Add the user to ActiveUserClient
+   bool isUnique = await ActiveUserClient.IsSessionIdUniqueAsync(userId);
+
+    if (isUnique)
+    {
+        // Add the user to ActiveUserClient only if the sessionId is unique
+        await ActiveUserClient.AddUserAsync(userId);
+
+        // Update the active user count
+        
+    }
+    else
+    {
+        // If the sessionId is a duplicate, log or handle the error as needed
+        await ShowErrorMessage("This session ID is already in use.");
+    }
+    await ActiveUserClient.RemoveInnactive();
+    ActiveUserCount = await ActiveUserClient.GetActiveUserCountAsync();
+   //await ActiveUserClient.RemoveUserAsync(userId);
+}
+
+public async void Dispose()
+{
+    // Retrieve the user ID from session storage
+    var userId = JS.InvokeAsync<Guid>("sessionStorage.getItem", "userId").Result;
+    await ActiveUserClient.RemoveUserAsync(userId);
+    
+        // Remove the user from ActiveUserClient
+        await ActiveUserClient.RemoveUserAsync(userId);
+
+       
+        ActiveUserCount = await ActiveUserClient.GetActiveUserCountAsync();
+    
+}
+
+        // On Users button press Enter, submit the form cause its cringe to click with mouse
         public async Task Enter(KeyboardEventArgs e)
         {
             if (e.Key == "Enter" || e.Key == "NumpadEnter")
@@ -156,5 +218,13 @@ namespace MindBlown.Pages
             successMessageIsVisible = false;
             StateHasChanged();
         }
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            if (firstRender)
+            {
+                await LoadMnemonics();
+            }
+        }
     }
+
 }

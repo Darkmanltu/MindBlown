@@ -9,9 +9,16 @@
 @inject IJSRuntime JS
 @inject MnemonicService MnemonicService
 @inject LoggingService LoggingService
+@inject ActiveUserClient ActiveUserClient
+
 
 <link rel="stylesheet" href="css/Mnemonics.css" />
 <PageTitle>Add Mnemonics</PageTitle>
+
+<!-- Display the active user count -->
+<div class="active-user-count">
+    <p>Active users creating mnemonics: @ActiveUserCount</p>
+</div>
 
 <form @onsubmit="OnSubmit">
 <h1 id="main_name">@("mnemonics form".CapitalizeWords())</h1>
