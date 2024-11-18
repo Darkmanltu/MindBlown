@@ -4,6 +4,7 @@ using Microsoft.JSInterop;
 using MindBlown.Types;
 using MindBlown.Exceptions;
 using Microsoft.AspNetCore.Components;
+using System.Collections.Concurrent;
 
 
 
@@ -17,6 +18,8 @@ namespace MindBlown.Pages
 
         private int ActiveUserCount {get; set;}
         
+        [Inject]
+        private HttpClient HttpClientDI { get; set; }
 
         private List<MnemonicsType> mnemonicsList = new List<MnemonicsType>();
         private bool showMnemonics = false;
@@ -149,8 +152,13 @@ namespace MindBlown.Pages
         // If the sessionId is a duplicate, log or handle the error as needed
         await ShowErrorMessage("This session ID is already in use.");
     }
+    
+
+          
+    var activeUserDict = await ActiveUserClient.GetDictionary();
     await ActiveUserClient.RemoveInnactive();
-    ActiveUserCount = await ActiveUserClient.GetActiveUserCountAsync();
+    //ActiveUserCount = await ActiveUserClient.GetActiveUserCountAsync();
+    ActiveUserCount = await ActiveUserClient.GetActiveUserCountAsync(activeUserDict);
    //await ActiveUserClient.RemoveUserAsync(userId);
 }
 
