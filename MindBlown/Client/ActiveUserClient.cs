@@ -44,7 +44,7 @@ public class ActiveUserClient
     {
         return await _httpClient.GetFromJsonAsync<int>("api/activeUser/count");
     }
-    public async Task<int> GetActiveUserCountAsync(ConcurrentDictionary<Guid, User> activeUsers)
+    public static Task<int> GetActiveUserCountAsync(ConcurrentDictionary<Guid, User> activeUsers)
     {
         int count = 0;
         foreach (var user in activeUsers)
@@ -54,7 +54,7 @@ public class ActiveUserClient
                 count++;
             }
         }
-        return count;
+        return Task.FromResult(count);
     }
     public async Task RemoveInnactive()
     {

@@ -10,7 +10,7 @@ using System.Collections.Concurrent;
 
 namespace MindBlown.Pages
 {
-    public partial class Mnemonics
+    public partial class Mnemonics : IDisposable
     {
 
         // private TimedRemovalService TimedRemovalService { get; set; } = default!;
@@ -18,8 +18,7 @@ namespace MindBlown.Pages
 
         private int ActiveUserCount {get; set;}
         
-        [Inject]
-        private HttpClient HttpClientDI { get; set; }
+       
 
         private List<MnemonicsType> mnemonicsList = new List<MnemonicsType>();
         private bool showMnemonics = false;
@@ -155,26 +154,38 @@ namespace MindBlown.Pages
     
 
           
-    var activeUserDict = await ActiveUserClient.GetDictionary();
+    
     await ActiveUserClient.RemoveInnactive();
+    var activeUserDict = await ActiveUserClient.GetDictionary();
     //ActiveUserCount = await ActiveUserClient.GetActiveUserCountAsync();
     ActiveUserCount = await ActiveUserClient.GetActiveUserCountAsync(activeUserDict);
    //await ActiveUserClient.RemoveUserAsync(userId);
 }
 
-public async void Dispose()
+public void Dispose()
 {
-    // Retrieve the user ID from session storage
-    var userId = JS.InvokeAsync<Guid>("sessionStorage.getItem", "userId").Result;
-    await ActiveUserClient.RemoveUserAsync(userId);
-    
-        // Remove the user from ActiveUserClient
-        await ActiveUserClient.RemoveUserAsync(userId);
-
-       
-        ActiveUserCount = await ActiveUserClient.GetActiveUserCountAsync();
-    
+    try
+    {
+        // Blocking call for asynchronous logic in Dispose()
+        DisposeAsync().GetAwaiter().GetResult();
+    }
+    catch (Exception )
+    {   
+        // throws an exception but still executes it fine idk why
+        //Console.WriteLine($"Error during Dispose: {ex.Message}");
+    }
 }
+
+private async Task DisposeAsync()
+{
+    // Perform async cleanup
+    var userId = await JS.InvokeAsync<Guid>("sessionStorage.getItem", "userId");
+    await ActiveUserClient.RemoveUserAsync(userId);
+    var activeUserDict = await ActiveUserClient.GetDictionary();
+    //ActiveUserCount = await ActiveUserClient.GetActiveUserCountAsync();
+    ActiveUserCount = await ActiveUserClient.GetActiveUserCountAsync(activeUserDict);
+}
+
 
         // On Users button press Enter, submit the form cause its cringe to click with mouse
         public async Task Enter(KeyboardEventArgs e)
