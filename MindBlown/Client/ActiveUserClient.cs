@@ -1,6 +1,8 @@
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
+using MindBlown.Types;
+using System.Collections.Concurrent;
 public class ActiveUserClient
 {
     private readonly HttpClient _httpClient;
@@ -42,9 +44,25 @@ public class ActiveUserClient
     {
         return await _httpClient.GetFromJsonAsync<int>("api/activeUser/count");
     }
+    public static Task<int> GetActiveUserCountAsync(ConcurrentDictionary<Guid, User> activeUsers)
+    {
+        int count = 0;
+        foreach (var user in activeUsers)
+        {
+            if (user.Value.isActive)
+            {
+                count++;
+            }
+        }
+        return Task.FromResult(count);
+    }
     public async Task RemoveInnactive()
     {
         await _httpClient.PostAsJsonAsync("api/activeUser/removeInnactive", 1);
+    }
+    public async Task<ConcurrentDictionary<Guid, User>> GetDictionary()
+    {
+        return await _httpClient.GetFromJsonAsync<ConcurrentDictionary<Guid, User>>("api/activeUser/getdict") ?? new ConcurrentDictionary<Guid, User>();
     }
 }
 
