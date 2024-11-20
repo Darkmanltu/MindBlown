@@ -7,6 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MindBlown", "MindBlown\Mind
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MindBlown.Server", "MindBlown.Server\MindBlown.Server.csproj", "{9C17041E-D2D5-494A-95A2-549C84510E0D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientTests", "ClientTests\ClientTests.csproj", "{7D835C67-ECB6-4524-83BE-0991C3E58A93}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerTests", "ServerTests\ServerTests.csproj", "{FCEF0473-18D8-41BE-A15D-004C4D327045}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{9C17041E-D2D5-494A-95A2-549C84510E0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9C17041E-D2D5-494A-95A2-549C84510E0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9C17041E-D2D5-494A-95A2-549C84510E0D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D835C67-ECB6-4524-83BE-0991C3E58A93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D835C67-ECB6-4524-83BE-0991C3E58A93}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D835C67-ECB6-4524-83BE-0991C3E58A93}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D835C67-ECB6-4524-83BE-0991C3E58A93}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FCEF0473-18D8-41BE-A15D-004C4D327045}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCEF0473-18D8-41BE-A15D-004C4D327045}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCEF0473-18D8-41BE-A15D-004C4D327045}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCEF0473-18D8-41BE-A15D-004C4D327045}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

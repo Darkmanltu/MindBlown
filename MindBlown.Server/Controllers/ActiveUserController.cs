@@ -27,7 +27,8 @@ public class ActiveUserController : ControllerBase
         var users = await _sessionTrackingService.GetActiveUsersAsync();
         _activeUsers.Clear();       //clear for posibility that users are removed from db in other thread
         foreach(var uz in users){
-            _activeUsers[uz.sessionId]= uz;
+
+            _activeUsers[uz.SessionId]= uz;
         }
 
         return Ok();
@@ -86,9 +87,9 @@ public async Task<IActionResult> GetActiveUsersFull()
         var users = await _sessionTrackingService.GetActiveUsersAsync();
 
         foreach (var u in users){
-            Console.WriteLine($"Removing user with ID: {u.sessionId}");
-            if (u.lastActive < DateTime.UtcNow.AddMinutes(-5)){
-                await RemoveUser(u.sessionId);
+            Console.WriteLine($"Removing user with ID: {u.SessionId}");
+            if (u.LastActive < DateTime.UtcNow.AddMinutes(-5)){
+                await RemoveUser(u.SessionId);
                 // might help with thread race condition
                 await Task.Delay(100);
             }

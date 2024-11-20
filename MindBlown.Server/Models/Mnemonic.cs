@@ -6,7 +6,7 @@ namespace MindBlown.Server.Models
         public Guid Id { get; init; }
         public string? HelperText { get; set; }
         public string? MnemonicText { get; set; }
-        public MnemonicCategory Category { get; set; }
+        public MnemonicCategory Category { get; set; } = MnemonicCategory.Other;
     }
 
     public enum MnemonicCategory

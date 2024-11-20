@@ -4,10 +4,10 @@ using System.ComponentModel.DataAnnotations;
 namespace MindBlown.Server.Models;
 public class User {
 // userId is the same as GUID for convience
-    public  Guid userId { get; set; }
+    public  Guid UserId { get; set; }
     // sessionID is from cookies (i think)
-    public Guid sessionId { get; set; }
-    public DateTime lastActive { get; set; }
-    public bool isActive { get; set; }
+    public Guid SessionId { get; set; }
+    public DateTime LastActive { get; set; }
+    public bool IsActive { get; set; }
     
 }

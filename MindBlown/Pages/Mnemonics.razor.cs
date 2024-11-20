@@ -5,32 +5,40 @@ using MindBlown.Types;
 using MindBlown.Exceptions;
 using Microsoft.AspNetCore.Components;
 using System.Collections.Concurrent;
-
+using MindBlown.Interfaces;
+using Services;
 
 
 namespace MindBlown.Pages
 {
     public partial class Mnemonics : IDisposable
     {
+        [Inject]
+        public IMnemonicService MnemonicService { get; set; }
+        [Inject]
+        public ILoggingService LoggingService { get; set; }
+        [Inject]
+        public IActiveUserClient ActiveUserClient { get; set; }
+
 
         // private TimedRemovalService TimedRemovalService { get; set; } = default!;
-        private MnemonicsType Model { get; set; } = new MnemonicsType();
+        public MnemonicsType Model { get; set; } = new MnemonicsType();
 
-        private int ActiveUserCount {get; set;}
+        public int ActiveUserCount {get; set;}
         
        
 
-        private List<MnemonicsType> mnemonicsList = new List<MnemonicsType>();
-        private bool showMnemonics = false;
-        private bool mnemonicAlreadyExists;
-        private string invalidInputMessage = "Mnemonic with given Helper text already exists.";
-        private string? errorMessage { get; set; }
-        private bool errorMessageIsVisible { get; set; }
-        private string? successMessage { get; set; }
-        private bool successMessageIsVisible { get; set; }
-        private bool loadMnemonicsButtonWasPressed { get; set; }
+        public List<MnemonicsType> mnemonicsList = new List<MnemonicsType>();
+        public bool showMnemonics = false;
+        public bool mnemonicAlreadyExists;
+        public string invalidInputMessage = "Mnemonic with given Helper text already exists.";
+        public string? errorMessage { get; set; }
+        public bool errorMessageIsVisible { get; set; }
+        public string? successMessage { get; set; }
+        public bool successMessageIsVisible { get; set; }
+        public bool loadMnemonicsButtonWasPressed { get; set; }
 
-        private async Task OnSubmit()
+        public async Task OnSubmit()
         {
             try
             {
@@ -83,7 +91,7 @@ namespace MindBlown.Pages
             }
         }
 
-        private async Task LoadMnemonics()
+        public async Task LoadMnemonics()
         {
             // Get mnemonics from database. Returns a list of MnemonicsType
             mnemonicsList = await MnemonicService.GetMnemonicsAsync() ?? new List<MnemonicsType>();
@@ -92,7 +100,7 @@ namespace MindBlown.Pages
             showMnemonics = true;
         }
 
-        private async Task RemoveMnemonic(Guid mnemonicId)
+        public async Task RemoveMnemonic(Guid mnemonicId)
         {
             var existingMnemonics = await MnemonicService.GetMnemonicsAsync() ?? new List<MnemonicsType>();
 
@@ -176,7 +184,8 @@ public void Dispose()
     }
 }
 
-private async Task DisposeAsync()
+public async Task DisposeAsync()
+
 {
     // Perform async cleanup
     var userId = await JS.InvokeAsync<Guid>("sessionStorage.getItem", "userId");
@@ -196,12 +205,12 @@ private async Task DisposeAsync()
             }
         }
 
-        private void RedirectToUpload()
+        public void RedirectToUpload()
         {
             Navigation.NavigateTo("/json-upload");
         }
 
-        private async Task DownloadJson()
+        public async Task DownloadJson()
         {
 
             var existingMnemonics = await MnemonicService.GetMnemonicsAsync() ?? new List<MnemonicsType>();

@@ -37,12 +37,10 @@ namespace MindBlow.Server.Controllers
 
             if (mnemonic == null)
             {
-                // mnemonic with given Id not found
-                // throw new InvalidOperationException();
                 return NotFound();
             }
 
-            return mnemonic;
+            return Ok(mnemonic); // Explicitly return Ok(mnemonic)
         }
 
         // POST: api/mnemonics
@@ -140,7 +138,7 @@ namespace MindBlow.Server.Controllers
         }
 
 
-        private bool MnemonicExists(Guid id)
+        public bool MnemonicExists(Guid id)
         {
             return _context.Mnemonics.Any(e => e.Id == id);
         }

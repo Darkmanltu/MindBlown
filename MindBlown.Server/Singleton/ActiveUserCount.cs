@@ -13,7 +13,18 @@ namespace MindBlown.Server.Singleton{
 
     public void RemoveUser()
     {
-        Interlocked.Decrement(ref _userCount);
+        // Ensure _userCount does not go below zero
+        int initialCount, computedCount;
+        do
+        {
+            initialCount = _userCount;
+            if (initialCount == 0)
+            {
+                return; // Exit early if count is already zero
+            }
+            computedCount = initialCount - 1;
+        }
+        while (initialCount != Interlocked.CompareExchange(ref _userCount, computedCount, initialCount));
     }
 
 }

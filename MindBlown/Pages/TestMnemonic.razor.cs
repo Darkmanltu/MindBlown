@@ -1,23 +1,29 @@
-﻿using Microsoft.AspNetCore.Components.Web;
+﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
+using MindBlown.Interfaces;
 using MindBlown.Types;
+using Services;
 
 namespace MindBlown.Pages
 {
     public partial class TestMnemonic
     {
+        [Inject]
+        public IMnemonicService MnemonicService { get; set; }
 
-        private Repository<MnemonicsType> mnemonicsList = new Repository<MnemonicsType>();
-        private string userGivenMnemonicText = "";
+
+        public Repository<MnemonicsType> mnemonicsList = new Repository<MnemonicsType>();
+        public string userGivenMnemonicText = "";
 
         // Initializes to 0 both values
         public AnsweringStatsStruct answeringStats = new AnsweringStatsStruct();
 
-        private MnemonicsType? testingMnemonic;
+        public MnemonicsType? testingMnemonic;
 
         // LastWrongAnswerRecord is defined below
         public LastWrongAnswerRecord? lastWrongAnswer;
 
-        private bool nextMnemonic = false;
+        public bool nextMnemonic = false;
 
 
         // Checks whether testingMnemonic is no longer null every 1s
@@ -36,6 +42,7 @@ namespace MindBlown.Pages
         Also updates what mnemonic is being tested now and shows it on website.
         */
 
+            
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             if (firstRender)
@@ -57,14 +64,14 @@ namespace MindBlown.Pages
 
 
         // Loading from local storage
-        private async Task LoadMnemonics()
+        public async Task LoadMnemonics()
         {
             // Load the mnemonics from database
             mnemonicsList = new Repository<MnemonicsType>(await MnemonicService.GetMnemonicsAsync() ?? new List<MnemonicsType>());
         }
 
         // Task when Check button is pressed
-        private async Task CheckMnemonic()
+        public async Task CheckMnemonic()
         {
             object userMnemonic = new MnemonicsType(newMnemonicText: userGivenMnemonicText);
 
@@ -97,7 +104,7 @@ namespace MindBlown.Pages
         }
 
 
-        private MnemonicsType getRandomMnemonic()
+        public MnemonicsType getRandomMnemonic()
         {
             System.Random random = new System.Random();
             int randomNumber = random.Next(0, mnemonicsList.Count());

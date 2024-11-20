@@ -21,10 +21,10 @@ namespace MindBlown.Server.Singleton
         {
             var session = new User
             {
-                sessionId = sessionId,
-                userId = userId,
-                lastActive = DateTime.UtcNow,
-                isActive = true
+                SessionId = sessionId,
+                UserId = userId,
+                LastActive = DateTime.UtcNow,
+                IsActive = true
             };
 
             _context.ActiveUserSession.Add(session);
@@ -34,11 +34,11 @@ namespace MindBlown.Server.Singleton
         public async Task UpdateSessionActivityAsync(Guid sessionId)
         {
             var session = await _context.ActiveUserSession
-                .FirstOrDefaultAsync(s => s.sessionId == sessionId);
+                .FirstOrDefaultAsync(s => s.SessionId == sessionId);
             
             if (session != null)
             {
-                session.lastActive = DateTime.UtcNow;
+                session.LastActive = DateTime.UtcNow;
                 await _context.SaveChangesAsync();
             }
         }
@@ -46,7 +46,7 @@ namespace MindBlown.Server.Singleton
         public async Task RemoveSessionAsync(Guid sessionId)
         {
             var session = await _context.ActiveUserSession
-                .FirstOrDefaultAsync(s => s.sessionId == sessionId);
+                .FirstOrDefaultAsync(s => s.SessionId == sessionId);
 
             if (session != null)
             {
@@ -58,27 +58,27 @@ namespace MindBlown.Server.Singleton
         public async Task<int> GetActiveUserCountAsync()
         {
             return await _context.ActiveUserSession
-                .CountAsync(s => s.isActive);
+                .CountAsync(s => s.IsActive);
         }
 
         public async Task<List<string>> GetActiveUserIdsAsync()
         {
             return await _context.ActiveUserSession
-                .Where(s => s.isActive)
-                .Select(s => s.sessionId.ToString())
+                .Where(s => s.IsActive)
+                .Select(s => s.SessionId.ToString())
                 .ToListAsync();
         }
         public async Task<List<User>> GetActiveUsersAsync()
 {
     // Select only the fields you need from ActiveUserSession
     var activeSessions = await _context.ActiveUserSession
-        .Where(s => s.isActive)
+        .Where(s => s.IsActive)
         .Select(s => new 
         {
-            s.userId,
-            s.sessionId,
-            s.lastActive,
-            s.isActive
+            userId = s.UserId,
+            sessionId = s.SessionId,
+            lastActive = s.LastActive,
+            isActive = s.IsActive
         })
         .ToListAsync();
 
@@ -89,12 +89,12 @@ namespace MindBlown.Server.Singleton
     {
         var user = new User
         {
-            userId = session.userId,  // Assuming the User object has a UserId property
-            sessionId = session.sessionId,  // Assuming you want to store sessionId in User
-            lastActive = session.lastActive,
-            isActive = session.isActive
+            UserId = session.userId,  // Assuming the User object has a UserId property
+            SessionId = session.sessionId,  // Assuming you want to store sessionId in User
+            LastActive = session.lastActive,
+            IsActive = session.isActive
         };
-        System.Console.WriteLine("User ID: " + user.userId);
+        System.Console.WriteLine("User ID: " + user.UserId);
         users.Add(user);  
     }
 

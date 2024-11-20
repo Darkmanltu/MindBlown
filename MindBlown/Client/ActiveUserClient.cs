@@ -3,7 +3,10 @@ using System.Net.Http.Json;
 using System.Threading.Tasks;
 using MindBlown.Types;
 using System.Collections.Concurrent;
-public class ActiveUserClient
+using MindBlown.Interfaces;
+
+public class ActiveUserClient : IActiveUserClient
+
 {
     private readonly HttpClient _httpClient;
 
@@ -25,7 +28,7 @@ public class ActiveUserClient
         
     }
    
-    private async Task<List<Guid>> GetActiveUsersAsync()
+    public async Task<List<Guid>> GetActiveUsersAsync()
     {
         return await _httpClient.GetFromJsonAsync<List<Guid>>("api/activeUser/usersId") ?? new List<Guid>();
     }
@@ -44,7 +47,9 @@ public class ActiveUserClient
     {
         return await _httpClient.GetFromJsonAsync<int>("api/activeUser/count");
     }
-    public static Task<int> GetActiveUserCountAsync(ConcurrentDictionary<Guid, User> activeUsers)
+
+    public Task<int> GetActiveUserCountAsync(ConcurrentDictionary<Guid, User> activeUsers)
+
     {
         int count = 0;
         foreach (var user in activeUsers)
