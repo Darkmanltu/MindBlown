@@ -1,27 +1,33 @@
 using System.Text.Json;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using MindBlown.Interfaces;
 using MindBlown.Types;
+using Services;
 
 namespace MindBlown.Pages
 {
     public partial class FileUpload
     {
-        private IBrowserFile? fileInfo;
+        [Inject]
+        public IMnemonicService MnemonicService { get; set; }
 
-        private string? message;
+        public IBrowserFile? fileInfo;
 
-        private void HandleFileSelected(InputFileChangeEventArgs e)
+        public string? message;
+
+        public void HandleFileSelected(InputFileChangeEventArgs e)
         {
             fileInfo = e.GetMultipleFiles(1).FirstOrDefault(); // Get the first selected file
             message = string.Empty;
         }
 
-        private void ReturnToSetup()
+        public void ReturnToSetup()
         {
             Navigation.NavigateTo("/addMnemonic");
         }
 
-        private async Task UploadFile()
+        public async Task UploadFile()
         {
             if (fileInfo != null)
             {
@@ -81,7 +87,7 @@ namespace MindBlown.Pages
             }
         }
 
-        private void ResetFileInput()
+        public void ResetFileInput()
         {
             fileInfo = null;
         }

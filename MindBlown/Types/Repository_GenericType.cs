@@ -48,40 +48,4 @@ public class Repository<T> where T : class, IHasGuidId
         set => _items[index] = value; // Set item at index
     }
 
-    // Will need to check in future if these methods are needed, if not delete it in future.
-
-    // public IEnumerable<T> Where(Func<T, bool> predicate)
-    // {
-    //     return _items.Where(predicate).ToList(); // or just return _items.Where(predicate) for lazy evaluation
-    // }
-
-    // public T? FirstOrDefault(Func<T, bool> predicate)
-    // {
-    //     return _items.FirstOrDefault(predicate);
-    // }
-
-    // public IEnumerable<T> Union(IEnumerable<T> other)
-    // {
-    //     return _items.Union(other);
-    // }
-
-    // public bool Any()
-    // {
-    //     return _items.Any();
-    // }
-
-    // public bool Any(Func<T, bool> predicate)
-    // {
-    //     return _items.Any(predicate);
-    // }
-
-    // public List<T> ToList()
-    // {
-    //     return _items.ToList();
-    // }
-
-    // public IEnumerator<T> GetEnumerator()
-    // {
-    //     return _items.GetEnumerator();
-    // }
 }

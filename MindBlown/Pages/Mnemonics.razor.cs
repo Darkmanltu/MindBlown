@@ -4,31 +4,41 @@ using Microsoft.JSInterop;
 using MindBlown.Types;
 using MindBlown.Exceptions;
 using Microsoft.AspNetCore.Components;
-
+using System.Collections.Concurrent;
+using MindBlown.Interfaces;
+using Services;
 
 
 namespace MindBlown.Pages
 {
-    public partial class Mnemonics
+    public partial class Mnemonics : IDisposable
     {
+        [Inject]
+        public IMnemonicService MnemonicService { get; set; }
+        [Inject]
+        public ILoggingService LoggingService { get; set; }
+        [Inject]
+        public IActiveUserClient ActiveUserClient { get; set; }
+
 
         // private TimedRemovalService TimedRemovalService { get; set; } = default!;
-        private MnemonicsType Model { get; set; } = new MnemonicsType();
+        public MnemonicsType Model { get; set; } = new MnemonicsType();
 
-        private int ActiveUserCount {get; set;}
+        public int ActiveUserCount {get; set;}
         
+       
 
-        private List<MnemonicsType> mnemonicsList = new List<MnemonicsType>();
-        private bool showMnemonics = false;
-        private bool mnemonicAlreadyExists;
-        private string invalidInputMessage = "Mnemonic with given Helper text already exists.";
-        private string? errorMessage { get; set; }
-        private bool errorMessageIsVisible { get; set; }
-        private string? successMessage { get; set; }
-        private bool successMessageIsVisible { get; set; }
-        private bool loadMnemonicsButtonWasPressed { get; set; }
+        public List<MnemonicsType> mnemonicsList = new List<MnemonicsType>();
+        public bool showMnemonics = false;
+        public bool mnemonicAlreadyExists;
+        public string invalidInputMessage = "Mnemonic with given Helper text already exists.";
+        public string? errorMessage { get; set; }
+        public bool errorMessageIsVisible { get; set; }
+        public string? successMessage { get; set; }
+        public bool successMessageIsVisible { get; set; }
+        public bool loadMnemonicsButtonWasPressed { get; set; }
 
-        private async Task OnSubmit()
+        public async Task OnSubmit()
         {
             try
             {
@@ -81,7 +91,7 @@ namespace MindBlown.Pages
             }
         }
 
-        private async Task LoadMnemonics()
+        public async Task LoadMnemonics()
         {
             // Get mnemonics from database. Returns a list of MnemonicsType
             mnemonicsList = await MnemonicService.GetMnemonicsAsync() ?? new List<MnemonicsType>();
@@ -90,7 +100,7 @@ namespace MindBlown.Pages
             showMnemonics = true;
         }
 
-        private async Task RemoveMnemonic(Guid mnemonicId)
+        public async Task RemoveMnemonic(Guid mnemonicId)
         {
             var existingMnemonics = await MnemonicService.GetMnemonicsAsync() ?? new List<MnemonicsType>();
 
@@ -149,24 +159,41 @@ namespace MindBlown.Pages
         // If the sessionId is a duplicate, log or handle the error as needed
         await ShowErrorMessage("This session ID is already in use.");
     }
+    
+
+          
+    
     await ActiveUserClient.RemoveInnactive();
-    ActiveUserCount = await ActiveUserClient.GetActiveUserCountAsync();
+    var activeUserDict = await ActiveUserClient.GetDictionary();
+    //ActiveUserCount = await ActiveUserClient.GetActiveUserCountAsync();
+    ActiveUserCount = await ActiveUserClient.GetActiveUserCountAsync(activeUserDict);
    //await ActiveUserClient.RemoveUserAsync(userId);
 }
 
-public async void Dispose()
+public void Dispose()
 {
-    // Retrieve the user ID from session storage
-    var userId = JS.InvokeAsync<Guid>("sessionStorage.getItem", "userId").Result;
-    await ActiveUserClient.RemoveUserAsync(userId);
-    
-        // Remove the user from ActiveUserClient
-        await ActiveUserClient.RemoveUserAsync(userId);
-
-       
-        ActiveUserCount = await ActiveUserClient.GetActiveUserCountAsync();
-    
+    try
+    {
+        // Blocking call for asynchronous logic in Dispose()
+        DisposeAsync().GetAwaiter().GetResult();
+    }
+    catch (Exception )
+    {   
+        // throws an exception but still executes it fine idk why
+        //Console.WriteLine($"Error during Dispose: {ex.Message}");
+    }
 }
+
+public async Task DisposeAsync()
+{
+    // Perform async cleanup
+    var userId = await JS.InvokeAsync<Guid>("sessionStorage.getItem", "userId");
+    await ActiveUserClient.RemoveUserAsync(userId);
+    var activeUserDict = await ActiveUserClient.GetDictionary();
+    //ActiveUserCount = await ActiveUserClient.GetActiveUserCountAsync();
+    ActiveUserCount = await ActiveUserClient.GetActiveUserCountAsync(activeUserDict);
+}
+
 
         // On Users button press Enter, submit the form cause its cringe to click with mouse
         public async Task Enter(KeyboardEventArgs e)
@@ -177,12 +204,12 @@ public async void Dispose()
             }
         }
 
-        private void RedirectToUpload()
+        public void RedirectToUpload()
         {
             Navigation.NavigateTo("/json-upload");
         }
 
-        private async Task DownloadJson()
+        public async Task DownloadJson()
         {
 
             var existingMnemonics = await MnemonicService.GetMnemonicsAsync() ?? new List<MnemonicsType>();

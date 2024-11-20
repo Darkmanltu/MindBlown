@@ -1,19 +1,23 @@
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
+using MindBlown.Interfaces;
 using MindBlown.Types;
 
-public class LoggingService
+namespace Services
 {
-    private readonly HttpClient _httpClient;
-
-    public LoggingService(HttpClient httpClient)
+    public class LoggingService : ILoggingService
     {
-        _httpClient = httpClient;
-    }
+        private readonly HttpClient _httpClient;
 
-    public async Task LogAsync(LogEntry logEntry)
-    {
-        await _httpClient.PostAsJsonAsync("api/logs", logEntry);
+        public LoggingService(HttpClient httpClient)
+        {
+            _httpClient = httpClient;
+        }
+
+        public async Task LogAsync(LogEntry logEntry)
+        {
+            await _httpClient.PostAsJsonAsync("api/logs", logEntry);
+        }
     }
 }

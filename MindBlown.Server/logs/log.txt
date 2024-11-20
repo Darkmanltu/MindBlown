@@ -13,3 +13,13 @@
 2024-11-12 10:35:17 [Error]: Current active user count - Active users: 5
 2024-11-12 10:35:23 [Error]: Current active user count - Active users: 6
 2024-11-13 09:27:51 [Error]: Error fetching mnemonics - TypeError: Failed to fetch
+2024-11-19 20:01:53 [Error]: Error fetching mnemonics - Response status code does not indicate success: 500 (Internal Server Error).
+2024-11-20 08:24:23 [Error]: Mnemonic with given Helper text already exists. - MindBlown.Exceptions.MnemonicAlreadyExistsException: Mnemonic with given Helper text already exists.
+   at MindBlown.Pages.Mnemonics.OnSubmit() in C:\Users\noske\RiderProjects\MindBlown\MindBlown\Pages\Mnemonics.razor.cs:line 43
+2024-11-20 10:23:38 [Error]: Mnemonic with given Helper text already exists. - MindBlown.Exceptions.MnemonicAlreadyExistsException: Mnemonic with given Helper text already exists.
+   at MindBlown.Pages.Mnemonics.OnSubmit() in C:\Users\noske\RiderProjects\MindBlown\MindBlown\Pages\Mnemonics.razor.cs:line 52
+2024-11-20 10:23:56 [Error]: Error deleting mnemonic with ID: 48e2d1d6-e15f-40f3-b182-0dc3fa7bc03e - Response status code does not indicate success: 404 (Not Found).
+2024-11-20 11:20:38 [Error]: Mnemonic with given Helper text already exists. - MindBlown.Exceptions.MnemonicAlreadyExistsException: Mnemonic with given Helper text already exists.
+   at MindBlown.Pages.Mnemonics.OnSubmit() in C:\Users\noske\RiderProjects\MindBlown\MindBlown\Pages\Mnemonics.razor.cs:line 53
+2024-11-20 12:54:01 [Error]: Mnemonic with given Helper text already exists. - MindBlown.Exceptions.MnemonicAlreadyExistsException: Mnemonic with given Helper text already exists.
+   at MindBlown.Pages.Mnemonics.OnSubmit() in C:\Users\noske\RiderProjects\MindBlown\MindBlown\Pages\Mnemonics.razor.cs:line 53

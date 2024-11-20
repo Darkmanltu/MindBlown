@@ -53,13 +53,8 @@ namespace MindBlown.Types
         public string? HelperText { get; set; }
         public string? MnemonicText { get; set; }
 
-        public MnemonicCategory Category { get; set; }
-
-        // public bool Equals(MnemonicsType? mnemonic)
-        // {
-        //     return (this.Id, this.TextM, this.TextW, this.Category) ==
-        //         (mnemonic?.Id, mnemonic?.TextM, mnemonic?.TextW, mnemonic?.Category);
-        // } 
+        public MnemonicCategory Category { get; set; } = MnemonicCategory.Other;
+        
 
         public MnemonicsType() { }
 
