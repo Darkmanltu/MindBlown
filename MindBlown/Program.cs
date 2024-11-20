@@ -15,5 +15,6 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("http://
 builder.Services.AddScoped<IMnemonicService, MnemonicService>();  // Register the interface
 builder.Services.AddScoped<ILoggingService, LoggingService>();   // Register the interface
 builder.Services.AddScoped<IActiveUserClient, ActiveUserClient>();  // Register the interface
+builder.Services.AddScoped<LWARecordService>();
 
 await builder.Build().RunAsync();

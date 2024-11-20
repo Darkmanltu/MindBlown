@@ -9,7 +9,7 @@ namespace MindBlown.Pages
     public partial class TestMnemonic
     {
         [Inject]
-        public IMnemonicService MnemonicService { get; set; }
+        public required IMnemonicService MnemonicService { get; set; }
 
 
         public Repository<MnemonicsType> mnemonicsList = new Repository<MnemonicsType>();
@@ -48,6 +48,8 @@ namespace MindBlown.Pages
             if (firstRender)
             {
                 await LoadMnemonics();
+                lastWrongAnswer = await LWARecordService.GetRecordAsync();
+
                 if (mnemonicsList.Count() != 0)
                 {
                     getRandomMnemonic();
@@ -93,6 +95,8 @@ namespace MindBlown.Pages
                         wrongTextMnemonic = userGivenMnemonicText,
                         category = testingMnemonic?.Category
                     };
+
+                    await LWARecordService.UpdateRecordAsync(lastWrongAnswer);
                 }
             }
             nextMnemonic = true;

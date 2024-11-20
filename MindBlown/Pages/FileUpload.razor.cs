@@ -10,7 +10,7 @@ namespace MindBlown.Pages
     public partial class FileUpload
     {
         [Inject]
-        public IMnemonicService MnemonicService { get; set; }
+        public required IMnemonicService MnemonicService { get; set; }
 
         public IBrowserFile? fileInfo;
 
