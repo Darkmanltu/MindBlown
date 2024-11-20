@@ -185,6 +185,7 @@ public void Dispose()
 }
 
 public async Task DisposeAsync()
+
 {
     // Perform async cleanup
     var userId = await JS.InvokeAsync<Guid>("sessionStorage.getItem", "userId");

@@ -27,6 +27,7 @@ public class ActiveUserController : ControllerBase
         var users = await _sessionTrackingService.GetActiveUsersAsync();
         _activeUsers.Clear();       //clear for posibility that users are removed from db in other thread
         foreach(var uz in users){
+
             _activeUsers[uz.SessionId]= uz;
         }
 

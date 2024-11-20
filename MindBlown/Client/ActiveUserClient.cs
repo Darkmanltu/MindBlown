@@ -6,6 +6,7 @@ using System.Collections.Concurrent;
 using MindBlown.Interfaces;
 
 public class ActiveUserClient : IActiveUserClient
+
 {
     private readonly HttpClient _httpClient;
 
@@ -46,7 +47,9 @@ public class ActiveUserClient : IActiveUserClient
     {
         return await _httpClient.GetFromJsonAsync<int>("api/activeUser/count");
     }
+
     public Task<int> GetActiveUserCountAsync(ConcurrentDictionary<Guid, User> activeUsers)
+
     {
         int count = 0;
         foreach (var user in activeUsers)
