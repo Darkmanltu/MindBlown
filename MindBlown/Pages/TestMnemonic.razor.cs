@@ -70,6 +70,11 @@ namespace MindBlown.Pages
         {
             // Load the mnemonics from database
             mnemonicsList = new Repository<MnemonicsType>(await MnemonicService.GetMnemonicsAsync() ?? new List<MnemonicsType>());
+            if(await AuthService.IsUserLoggedInAsync())
+            {
+                var username = await AuthService.GetUsername();
+                mnemonicsList = new Repository<MnemonicsType>(await MnemonicService.GetMnemonicsByIdsAsync(await AuthService.GetMnemonicsGuids(username)) ?? new List<MnemonicsType>());
+            }
         }
 
         // Task when Check button is pressed

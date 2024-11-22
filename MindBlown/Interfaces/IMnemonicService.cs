@@ -11,6 +11,7 @@ namespace MindBlown.Interfaces
         Task<MnemonicsType?> GetMnemonicAsync(Guid id);
         Task<MnemonicsType?> CreateMnemonicAsync(MnemonicsType mnemonic);
         Task<MnemonicsType?> UpdateMnemonicAsync(MnemonicsType mnemonic);
+        Task<List<MnemonicsType>> GetMnemonicsByIdsAsync(List<Guid> ids);
         Task DeleteMnemonicAsync(Guid id);
         Task LogErrorToServerAsync(string message, string details);
     }

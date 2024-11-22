@@ -1,0 +1,184 @@
+using System.Net.Http.Json;
+using Microsoft.JSInterop;
+using MindBlown.Types;
+using System.IdentityModel.Tokens.Jwt; // For JWT handling
+using System.Security.Claims;  // For Claims and ClaimTypes
+using System;
+using System.Text;
+using System.Text.Json;
+public class AuthService
+{
+    private readonly IJSRuntime _jsRuntime;
+    private readonly HttpClient _httpClient;
+
+    public AuthService(IJSRuntime jsRuntime, HttpClient httpClient)
+    {
+        _jsRuntime = jsRuntime;
+        _httpClient = httpClient;
+    }
+
+    // Check if the user is logged in by checking the presence of a token in localStorage
+    public async Task<bool> IsUserLoggedInAsync()
+    {
+        var token = await _jsRuntime.InvokeAsync<string>("localStorage.getItem", "authToken");
+        return !string.IsNullOrEmpty(token);
+    }
+
+    // Log out the user by removing the token from localStorage
+    public async Task LogoutAsync()
+    {
+        await _jsRuntime.InvokeVoidAsync("localStorage.removeItem", "authToken");
+    }
+
+    // Perform login and return a token or an error message
+    public async Task<string?> LoginAsync(AccRequest loginRequest)
+    {
+        var lastUsername = loginRequest.Username;
+        var response = await _httpClient.PostAsJsonAsync("api/userinfo/login", loginRequest);
+
+        if (response.IsSuccessStatusCode)
+        {
+            var tokenResponse = await response.Content.ReadFromJsonAsync<TokenResponse>();
+            if (tokenResponse != null)
+            {
+                // Store the token in localStorage for persistence
+                await _jsRuntime.InvokeVoidAsync("localStorage.setItem", "authToken", tokenResponse.Token);
+                return lastUsername;
+            }
+        }
+        else if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
+        {
+            var error = await response.Content.ReadAsStringAsync();
+            Console.WriteLine("Error in login: " + error);
+        }
+        
+        return null;
+    }
+
+    // Perform signup and return a token or an error message
+    public async Task<bool> SignupAsync(AccRequest signupRequest)
+    {
+        var response = await _httpClient.PostAsJsonAsync("api/userinfo/signup", signupRequest);
+
+        if (response.IsSuccessStatusCode)
+        {
+            return true;
+            // var tokenResponse = await response.Content.ReadFromJsonAsync<TokenResponse>();
+            // if (tokenResponse != null)
+            // {
+            //     // Store the token in localStorage for persistence
+            //     await _jsRuntime.InvokeVoidAsync("localStorage.setItem", "authToken", tokenResponse.Token);
+            //     return true; // Signup successful
+            // }
+        }
+        else if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
+        {
+            var error = await response.Content.ReadAsStringAsync();
+            Console.WriteLine("Error in signup: " + error);
+        }
+
+        return false; // Signup failed
+    }
+
+    public async Task<MnemonicsType?> UpdateUserWithMnemonic(string? username, MnemonicsType newMnemonic)
+    {
+        if (username != null)
+        {
+            var request = new MnemonicUpdateRequest()
+            {
+                Username = username,
+                MnemonicToAdd = newMnemonic
+            };
+            var response = await _httpClient.PutAsJsonAsync("api/userinfo", request);
+            if (response.IsSuccessStatusCode)
+            {
+                return newMnemonic;
+            }
+            else if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
+            {
+                var error = await response.Content.ReadAsStringAsync();
+                Console.WriteLine("Error: " + error);
+            }
+        }
+        
+        return null;
+    }
+
+    public async Task<List<Guid>> GetMnemonicsGuids(string? username)
+    {
+        if (username != null)
+        {
+            return await _httpClient.GetFromJsonAsync<List<Guid>>($"api/userinfo/guids?username={username}") ?? new List<Guid>();
+        }
+        else
+        {
+            return new List<Guid>();
+        }
+    }
+
+    // public async Task<string?> GetUsernameFromToken()
+    // {
+    //     var token = await _jsRuntime.InvokeAsync<string>("localStorage.getItem", "authToken");
+    //     if (token != null)
+    //     {
+    //         var payload = DecodeJwtToken(token); // Decode JWT token (you would need a custom method here)
+    //         return payload?.Username;
+    //     }
+    //     return null;
+    // }
+
+    // private dynamic? DecodeJwtToken(string token)
+    // {
+    //     var parts = token.Split('.');
+    //     var payload = parts.Length > 1 ? parts[1] : null;
+    //     if (payload != null)
+    //     {
+    //         var json = Encoding.UTF8.GetString(Convert.FromBase64String(payload));
+    //         return JsonSerializer.Deserialize<dynamic>(json); // Deserialize to access the claims
+    //     }
+    //     return null;
+    // }
+
+    public async Task<string?> GetUsername()
+    {
+        var jwtToken = await _jsRuntime.InvokeAsync<string>("localStorage.getItem", "authToken");
+        
+        if (string.IsNullOrEmpty(jwtToken))
+        {
+            return null;
+        }
+        
+        // Create a JWT handler to decode the token
+        var jwtHandler = new JwtSecurityTokenHandler();
+
+        try
+        {
+            // Parse the JWT
+            var token = jwtHandler.ReadJwtToken(jwtToken);
+
+            // Retrieve the claim of type 'name' (this is the one you included when generating the token)
+            var usernameClaim = token.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name);
+
+            return usernameClaim?.Value;
+        }
+        catch (Exception ex)
+        {
+            // Handle exceptions (e.g., invalid token format)
+            Console.WriteLine("Error parsing JWT: " + ex.Message);
+            return null;
+        }
+    }
+
+}
+
+public class MnemonicUpdateRequest
+{
+    public required string Username { get; set; }
+    public required MnemonicsType MnemonicToAdd { get; set; }
+}
+
+
+public class TokenResponse
+{
+    public required string Token { get; set; }
+}

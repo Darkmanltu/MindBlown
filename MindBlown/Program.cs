@@ -16,5 +16,7 @@ builder.Services.AddScoped<IMnemonicService, MnemonicService>();  // Register th
 builder.Services.AddScoped<ILoggingService, LoggingService>();   // Register the interface
 builder.Services.AddScoped<IActiveUserClient, ActiveUserClient>();  // Register the interface
 builder.Services.AddScoped<LWARecordService>();
+builder.Services.AddScoped<AuthService>();
+
 
 await builder.Build().RunAsync();

@@ -141,6 +141,8 @@ namespace MindBlown.Pages
                 };
 
                 var addedMnemonic = await MnemonicService.CreateMnemonicAsync(newMnemonic);
+                var username = await AuthService.GetUsername();
+                await AuthService.UpdateUserWithMnemonic(username, newMnemonic);
                 mnemonicsList.Add(newMnemonic);
 
                 if (addedMnemonic == null)
@@ -179,7 +181,22 @@ namespace MindBlown.Pages
         {
             // Get mnemonics from database. Returns a list of MnemonicsType
             mnemonicsList = await MnemonicService.GetMnemonicsAsync() ?? new List<MnemonicsType>();
+            if(await AuthService.IsUserLoggedInAsync())
+            {    
+                var username = await AuthService.GetUsername();
 
+                // Get user's ids
+                var guids = await AuthService.GetMnemonicsGuids(username);
+                
+                if (guids.Count == 0)
+                {
+                    mnemonicsList = new List<MnemonicsType>();
+                }
+                else
+                {
+                    mnemonicsList = await MnemonicService.GetMnemonicsByIdsAsync(guids);
+                }
+            }
             // Show the mnemonics after loading
             showMnemonics = true;
         }

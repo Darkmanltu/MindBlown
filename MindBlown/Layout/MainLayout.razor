@@ -1,4 +1,10 @@
 ﻿@inherits LayoutComponentBase
+@using MindBlown.Types
+@using MindBlown.Layout.Modal
+@using System
+@inject AuthService AuthService
+@inject NavigationManager NavigationManager
+
 <div class="page">
     <div class="sidebar">
         <NavMenu />
@@ -6,7 +12,16 @@
 
     <main>
         <div class="top-row px-4">
-            @* <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a> *@
+            @if(!isLoggedIn)
+            {
+                <button @onclick="ShowSignupModal">Sign Up</button>
+                <button @onclick="ShowLoginModal">Log In</button>   
+            }
+            else
+            {
+                <div class="username">Logged in as: @username</div>
+                <button @onclick="HandleLogout">Log Out</button>
+            }
         </div>
 
         <article class="content px-4">
@@ -20,3 +35,122 @@
 }
 
 </style>
+<link rel="stylesheet" href="css/modal.css" />
+
+
+<!-- Modal for Signup -->
+<Modal IsVisible="@isSignupModalVisible" IsVisibleChanged="OnSignupModalVisibilityChanged">
+    <h3>Sign Up</h3>
+    <EditForm Model="registerRequest" OnValidSubmit="HandleSignup">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <InputText @bind-Value="registerRequest.Username" placeholder="Username" maxlength="15" required />
+        <InputText @bind-Value="registerRequest.Password" type="password" placeholder="Password" maxlength="30" required />
+
+        <button type="submit">Sign Up</button>
+    </EditForm>
+</Modal>
+
+<!-- Modal for Login -->
+<Modal IsVisible="@isLoginModalVisible" IsVisibleChanged="OnLoginModalVisibilityChanged">
+    <h3>Log In</h3>
+    <EditForm Model="loginRequest" OnValidSubmit="HandleLogin">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <InputText @bind-Value="loginRequest.Username" placeholder="Username" maxlength="15" required />
+        <InputText @bind-Value="loginRequest.Password" type="password" placeholder="Password" maxlength="30" required />
+
+        <button type="submit">Log In</button>
+    </EditForm>
+</Modal>
+
+@code {
+    public bool isLoggedIn = false;
+    private string? username;
+
+    // Modal visibility state
+    private bool isSignupModalVisible = false;
+    private bool isLoginModalVisible = false;
+
+    // Models for login and signup
+    private AccRequest registerRequest = new AccRequest();
+    private AccRequest loginRequest = new AccRequest();
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Check if the user is logged in
+        isLoggedIn = await AuthService.IsUserLoggedInAsync();
+        if (isLoggedIn)
+        {
+            username = await AuthService.GetUsername();
+        }
+    }
+
+    private async Task HandleLogout()
+    {
+        await AuthService.LogoutAsync(); // Log the user out
+        isLoggedIn = false; // Update the login state
+        username = null;
+        NavigationManager.NavigateTo(NavigationManager.BaseUri); // Navigate to home after logout
+    }
+
+
+    // Show signup modal
+    private void ShowSignupModal()
+    {
+        isSignupModalVisible = true;
+    }
+
+    // Show login modal
+    private void ShowLoginModal()
+    {
+        isLoginModalVisible = true;
+    }
+
+    // Handle visibility changes
+    private void OnSignupModalVisibilityChanged(bool isVisible)
+    {
+        isSignupModalVisible = isVisible;
+    }
+
+    private void OnLoginModalVisibilityChanged(bool isVisible)
+    {
+        isLoginModalVisible = isVisible;
+    }
+
+    // Handle signup form submission
+    private async Task HandleSignup()
+    {
+        // Replace with actual API call to register
+        var response = await AuthService.SignupAsync(registerRequest);
+        if (response)
+        {
+            isSignupModalVisible = false;
+        }
+        else
+        {
+            // Handle error (e.g., show an error message)
+        }
+        StateHasChanged();
+    }
+
+    // Handle login form submission
+    private async Task HandleLogin()
+    {
+        // Replace with actual API call to login
+        string? response = await AuthService.LoginAsync(loginRequest);
+        if (!string.IsNullOrEmpty(response))
+        {
+            isLoginModalVisible = false;
+            isLoggedIn = true;
+            username = response;
+        }
+        else
+        {
+            // Handle error (e.g., show an error message)
+        }
+        StateHasChanged();
+    }
+}
