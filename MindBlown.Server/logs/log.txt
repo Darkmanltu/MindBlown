@@ -23,3 +23,34 @@
    at MindBlown.Pages.Mnemonics.OnSubmit() in C:\Users\noske\RiderProjects\MindBlown\MindBlown\Pages\Mnemonics.razor.cs:line 53
 2024-11-20 12:54:01 [Error]: Mnemonic with given Helper text already exists. - MindBlown.Exceptions.MnemonicAlreadyExistsException: Mnemonic with given Helper text already exists.
    at MindBlown.Pages.Mnemonics.OnSubmit() in C:\Users\noske\RiderProjects\MindBlown\MindBlown\Pages\Mnemonics.razor.cs:line 53
+20/11/2024 21:50:08 [Error]: Error updating record - Response status code does not indicate success: 404 (Not Found).
+20/11/2024 21:54:24 [Error]: Error updating record - Response status code does not indicate success: 404 (Not Found).
+20/11/2024 22:12:31 [Error]: Error updating record - Response status code does not indicate success: 404 (Not Found).
+20/11/2024 22:19:09 [Error]: Error updating record - Response status code does not indicate success: 404 (Not Found).
+20/11/2024 22:19:11 [Error]: Error updating record - Response status code does not indicate success: 404 (Not Found).
+20/11/2024 22:19:12 [Error]: Error updating record - Response status code does not indicate success: 404 (Not Found).
+20/11/2024 22:19:12 [Error]: Error updating record - Response status code does not indicate success: 404 (Not Found).
+20/11/2024 22:19:12 [Error]: Error updating record - Response status code does not indicate success: 404 (Not Found).
+20/11/2024 22:19:12 [Error]: Error updating record - Response status code does not indicate success: 404 (Not Found).
+20/11/2024 22:19:13 [Error]: Error updating record - Response status code does not indicate success: 404 (Not Found).
+20/11/2024 22:19:13 [Error]: Error updating record - Response status code does not indicate success: 404 (Not Found).
+20/11/2024 22:19:16 [Error]: Error updating record - Response status code does not indicate success: 404 (Not Found).
+20/11/2024 22:19:17 [Error]: Error updating record - Response status code does not indicate success: 404 (Not Found).
+20/11/2024 22:28:14 [Error]: Error updating record - Response status code does not indicate success: 500 (Internal Server Error).
+20/11/2024 22:28:29 [Error]: Error updating record - Response status code does not indicate success: 500 (Internal Server Error).
+20/11/2024 22:42:39 [Error]: Mnemonic with given Helper text already exists. - MindBlown.Exceptions.MnemonicAlreadyExistsException: Mnemonic with given Helper text already exists.
+   at MindBlown.Pages.Mnemonics.OnSubmit() in C:\Users\juran\OneDrive\Stalinis kompiuteris\stud\PSI\Projektas\MindBlown\MindBlown\Pages\Mnemonics.razor.cs:line 60
+20/11/2024 22:46:28 [Error]: Mnemonic with given Helper text already exists. - MindBlown.Exceptions.MnemonicAlreadyExistsException: Mnemonic with given Helper text already exists.
+   at MindBlown.Pages.Mnemonics.OnSubmit() in C:\Users\juran\OneDrive\Stalinis kompiuteris\stud\PSI\Projektas\MindBlown\MindBlown\Pages\Mnemonics.razor.cs:line 60
+20/11/2024 22:49:28 [Error]: Mnemonic with given Helper text already exists. - MindBlown.Exceptions.MnemonicAlreadyExistsException: Mnemonic with given Helper text already exists.
+   at MindBlown.Pages.Mnemonics.OnSubmit() in C:\Users\juran\OneDrive\Stalinis kompiuteris\stud\PSI\Projektas\MindBlown\MindBlown\Pages\Mnemonics.razor.cs:line 60
+20/11/2024 22:50:39 [Error]: Mnemonic with given Helper text already exists. - MindBlown.Exceptions.MnemonicAlreadyExistsException: Mnemonic with given Helper text already exists.
+   at MindBlown.Pages.Mnemonics.OnSubmit() in C:\Users\juran\OneDrive\Stalinis kompiuteris\stud\PSI\Projektas\MindBlown\MindBlown\Pages\Mnemonics.razor.cs:line 60
+20/11/2024 22:52:00 [Error]: Mnemonic with given Helper text already exists. - MindBlown.Exceptions.MnemonicAlreadyExistsException: Mnemonic with given Helper text already exists.
+   at MindBlown.Pages.Mnemonics.OnSubmit() in C:\Users\juran\OneDrive\Stalinis kompiuteris\stud\PSI\Projektas\MindBlown\MindBlown\Pages\Mnemonics.razor.cs:line 60
+20/11/2024 22:52:55 [Error]: Mnemonic with given Helper text already exists. - MindBlown.Exceptions.MnemonicAlreadyExistsException: Mnemonic with given Helper text already exists.
+   at MindBlown.Pages.Mnemonics.OnSubmit() in C:\Users\juran\OneDrive\Stalinis kompiuteris\stud\PSI\Projektas\MindBlown\MindBlown\Pages\Mnemonics.razor.cs:line 60
+20/11/2024 22:53:05 [Error]: Mnemonic with given Helper text already exists. - MindBlown.Exceptions.MnemonicAlreadyExistsException: Mnemonic with given Helper text already exists.
+   at MindBlown.Pages.Mnemonics.OnSubmit() in C:\Users\juran\OneDrive\Stalinis kompiuteris\stud\PSI\Projektas\MindBlown\MindBlown\Pages\Mnemonics.razor.cs:line 60
+20/11/2024 22:53:08 [Error]: Mnemonic with given Helper text already exists. - MindBlown.Exceptions.MnemonicAlreadyExistsException: Mnemonic with given Helper text already exists.
+   at MindBlown.Pages.Mnemonics.OnSubmit() in C:\Users\juran\OneDrive\Stalinis kompiuteris\stud\PSI\Projektas\MindBlown\MindBlown\Pages\Mnemonics.razor.cs:line 60

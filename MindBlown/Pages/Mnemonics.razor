@@ -44,9 +44,8 @@
     }
     <br />
     <button type="submit">Submit</button>
+    <button @onclick="RedirectToUpload" style="">Upload from JSON</button>
 </form>
-
-<button @onclick="RedirectToUpload" style="">Upload from JSON</button>
 
 @if (successMessageIsVisible)
 {
@@ -87,5 +86,5 @@
     </table>
 }
 
-<button @onclick="LoadMnemonics">@("load mnemonics".CapitalizeWords())</button>
+@* <button @onclick="LoadMnemonics">@("load mnemonics".CapitalizeWords())</button> *@
 <button @onclick="DownloadJson">@("download as".CapitalizeWords()) JSON</button>
