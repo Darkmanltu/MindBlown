@@ -123,7 +123,26 @@ namespace MindBlown.Pages
         {
             try
             {
-                var existingMnemonics = await MnemonicService.GetMnemonicsAsync() ?? new List<MnemonicsType>();
+                // Get mnemonics from database. Returns a list of MnemonicsType
+                var existingMnemonics = new List<MnemonicsType>();
+
+                if(await AuthService.IsUserLoggedInAsync())
+                {    
+                    // var username = await AuthService.GetUsername();
+
+                    // Get user's ids
+                    var guids = await AuthService.GetMnemonicsGuids(await AuthService.GetUsername());
+
+                    if (guids.Count == 0)
+                    {
+                        existingMnemonics = new List<MnemonicsType>();
+                    }
+                    else
+                    {
+                        existingMnemonics = await MnemonicService.GetMnemonicsByIdsAsync(guids);
+                    }
+                }
+
                 // mnemonicAlreadyExists = existingMnemonics.Any(m => m.HelperText == Model.HelperText);
                 mnemonicAlreadyExists = existingMnemonics.Where(m => m.HelperText == Model.HelperText).Count() > 0;
 
@@ -180,7 +199,7 @@ namespace MindBlown.Pages
         public async Task LoadMnemonics()
         {
             // Get mnemonics from database. Returns a list of MnemonicsType
-            mnemonicsList = await MnemonicService.GetMnemonicsAsync() ?? new List<MnemonicsType>();
+            // mnemonicsList = await MnemonicService.GetMnemonicsAsync() ?? new List<MnemonicsType>();
             if(await AuthService.IsUserLoggedInAsync())
             {    
                 var username = await AuthService.GetUsername();

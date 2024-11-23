@@ -116,6 +116,42 @@ public class AuthService
         }
     }
 
+    public async Task<Guid> GetLWARecordId(string? username)
+    {
+        if (username != null)
+        {
+            return await _httpClient.GetFromJsonAsync<Guid>($"api/userinfo/userlwarecord?username={username}");
+        }
+        else
+        {
+            return new Guid();
+        }
+    }
+
+    public async Task<Guid?> UpdateLWARecord(string? username, Guid newId)
+    {
+        if (username != null)
+        {
+            var request = new LWARecordUpdateRequest()
+            {
+                Username = username,
+                NewId = newId
+            };
+            var response = await _httpClient.PutAsJsonAsync("api/userinfo/lwarecord_update", request);
+            if (response.IsSuccessStatusCode)
+            {
+                return newId;
+            }
+            else if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
+            {
+                var error = await response.Content.ReadAsStringAsync();
+                Console.WriteLine("Error: " + error);
+            }
+        }
+        
+        return null;
+    }
+
     // public async Task<string?> GetUsernameFromToken()
     // {
     //     var token = await _jsRuntime.InvokeAsync<string>("localStorage.getItem", "authToken");
@@ -175,6 +211,12 @@ public class MnemonicUpdateRequest
 {
     public required string Username { get; set; }
     public required MnemonicsType MnemonicToAdd { get; set; }
+}
+
+public class LWARecordUpdateRequest
+{
+    public required string Username { get; set; }
+    public required Guid NewId { get; set; }
 }
 
 

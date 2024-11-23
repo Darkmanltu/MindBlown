@@ -12,11 +12,11 @@ namespace Services
             _httpClient = httpClient;
         }
 
-        public async Task<LastWrongAnswerRecord?> GetRecordAsync()
+        public async Task<LastWrongAnswerRecord?> GetRecordAsync(Guid id)
         {
             try
             {
-                var result = await _httpClient.GetFromJsonAsync<LastWrongAnswerRecord?>("api/lwarecord");
+                var result = await _httpClient.GetFromJsonAsync<LastWrongAnswerRecord?>($"api/lwarecord?id={id}");
                 return result;
             }
             catch (HttpRequestException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
@@ -31,11 +31,16 @@ namespace Services
             }
         }
 
-        public async Task<LastWrongAnswerRecord?> UpdateRecordAsync(LastWrongAnswerRecord record)
+        public async Task<LastWrongAnswerRecord?> UpdateRecordAsync(Guid idToChange, LastWrongAnswerRecord record)
         {
             try
             {
-                var response = await _httpClient.PostAsJsonAsync($"api/lwarecord", record);
+                var request = new IdLWARecordRequest()
+                {
+                    IdToChange = idToChange,
+                    RecordToSet = record
+                };
+                var response = await _httpClient.PostAsJsonAsync($"api/lwarecord", request);
                 response.EnsureSuccessStatusCode();
                 return await response.Content.ReadFromJsonAsync<LastWrongAnswerRecord>();
             }
@@ -72,5 +77,11 @@ namespace Services
                 // Fallback logging (e.g., browser console)
             }
         }
+    }
+    
+    public class IdLWARecordRequest
+    {
+        public required Guid IdToChange { get; set; }
+        public required LastWrongAnswerRecord RecordToSet { get; set; }
     }
 }

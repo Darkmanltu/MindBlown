@@ -44,7 +44,8 @@ namespace MindBlow.Server.Controllers
                     Id = Guid.NewGuid(),
                     Username = user.Username,
                     Password = user.Password,
-                    MnemonicGuids = new List<Guid>()
+                    MnemonicGuids = new List<Guid>(),
+                    LWARecordId = new Guid()
                 };
 
                 _context.UserWithMnemonicsIDs.Add(newUserRow);
@@ -97,6 +98,50 @@ namespace MindBlow.Server.Controllers
             // If mnemonic == null was passed
             return BadRequest("Invalid mnemonic provided.");
         }
+
+        [HttpPut("lwarecord_update")]
+        public async Task<ActionResult> UpdateUserLWARecord([FromBody] LWARecordUpdateRequest request)
+        {
+            // Retrieve the user by Username (or Id)
+            var user = await _context.UserWithMnemonicsIDs.FirstOrDefaultAsync(u => u.Username == request.Username);
+
+            if (user == null)
+            {
+                // If the user does not exist, return NotFound
+                return NotFound("User not found.");
+            }
+
+            // Check if the list needs to be updated
+            if (request.NewId != Guid.Empty)
+            {
+                // Adding new mnemonic id to list
+                user.LWARecordId = request.NewId;
+
+                // Save changes to the database
+                await _context.SaveChangesAsync();
+
+                // Return Ok to indicate success
+                return Ok("LWARecord updated successfully.");
+            }
+
+            // If mnemonic == null was passed
+            return BadRequest("Invalid mnemonic provided.");
+        }
+
+        [HttpGet("userlwarecord")]
+        public async Task<ActionResult<Guid>> GetLWARecordId([FromQuery] string username)
+        {
+            var userInDB = await _context.UserWithMnemonicsIDs.FirstOrDefaultAsync(u => u.Username == username);
+            if(userInDB != null)
+            {
+                return Ok(userInDB.LWARecordId);
+            }
+            else
+            {
+                return BadRequest("User not found");
+            }
+        }
+
 
         [HttpGet("guids")]
         public async Task<ActionResult<List<Guid>>> GetMnemonicsGuids([FromQuery] string username)
