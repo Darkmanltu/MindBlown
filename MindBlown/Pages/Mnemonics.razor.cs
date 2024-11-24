@@ -58,11 +58,10 @@ namespace MindBlown.Pages
             var userId = await JS.InvokeAsync<Guid>("sessionStorage.getItem", "userId");
 
 
-            Console.WriteLine("User ID: " + userId);
+            // Console.WriteLine("User ID: " + userId);
             // Add the user to ActiveUserClient
             bool isUnique = await ActiveUserClient.IsSessionIdUniqueAsync(userId);
 
-            await Task.Delay(5000);
 
             if (isUnique)
             {
@@ -71,11 +70,6 @@ namespace MindBlown.Pages
 
                 // Update the active user count
 
-            }
-            else
-            {
-                // If the sessionId is a duplicate, log or handle the error as needed
-                await ShowErrorMessage("This session ID is already in use.");
             }
 
 

@@ -1,5 +1,15 @@
 @namespace MindBlown.Layout.Modal
 {
+
+    <link rel="stylesheet" href="css/modal.css" />
+
+    <div class="@ModalClass" @onclick="CloseModal">
+        <div class="modal-content" @onclick:stopPropagation>
+            <span class="close-button" @onclick="CloseModal">&times;</span>
+            @ChildContent
+        </div>
+    </div>
+
     @code {
         [Parameter] public bool IsVisible { get; set; }
         [Parameter] public EventCallback<bool> IsVisibleChanged { get; set; }
@@ -13,14 +23,5 @@
             await IsVisibleChanged.InvokeAsync(false);
         }
     }
-
-    <link rel="stylesheet" href="css/modal.css" />
-
-    <div class="@ModalClass" @onclick="CloseModal">
-        <div class="modal-content" @onclick:stopPropagation>
-            <span class="close-button" @onclick="CloseModal">&times;</span>
-            @ChildContent
-        </div>
-    </div>
 
 }

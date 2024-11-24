@@ -49,20 +49,21 @@ public class AuthService
         else if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
         {
             var error = await response.Content.ReadAsStringAsync();
-            Console.WriteLine("Error in login: " + error);
+            // Console.WriteLine("Error in login: " + error);
+            return error;
         }
         
         return null;
     }
 
     // Perform signup and return a token or an error message
-    public async Task<bool> SignupAsync(AccRequest signupRequest)
+    public async Task<string?> SignupAsync(AccRequest signupRequest)
     {
         var response = await _httpClient.PostAsJsonAsync("api/userinfo/signup", signupRequest);
 
         if (response.IsSuccessStatusCode)
         {
-            return true;
+            return "Success";
             // var tokenResponse = await response.Content.ReadFromJsonAsync<TokenResponse>();
             // if (tokenResponse != null)
             // {
@@ -74,10 +75,11 @@ public class AuthService
         else if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
         {
             var error = await response.Content.ReadAsStringAsync();
-            Console.WriteLine("Error in signup: " + error);
+            // Console.WriteLine("Error in signup: " + error);
+            return error;
         }
 
-        return false; // Signup failed
+        return null; // Signup failed
     }
 
     public async Task<MnemonicsType?> UpdateUserWithMnemonic(string? username, MnemonicsType newMnemonic)

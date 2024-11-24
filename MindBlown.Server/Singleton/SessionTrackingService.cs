@@ -94,7 +94,7 @@ namespace MindBlown.Server.Singleton
             LastActive = session.lastActive,
             IsActive = session.isActive
         };
-        Console.WriteLine("User ID: " + user.UserId);
+        // Console.WriteLine("User ID: " + user.UserId);
         users.Add(user);  
     }
 

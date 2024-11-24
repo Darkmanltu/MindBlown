@@ -19,7 +19,10 @@
             }
             else
             {
-                <div class="username">Logged in as: @username</div>
+                <div class="user-info">
+                    <span class="label">Logged in as:</span>
+                    <span class="username">@username</span>
+                </div>
                 <button @onclick="HandleLogout">Log Out</button>
             }
         </div>
@@ -37,38 +40,54 @@
 </style>
 <link rel="stylesheet" href="css/modal.css" />
 
-
 <!-- Modal for Signup -->
-<Modal IsVisible="@isSignupModalVisible" IsVisibleChanged="OnSignupModalVisibilityChanged">
-    <h3>Sign Up</h3>
-    <EditForm Model="registerRequest" OnValidSubmit="HandleSignup">
-        <DataAnnotationsValidator />
-        <ValidationSummary />
+@if(isSignupModalVisible)
+{
+    <Modal IsVisible="@isSignupModalVisible" IsVisibleChanged="OnSignupModalVisibilityChanged">
+        <h3>Sign Up</h3>
+        <EditForm Model="registerRequest" OnValidSubmit="HandleSignup">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+    
+            <InputText @bind-Value="registerRequest.Username" placeholder="Username" maxlength="15" required />
+            <InputText @bind-Value="registerRequest.Password" type="password" placeholder="Password" maxlength="30" required />
+            @if(errorMessage != null)
+            {
+                <div>@errorMessage</div>
+            }
 
-        <InputText @bind-Value="registerRequest.Username" placeholder="Username" maxlength="15" required />
-        <InputText @bind-Value="registerRequest.Password" type="password" placeholder="Password" maxlength="30" required />
-
-        <button type="submit">Sign Up</button>
-    </EditForm>
-</Modal>
+            <br/>
+            <button type="submit">Sign Up</button>
+        </EditForm>
+    </Modal>
+}
 
 <!-- Modal for Login -->
-<Modal IsVisible="@isLoginModalVisible" IsVisibleChanged="OnLoginModalVisibilityChanged">
-    <h3>Log In</h3>
-    <EditForm Model="loginRequest" OnValidSubmit="HandleLogin">
-        <DataAnnotationsValidator />
-        <ValidationSummary />
+@if(isLoginModalVisible)
+{
+    <Modal IsVisible="@isLoginModalVisible" IsVisibleChanged="OnLoginModalVisibilityChanged">
+        <h3>Log In</h3>
+        <EditForm Model="loginRequest" OnValidSubmit="HandleLogin">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
 
-        <InputText @bind-Value="loginRequest.Username" placeholder="Username" maxlength="15" required />
-        <InputText @bind-Value="loginRequest.Password" type="password" placeholder="Password" maxlength="30" required />
+            <InputText @bind-Value="loginRequest.Username" placeholder="Username" maxlength="15" required />
+            <InputText @bind-Value="loginRequest.Password" type="password" placeholder="Password" maxlength="30" required />
+            @if(errorMessage != null)
+            {
+                <div>@errorMessage</div>
+            }
 
-        <button type="submit">Log In</button>
-    </EditForm>
-</Modal>
+            <br/>
+            <button type="submit">Log In</button>
+        </EditForm>
+    </Modal>
+}
 
 @code {
     public bool isLoggedIn = false;
     private string? username;
+    private string? errorMessage = null;
 
     // Modal visibility state
     private bool isSignupModalVisible = false;
@@ -124,14 +143,19 @@
     private async Task HandleSignup()
     {
         // Replace with actual API call to register
-        var response = await AuthService.SignupAsync(registerRequest);
-        if (response)
+        string? response = await AuthService.SignupAsync(registerRequest);
+        if (!string.IsNullOrEmpty(response) && response == "Success")
         {
             isSignupModalVisible = false;
         }
+        else if (!string.IsNullOrEmpty(response))
+        {
+            await ShowErrorMessage(response);
+            // Handle error (e.g., show an error message)
+        }
         else
         {
-            // Handle error (e.g., show an error message)
+            await ShowErrorMessage("Unexpected Sign Up error");
         }
         StateHasChanged();
     }
@@ -141,16 +165,32 @@
     {
         // Replace with actual API call to login
         string? response = await AuthService.LoginAsync(loginRequest);
-        if (!string.IsNullOrEmpty(response))
+        if (!string.IsNullOrEmpty(response) && !response.StartsWith("Invalid"))
         {
             isLoginModalVisible = false;
             isLoggedIn = true;
             username = response;
         }
-        else
+        else if (!string.IsNullOrEmpty(response) && response.StartsWith("Invalid"))
         {
+            await ShowErrorMessage(response);
             // Handle error (e.g., show an error message)
         }
+        else
+        {
+            await ShowErrorMessage("Unexpected Login error");
+        }
+        StateHasChanged();
+    }
+
+    public async Task ShowErrorMessage(string givenErrorMessage)
+    {
+        errorMessage = givenErrorMessage;
+        StateHasChanged();
+
+        await Task.Delay(3000);
+        
+        errorMessage = null;
         StateHasChanged();
     }
 }
