@@ -50,6 +50,40 @@ namespace Services
             }
         }
 
+        public async Task<List<MnemonicsType>> GetMnemonicsByIdsAsync(List<Guid> ids)
+        {
+            var mnemonicsList = new List<MnemonicsType>();
+            if (ids.Count != 0)
+            {
+                foreach (var id in ids)
+                {
+                    try
+                    {
+                        var mnemonic = await _httpClient.GetFromJsonAsync<MnemonicsType>($"api/mnemonics/{id}");
+                        if (mnemonic != null)
+                        {
+                            mnemonicsList.Add(mnemonic);
+                        }
+                    }
+                    catch (HttpRequestException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
+                    {
+                        // Do nothing
+                        // return null;
+                    }
+                    catch (HttpRequestException ex)
+                    {
+                        await LogErrorToServerAsync($"Error fetching mnemonic with ID: {id}", ex.Message);
+                        throw new MnemonicServiceException($"An error occurred while fetching the mnemonic with ID {id}.", ex);
+                    }
+                }
+                return mnemonicsList;
+            }
+            else
+            {
+                return mnemonicsList;
+            }
+        }
+
         // Test to catch an exception
         // public async Task<MnemonicsType?> GetMnemonicAsync(Guid id)
         // {

@@ -1,0 +1,81 @@
+/* Smooth transition for modal visibility */
+.modal {
+    transition: opacity 0.3s ease-in-out;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal.display-block {
+    opacity: 1;
+    display: flex;
+}
+
+.modal.display-none {
+    opacity: 0;
+    pointer-events: none; /* Prevent interaction when modal is not visible */
+}
+
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 400px;
+    width: 100%;
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+button {
+    background-color: #5762d5ff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 10px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+button:hover {
+    background-color: rgba(87, 97, 213, 0.702);
+}
+
+/* General styling for the user info container */
+.user-info {
+    font-family: Arial, sans-serif; /* Clean, modern font */
+    font-size: 16px; /* Appropriate font size */
+    color: #333; /* Dark text color */
+    padding: 10px; /* Some padding around the text */
+    background-color: #f4f4f4; /* Light background color */
+    border-radius: 8px; /* Rounded corners */
+    display: flex; /* Flexbox to align the label and username */
+    align-items: center; /* Vertically center items */
+    gap: 8px; /* Space between the label and username */
+}
+
+/* Styling for the label (Logged in as:) */
+.user-info .label {
+    font-weight: bold; /* Bold for emphasis */
+    color: #555; /* Lighter text color for the label */
+}
+
+/* Styling for the username */
+.user-info .username {
+    font-weight: bold; /* Bold to make the username stand out */
+    color: #5762d5ff; /* A blue color for the username */
+    font-size: 18px; /* Slightly larger font size for the username */
+    text-transform: capitalize; /* Capitalize first letter of the username */
+}

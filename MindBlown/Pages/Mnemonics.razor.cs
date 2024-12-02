@@ -58,11 +58,10 @@ namespace MindBlown.Pages
             var userId = await JS.InvokeAsync<Guid>("sessionStorage.getItem", "userId");
 
 
-            Console.WriteLine("User ID: " + userId);
+            // Console.WriteLine("User ID: " + userId);
             // Add the user to ActiveUserClient
             bool isUnique = await ActiveUserClient.IsSessionIdUniqueAsync(userId);
 
-            await Task.Delay(5000);
 
             if (isUnique)
             {
@@ -71,11 +70,6 @@ namespace MindBlown.Pages
 
                 // Update the active user count
 
-            }
-            else
-            {
-                // If the sessionId is a duplicate, log or handle the error as needed
-                await ShowErrorMessage("This session ID is already in use.");
             }
 
 
@@ -123,7 +117,26 @@ namespace MindBlown.Pages
         {
             try
             {
-                var existingMnemonics = await MnemonicService.GetMnemonicsAsync() ?? new List<MnemonicsType>();
+                // Get mnemonics from database. Returns a list of MnemonicsType
+                var existingMnemonics = new List<MnemonicsType>();
+
+                if(await AuthService.IsUserLoggedInAsync())
+                {    
+                    // var username = await AuthService.GetUsername();
+
+                    // Get user's ids
+                    var guids = await AuthService.GetMnemonicsGuids(await AuthService.GetUsername());
+
+                    if (guids.Count == 0)
+                    {
+                        existingMnemonics = new List<MnemonicsType>();
+                    }
+                    else
+                    {
+                        existingMnemonics = await MnemonicService.GetMnemonicsByIdsAsync(guids);
+                    }
+                }
+
                 // mnemonicAlreadyExists = existingMnemonics.Any(m => m.HelperText == Model.HelperText);
                 mnemonicAlreadyExists = existingMnemonics.Where(m => m.HelperText == Model.HelperText).Count() > 0;
 
@@ -141,6 +154,8 @@ namespace MindBlown.Pages
                 };
 
                 var addedMnemonic = await MnemonicService.CreateMnemonicAsync(newMnemonic);
+                var username = await AuthService.GetUsername();
+                await AuthService.UpdateUserWithMnemonic(username, newMnemonic);
                 mnemonicsList.Add(newMnemonic);
 
                 if (addedMnemonic == null)
@@ -178,8 +193,23 @@ namespace MindBlown.Pages
         public async Task LoadMnemonics()
         {
             // Get mnemonics from database. Returns a list of MnemonicsType
-            mnemonicsList = await MnemonicService.GetMnemonicsAsync() ?? new List<MnemonicsType>();
+            // mnemonicsList = await MnemonicService.GetMnemonicsAsync() ?? new List<MnemonicsType>();
+            if(await AuthService.IsUserLoggedInAsync())
+            {    
+                var username = await AuthService.GetUsername();
 
+                // Get user's ids
+                var guids = await AuthService.GetMnemonicsGuids(username);
+                
+                if (guids.Count == 0)
+                {
+                    mnemonicsList = new List<MnemonicsType>();
+                }
+                else
+                {
+                    mnemonicsList = await MnemonicService.GetMnemonicsByIdsAsync(guids);
+                }
+            }
             // Show the mnemonics after loading
             showMnemonics = true;
         }

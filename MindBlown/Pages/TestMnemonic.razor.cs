@@ -48,7 +48,9 @@ namespace MindBlown.Pages
             if (firstRender)
             {
                 await LoadMnemonics();
-                lastWrongAnswer = await LWARecordService.GetRecordAsync();
+                var username = await AuthService.GetUsername();
+                var recordId = await AuthService.GetLWARecordId(username);
+                lastWrongAnswer = await LWARecordService.GetRecordAsync(recordId);
 
                 if (mnemonicsList.Count() != 0)
                 {
@@ -70,6 +72,11 @@ namespace MindBlown.Pages
         {
             // Load the mnemonics from database
             mnemonicsList = new Repository<MnemonicsType>(await MnemonicService.GetMnemonicsAsync() ?? new List<MnemonicsType>());
+            if(await AuthService.IsUserLoggedInAsync())
+            {
+                var username = await AuthService.GetUsername();
+                mnemonicsList = new Repository<MnemonicsType>(await MnemonicService.GetMnemonicsByIdsAsync(await AuthService.GetMnemonicsGuids(username)) ?? new List<MnemonicsType>());
+            }
         }
 
         // Task when Check button is pressed
@@ -96,7 +103,12 @@ namespace MindBlown.Pages
                         category = testingMnemonic?.Category
                     };
 
-                    await LWARecordService.UpdateRecordAsync(lastWrongAnswer);
+                    var username = await AuthService.GetUsername();
+                    var oldRecordId = await AuthService.GetLWARecordId(username);
+                    var newRecord = await LWARecordService.UpdateRecordAsync(oldRecordId, lastWrongAnswer);
+                    if(newRecord != null)
+                        await AuthService.UpdateLWARecord(username, newRecord.Id);
+                    // else: Error occured when updating record
                 }
             }
             nextMnemonic = true;

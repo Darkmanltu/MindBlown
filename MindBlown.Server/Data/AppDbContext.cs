@@ -12,5 +12,7 @@ namespace MindBlown.Server.Data
         public required DbSet<LastWrongAnswerRecord> Record { get; set; }
 
         public required DbSet<User> ActiveUserSession { get; set; }
+
+        public required DbSet<UserMnemonicIDs> UserWithMnemonicsIDs { get; set; }
     }
 }

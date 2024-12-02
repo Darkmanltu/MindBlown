@@ -87,7 +87,7 @@ public async Task<IActionResult> GetActiveUsersFull()
         var users = await _sessionTrackingService.GetActiveUsersAsync();
 
         foreach (var u in users){
-            Console.WriteLine($"Removing user with ID: {u.SessionId}");
+            // Console.WriteLine($"Removing user with ID: {u.SessionId}");
             if (u.LastActive < DateTime.UtcNow.AddMinutes(-5)){
                 await RemoveUser(u.SessionId);
                 // might help with thread race condition

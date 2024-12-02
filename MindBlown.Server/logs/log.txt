@@ -54,3 +54,9 @@
    at MindBlown.Pages.Mnemonics.OnSubmit() in C:\Users\juran\OneDrive\Stalinis kompiuteris\stud\PSI\Projektas\MindBlown\MindBlown\Pages\Mnemonics.razor.cs:line 60
 20/11/2024 22:53:08 [Error]: Mnemonic with given Helper text already exists. - MindBlown.Exceptions.MnemonicAlreadyExistsException: Mnemonic with given Helper text already exists.
    at MindBlown.Pages.Mnemonics.OnSubmit() in C:\Users\juran\OneDrive\Stalinis kompiuteris\stud\PSI\Projektas\MindBlown\MindBlown\Pages\Mnemonics.razor.cs:line 60
+23/11/2024 00:19:54 [Error]: Mnemonic with given Helper text already exists. - MindBlown.Exceptions.MnemonicAlreadyExistsException: Mnemonic with given Helper text already exists.
+   at MindBlown.Pages.Mnemonics.OnSubmit() in C:\Users\juran\OneDrive\Stalinis kompiuteris\stud\PSI\Projektas\MindBlown\MindBlown\Pages\Mnemonics.razor.cs:line 132
+23/11/2024 00:27:55 [Error]: Mnemonic with given Helper text already exists. - MindBlown.Exceptions.MnemonicAlreadyExistsException: Mnemonic with given Helper text already exists.
+   at MindBlown.Pages.Mnemonics.OnSubmit() in C:\Users\juran\OneDrive\Stalinis kompiuteris\stud\PSI\Projektas\MindBlown\MindBlown\Pages\Mnemonics.razor.cs:line 132
+23/11/2024 00:29:02 [Error]: Mnemonic with given Helper text already exists. - MindBlown.Exceptions.MnemonicAlreadyExistsException: Mnemonic with given Helper text already exists.
+   at MindBlown.Pages.Mnemonics.OnSubmit() in C:\Users\juran\OneDrive\Stalinis kompiuteris\stud\PSI\Projektas\MindBlown\MindBlown\Pages\Mnemonics.razor.cs:line 132

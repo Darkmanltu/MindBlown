@@ -18,10 +18,10 @@ namespace MindBlow.Server.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<LastWrongAnswerRecord>> GetRecord()
+        public async Task<ActionResult<LastWrongAnswerRecord>> GetRecord([FromQuery] Guid id)
         {
             // returns Record or null if doesn't exist
-            var record = await _context.Record.FirstOrDefaultAsync();
+            var record = await _context.Record.FirstOrDefaultAsync(r => r.Id == id);
             if (record == null)
             {
                 return NotFound();
@@ -30,11 +30,11 @@ namespace MindBlow.Server.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<LastWrongAnswerRecord>> PostRecord([FromBody] LastWrongAnswerRecord record)
+        public async Task<ActionResult<LastWrongAnswerRecord>> PostRecord([FromBody] IdLWARecordRequest request)
         {
             try
             {
-                var result = await DeleteRecord();
+                var result = await DeleteRecord(request.IdToChange);
             }
             catch (Exception ex)
             {
@@ -42,16 +42,16 @@ namespace MindBlow.Server.Controllers
                 Console.WriteLine($"An unexpected error occurred: {ex.Message}");
             }
 
-            _context.Record.Add(record);
+            _context.Record.Add(request.RecordToSet);
             await _context.SaveChangesAsync();
 
-            return Ok(record);
+            return Ok(request.RecordToSet);
         }
 
         [HttpDelete]
-        public async Task<IActionResult> DeleteRecord()
+        public async Task<IActionResult> DeleteRecord(Guid id)
         {
-            var record = await _context.Record.FirstOrDefaultAsync();
+            var record = await _context.Record.FirstOrDefaultAsync(r => r.Id == id);
             
             if (record == null)
             {
@@ -69,5 +69,10 @@ namespace MindBlow.Server.Controllers
             return NoContent();
         }
 
+    }
+    public class IdLWARecordRequest
+    {
+        public required Guid IdToChange { get; set; }
+        public required LastWrongAnswerRecord RecordToSet { get; set; }
     }
 }

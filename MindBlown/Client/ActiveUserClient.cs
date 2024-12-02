@@ -20,10 +20,10 @@ public class ActiveUserClient : IActiveUserClient
         var activeUsers = await GetActiveUsersAsync();
         //System.Console.WriteLine("Session ID: " + sessionId);
         //System.Console.WriteLine("Active Users: " );
-        foreach (var userSessionId in activeUsers)
-    {
-        Console.WriteLine(userSessionId);
-    }
+        // foreach (var userSessionId in activeUsers)
+        // {
+            // Console.WriteLine(userSessionId);
+        // }
         return !activeUsers.Contains(sessionId);
         
     }
