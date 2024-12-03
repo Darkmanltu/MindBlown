@@ -10,9 +10,21 @@
 @* @inject MnemonicService MnemonicService *@
 @inject LWARecordService LWARecordService
 @inject AuthService AuthService
+@inject IJSRuntime JS
 @using Services
 
 <link rel="stylesheet" href="css/TestMnemonic.css" />
+
+<div style="display: flex;"> 
+<div class="blinking-green">
+</div>
+<div class="active-user-count">    
+    <p>Active Users: @ActiveUserCount</p>
+</div>
+</div>
+
+
+
 
 <div class="mnemonics-container">
     <h1>@("test your mnemonics".CapitalizeWords())</h1>
