@@ -144,7 +144,7 @@ namespace MindBlown.Pages
         }
         
         [JSInvokable]
-    public async Task OnTabClosing()
+        public async Task OnTabClosing()
         {
             await ActiveUserClient.RemoveUserAsync(userId);
             
