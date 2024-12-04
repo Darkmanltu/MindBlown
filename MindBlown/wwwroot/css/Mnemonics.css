@@ -25,6 +25,7 @@ h2 {
 }
 
 
+
 input, select {
     padding: 10px;
     margin: 10px 0;
@@ -97,4 +98,35 @@ th {
     font-size: 18px;
     margin-top: 8px;
     text-align: center;
+}
+.blinking{
+    animation: 1s blink ease infinite;
+    width: 16px;
+    height: 16px;
+    border-radius: 100%
+  }
+  
+  .blinking-green-dot {
+      animation: 1s blink-green ease infinite;
+    width: 16px;
+    height: 16px;
+    border-radius: 100%
+  }
+  
+  
+  @-webkit-keyframes blink-green {
+    from, to {
+      opacity: 0;
+      background-color: green;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+
+.active-user-count {
+    margin-top: -5px;
+    color: #5762d5ff;
+    font-size: 1.2rem;
+    
 }

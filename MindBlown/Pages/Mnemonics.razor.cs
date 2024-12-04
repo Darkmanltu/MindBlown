@@ -26,7 +26,7 @@ namespace MindBlown.Pages
 
         public int ActiveUserCount {get; set;}
         
-       
+        public Guid userId { get; set; }
 
         public List<MnemonicsType> mnemonicsList = new List<MnemonicsType>();
         public bool showMnemonics = false;
@@ -55,7 +55,7 @@ namespace MindBlown.Pages
             }
 
             // Retrieve user ID from session storage or generate a new one if it doesn't exist
-            var userId = await JS.InvokeAsync<Guid>("sessionStorage.getItem", "userId");
+            userId = await JS.InvokeAsync<Guid>("sessionStorage.getItem", "userId");
 
 
             // Console.WriteLine("User ID: " + userId);
@@ -94,8 +94,16 @@ namespace MindBlown.Pages
         {
             if (firstRender)
             {
+                await JS.InvokeVoidAsync("detectTabCloseF", DotNetObjectReference.Create(this));
                 await LoadMnemonics();
             }
+        }
+        
+        [JSInvokable]
+        public async Task OnTabClosing()
+        {
+            await ActiveUserClient.RemoveUserAsync(userId);
+            
         }
 
         private async Task CheckActiveUserCountAsync()

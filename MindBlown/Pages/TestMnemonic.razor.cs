@@ -3,15 +3,21 @@ using Microsoft.AspNetCore.Components.Web;
 using MindBlown.Interfaces;
 using MindBlown.Types;
 using Services;
+using Microsoft.JSInterop;
 
 namespace MindBlown.Pages
 {
-    public partial class TestMnemonic
+    public partial class TestMnemonic:IDisposable
     {
+
+        // injecting for counter
+        [Inject]
+        public required IActiveUserClient ActiveUserClient { get; set; }
         [Inject]
         public required IMnemonicService MnemonicService { get; set; }
 
-
+        public Guid userId { get; set; }
+        public int ActiveUserCount {get; set;}
         public Repository<MnemonicsType> mnemonicsList = new Repository<MnemonicsType>();
         public string userGivenMnemonicText = "";
 
@@ -25,10 +31,51 @@ namespace MindBlown.Pages
 
         public bool nextMnemonic = false;
 
+        private Timer? _timer;
 
         // Checks whether testingMnemonic is no longer null every 1s
         protected override async Task OnInitializedAsync()
         {
+             var chechifnull = await JS.InvokeAsync<string>("sessionStorage.getItem", "userId");
+
+            // If userId is null or empty, it means it doesn't exist
+            if (string.IsNullOrEmpty(chechifnull))
+            {
+                // Generate a new Guid for the userId
+                chechifnull = Guid.NewGuid().ToString();
+
+                // Store the new userId in sessionStorage
+                await JS.InvokeVoidAsync("sessionStorage.setItem", "userId", chechifnull);
+            }
+
+            // Retrieve user ID from session storage or generate a new one if it doesn't exist
+            userId = await JS.InvokeAsync<Guid>("sessionStorage.getItem", "userId");
+
+
+            // Console.WriteLine("User ID: " + userId);
+            // Add the user to ActiveUserClient
+            bool isUnique = await ActiveUserClient.IsSessionIdUniqueAsync(userId);
+
+
+            if (isUnique)
+            {
+                // Add the user to ActiveUserClient only if the sessionId is unique
+                await ActiveUserClient.AddUserAsync(userId);
+
+                // Update the active user count
+
+            }
+
+            await ActiveUserClient.RemoveInnactive();
+            var activeUserDict = await ActiveUserClient.GetDictionary();
+            //ActiveUserCount = await ActiveUserClient.GetActiveUserCountAsync();
+            ActiveUserCount = await ActiveUserClient.GetActiveUserCountAsync(activeUserDict);
+            //await ActiveUserClient.RemoveUserAsync(userId);
+            _timer = new Timer(async async =>
+            {
+                await CheckActiveUserCountAsync();
+            }, null, TimeSpan.Zero, TimeSpan.FromSeconds(30));
+
             while (testingMnemonic == null)
             {
                 await Task.Delay(50);
@@ -42,11 +89,41 @@ namespace MindBlown.Pages
         Also updates what mnemonic is being tested now and shows it on website.
         */
 
+        public void Dispose()
+        {
+            try
+            {
+                // Blocking call for asynchronous logic in Dispose()
+                DisposeAsync().GetAwaiter().GetResult();
+            }
+            catch (Exception )
+            {   
+                // throws an exception but still executes it fine idk why
+                //Console.WriteLine($"Error during Dispose: {ex.Message}");
+            }
+
+
+            // Disposing timer for checking whether active user count updated
+            _timer?.Dispose(); 
+        }
+
+        public async Task DisposeAsync()
+
+        {
+            // Perform async cleanup
+            var userId = await JS.InvokeAsync<Guid>("sessionStorage.getItem", "userId");
+            await ActiveUserClient.RemoveUserAsync(userId);
+            var activeUserDict = await ActiveUserClient.GetDictionary();
+            //ActiveUserCount = await ActiveUserClient.GetActiveUserCountAsync();
+            ActiveUserCount = await ActiveUserClient.GetActiveUserCountAsync(activeUserDict);
+        }
+
             
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             if (firstRender)
             {
+                await JS.InvokeVoidAsync("detectTabCloseF", DotNetObjectReference.Create(this));
                 await LoadMnemonics();
                 var username = await AuthService.GetUsername();
                 var recordId = await AuthService.GetLWARecordId(username);
@@ -65,7 +142,26 @@ namespace MindBlown.Pages
                 StateHasChanged();
             }
         }
+        
+        [JSInvokable]
+        public async Task OnTabClosing()
+        {
+            await ActiveUserClient.RemoveUserAsync(userId);
+            
+        }
+         private async Task CheckActiveUserCountAsync()
+        {
+            // Retrieve the active user count
+            var activeUserCountCheck = await ActiveUserClient.GetActiveUserCountAsync(await ActiveUserClient.GetDictionary());
+            // Console.WriteLine($"Active user recounter: {activeUserCountCheck}");
 
+            // Update the state if the count has changed
+            if (ActiveUserCount != activeUserCountCheck)
+            {
+                ActiveUserCount = activeUserCountCheck;
+                StateHasChanged(); // Trigger re-render
+            }
+        }
 
         // Loading from local storage
         public async Task LoadMnemonics()
