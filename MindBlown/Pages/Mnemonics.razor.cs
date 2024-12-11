@@ -19,7 +19,8 @@ namespace MindBlown.Pages
         public required ILoggingService LoggingService { get; set; }
         [Inject]
         public required IActiveUserClient ActiveUserClient { get; set; }
-
+        [Inject]
+        public required IAuthService AuthService { get; set; }
 
         // private TimedRemovalService TimedRemovalService { get; set; } = default!;
         public MnemonicsType Model { get; set; } = new MnemonicsType();

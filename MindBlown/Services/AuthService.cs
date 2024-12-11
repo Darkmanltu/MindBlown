@@ -6,7 +6,9 @@ using System.Security.Claims;  // For Claims and ClaimTypes
 using System;
 using System.Text;
 using System.Text.Json;
-public class AuthService
+using MindBlown.Interfaces;
+
+public class AuthService : IAuthService
 {
     private readonly IJSRuntime _jsRuntime;
     private readonly HttpClient _httpClient;

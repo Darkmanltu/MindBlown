@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Blazored.LocalStorage;
 using MindBlown;
 using MindBlown.Interfaces;
+using MindBlown.Services;
 using Services;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
@@ -15,8 +16,8 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("http://
 builder.Services.AddScoped<IMnemonicService, MnemonicService>();  // Register the interface
 builder.Services.AddScoped<ILoggingService, LoggingService>();   // Register the interface
 builder.Services.AddScoped<IActiveUserClient, ActiveUserClient>();  // Register the interface
-builder.Services.AddScoped<LWARecordService>();
-builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped<ILWARecordService, LWARecordService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 
 await builder.Build().RunAsync();

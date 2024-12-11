@@ -168,7 +168,7 @@ namespace MindBlow.Server.Controllers
             return false;
         }
 
-        private string GenerateJwtToken(string username)
+        internal string GenerateJwtToken(string username)
         {
             // Claims represent the claims that are going to be in the JWT token
             var claims = new[]
