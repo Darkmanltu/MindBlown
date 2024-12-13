@@ -86,8 +86,15 @@ namespace MindBlow.Server.Controllers
             if (request.MnemonicToAdd != null)
             {
                 // Adding new mnemonic id to list
-                user.MnemonicGuids.Add(request.MnemonicToAdd.Id);
+                if (request.ToAdd)
+                {
+                    user.MnemonicGuids.Add(request.MnemonicToAdd.Id);
 
+                }
+                else
+                {
+                    user.MnemonicGuids.Remove(request.MnemonicToAdd.Id);
+                }                    
                 // Save changes to the database
                 await _context.SaveChangesAsync();
 
@@ -168,7 +175,7 @@ namespace MindBlow.Server.Controllers
             return false;
         }
 
-        private string GenerateJwtToken(string username)
+        internal string GenerateJwtToken(string username)
         {
             // Claims represent the claims that are going to be in the JWT token
             var claims = new[]

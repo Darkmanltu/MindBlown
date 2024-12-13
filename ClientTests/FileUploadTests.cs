@@ -1,144 +1,165 @@
-﻿// using System;
-// using System.Collections.Generic;
-// using System.IO;
-// using System.Text;
-// using System.Threading.Tasks;
-// using Microsoft.AspNetCore.Components.Web;
-// using MindBlown.Interfaces;
-// using MindBlown.Pages;
-// using MindBlown.Types;
-// using Xunit;
-// using Microsoft.Extensions.DependencyInjection;
-// using System.Net.Http;
-// using System.Net;
-// using Microsoft.AspNetCore.Components.Forms;
-// using Services;
-//
-// namespace MindBlown.Tests
-// {
-//     public class FileUploadTests
-//     {
-//         // Real HttpClient (or fake it with a test server)
-//         public class FakeHttpClient : HttpClient
-//         {
-//             public FakeHttpClient() : base(new HttpMessageHandlerStub())
-//             {
-//                 // Set a base address so that HttpClient can make requests
-//                 this.BaseAddress = new Uri("https://example.com");
-//             }
-//         }
-//
-//         // Simulating an HTTP response for MnemonicService
-//         public class HttpMessageHandlerStub : HttpMessageHandler
-//         {
-//             protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, System.Threading.CancellationToken cancellationToken)
-//             {
-//                 var response = new HttpResponseMessage(HttpStatusCode.OK)
-//                 {
-//                     Content = new StringContent("[{\"HelperText\": \"Test Helper\", \"MnemonicText\": \"Test Mnemonic\", \"Category\": 0}]")
-//                 };
-//                 return Task.FromResult(response);
-//             }
-//         }
-//
-//         // Mock implementation of IBrowserFile for file upload
-//         public class MockBrowserFile : IBrowserFile
-//         {
-//             private readonly byte[] _fileContent;
-//
-//             public MockBrowserFile(string content)
-//             {
-//                 _fileContent = Encoding.UTF8.GetBytes(content);
-//                 LastModified = DateTimeOffset.UtcNow; // Simulating a last modified timestamp
-//             }
-//
-//             public string Name => "testFile.json";
-//             public long Size => _fileContent.Length;
-//             public string ContentType => "application/json";
-//
-//             public DateTimeOffset LastModified { get; }
-//
-//             public Stream OpenReadStream(long maxAllowedSize = 0, CancellationToken cancellationToken = default)
-//             {
-//                 var memoryStream = new MemoryStream(_fileContent);
-//                 return memoryStream;
-//             }
-//         }
-//
-//         [Fact]
-//         public async Task Should_LoadMnemonics_OnFileUpload()
-//         {
-//             // Arrange: Set up mocked services and data
-//             var fakeHttpClient = new FakeHttpClient(); // Use the fake HttpClient
-//             var mockService = new MnemonicService(fakeHttpClient); // Provide the fake HttpClient to the MnemonicService
-//
-//             var fileContent = "[{\"HelperText\": \"Test Helper\", \"MnemonicText\": \"Test Mnemonic\", \"Category\": 0}]";
-//             var mockFile = new MockBrowserFile(fileContent); // Mocking a JSON file
-//
-//             // Instantiate the FileUpload component directly
-//             var fileUpload = new FileUpload { MnemonicService = mockService };
-//
-//             // Simulate file selection
-//             var inputFileChangeEventArgs = new InputFileChangeEventArgs(new[] { mockFile });
-//             fileUpload.HandleFileSelected(inputFileChangeEventArgs);
-//
-//             // Act: Simulate file upload
-//             await fileUpload.UploadFile();
-//
-//             // Assert: Check if the mnemonic was successfully added
-//             var mnemonics = await mockService.GetMnemonicsAsync();
-//             Assert.Single(mnemonics); // Ensure one mnemonic was added
-//             Assert.Equal("Test Helper", mnemonics.First().HelperText);
-//             Assert.Equal("Test Mnemonic", mnemonics.First().MnemonicText);
-//             Assert.Equal(MnemonicCategory.Other, mnemonics.First().Category);
-//         }
-//
-//         [Fact]
-//         public async Task Should_ShowSuccessMessage_AfterFileUpload()
-//         {
-//             // Arrange: Set up mocked services and data
-//             var fakeHttpClient = new FakeHttpClient(); // Use the fake HttpClient
-//             var mockService = new MnemonicService(fakeHttpClient); // Provide the fake HttpClient to the MnemonicService
-//
-//             var fileContent = "[{\"HelperText\": \"Success Helper\", \"MnemonicText\": \"Success Mnemonic\", \"Category\": 0}]";
-//             var mockFile = new MockBrowserFile(fileContent);
-//
-//             // Instantiate the FileUpload component directly
-//             var fileUpload = new FileUpload { MnemonicService = mockService };
-//
-//             // Simulate file selection
-//             var inputFileChangeEventArgs = new InputFileChangeEventArgs(new[] { mockFile });
-//             fileUpload.HandleFileSelected(inputFileChangeEventArgs);
-//
-//             // Act: Simulate file upload
-//             await fileUpload.UploadFile();
-//
-//             // Assert: Check if success message is set
-//             Assert.Equal("File uploaded and mnemonics unboxed successfully!", fileUpload.message);
-//         }
-//
-//         [Fact]
-//         public void Should_ResetFileInput_AfterUpload()
-//         {
-//             // Arrange: Set up mocked services and data
-//             var fakeHttpClient = new FakeHttpClient(); // Use the fake HttpClient
-//             var mockService = new MnemonicService(fakeHttpClient); // Provide the fake HttpClient to the MnemonicService
-//
-//             var fileContent = "[{\"HelperText\": \"HelperText\", \"MnemonicText\": \"MnemonicText\", \"Category\": 0}]";
-//             var mockFile = new MockBrowserFile(fileContent);
-//
-//             // Instantiate the FileUpload component directly
-//             var fileUpload = new FileUpload { MnemonicService = mockService };
-//
-//             // Simulate file selection
-//             var inputFileChangeEventArgs = new InputFileChangeEventArgs(new[] { mockFile });
-//             fileUpload.HandleFileSelected(inputFileChangeEventArgs);
-//
-//             // Act: Reset file input after selection
-//             fileUpload.ResetFileInput();
-//
-//             // Assert: Ensure that the fileInfo is reset to null
-//             Assert.Null(fileUpload.fileInfo);
-//         }
-//     }
-// }
+﻿using System.Text.Json;
+using System.IO;
+using Microsoft.AspNetCore.Components.Forms;
+using Moq;
+using Services;
+using MindBlown.Types;
+using MindBlown.Pages;
+using Xunit;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components;
+using MindBlown.Interfaces;
+
+public class FileUploadTests
+{
+    private readonly Mock<IMnemonicService> _mnemonicServiceMock;
+    private readonly FileUpload _fileUpload;
+    private readonly Mock<NavigationManager> _navigationMock;
+
+    public FileUploadTests()
+    {
+        _mnemonicServiceMock = new Mock<IMnemonicService>();
+        _navigationMock = new Mock<NavigationManager>(MockBehavior.Strict);
+
+        _fileUpload = new FileUpload
+        {
+            MnemonicService = _mnemonicServiceMock.Object,
+            Navigation = _navigationMock.Object
+        };
+    }
+
+    [Fact]
+    public void HandleFileSelected_Should_SetFileInfo()
+    {
+        
+        var fileMock = new Mock<IBrowserFile>();
+        var inputFileChangeEventArgs = new InputFileChangeEventArgs(new[] { fileMock.Object });
+
+        
+        _fileUpload.HandleFileSelected(inputFileChangeEventArgs);
+
+        
+        Assert.Equal(fileMock.Object, _fileUpload.fileInfo);
+        Assert.Equal(string.Empty, _fileUpload.message);
+    }
+
+    [Fact]
+    public void ReturnToSetup_Should_NavigateToAddMnemonicPage()
+    {
+        
+        var testNavigationManager = new TestNavigationManager();
+        _fileUpload.Navigation = testNavigationManager;
+
+        
+        _fileUpload.ReturnToSetup();
+
+        
+        Assert.Equal("/addMnemonic", testNavigationManager.NavigatedTo);
+    }
+    
+    [Fact]
+    public async Task UploadFile_Should_ProcessValidJsonAndCallService()
+    {
+        
+        var mnemonicJson = JsonSerializer.Serialize(new List<MnemonicsType>
+        {
+            new MnemonicsType { HelperText = "Test", MnemonicText = "T", Category = MnemonicCategory.Other }
+        });
+
+        var stream = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(mnemonicJson));
+        var fileMock = new Mock<IBrowserFile>();
+        fileMock
+            .Setup(f => f.OpenReadStream(It.IsAny<long>(), default))
+            .Returns(() => stream);
+        
+        _fileUpload.fileInfo = fileMock.Object;
+
+        var existingMnemonics = new List<MnemonicsType>(); // Simulate no existing mnemonics
+        _mnemonicServiceMock
+            .Setup(service => service.GetMnemonicsAsync())
+            .ReturnsAsync(existingMnemonics);
+
+        _mnemonicServiceMock
+            .Setup(service => service.CreateMnemonicAsync(It.IsAny<MnemonicsType>()))
+            .ReturnsAsync((MnemonicsType mnemonic) => mnemonic);
+
+        _mnemonicServiceMock
+            .Setup(service => service.LogErrorToServerAsync(It.IsAny<string>(), It.IsAny<string>()))
+            .Returns(Task.CompletedTask);
+
+        
+        await _fileUpload.UploadFile();
+
+        
+        _mnemonicServiceMock.Verify(service => service.CreateMnemonicAsync(It.Is<MnemonicsType>(m => m.HelperText == "Test")), Times.Once);
+        Assert.Equal("File uploaded and mnemonics unboxed successfully!", _fileUpload.message);
+    }
+    [Fact]
+    public async Task UploadFile_Should_HandleInvalidJsonGracefully()
+    {
+        
+        var invalidJson = "{ invalid json }";
+        var stream = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(invalidJson));
+        var fileMock = new Mock<IBrowserFile>();
+        fileMock
+            .Setup(f => f.OpenReadStream(It.IsAny<long>(), default))
+            .Returns(() => stream);
+
+        _fileUpload.fileInfo = fileMock.Object;
+
+        
+        await _fileUpload.UploadFile();
+
+        
+        Assert.Equal("Invalid JSON format.", _fileUpload.message);
+    }
+
+    [Fact]
+    public async Task UploadFile_Should_NotDuplicateMnemonics()
+    {
+        // Arrange
+        var existingMnemonics = new List<MnemonicsType>
+        {
+            new MnemonicsType { HelperText = "Duplicate", MnemonicText = "D", Category = MnemonicCategory.Other }
+        };
+
+        var mnemonicJson = JsonSerializer.Serialize(new List<MnemonicsType>
+        {
+            new MnemonicsType { HelperText = "Duplicate", MnemonicText = "D", Category = MnemonicCategory.Other }
+        });
+
+        var stream = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(mnemonicJson));
+        var fileMock = new Mock<IBrowserFile>();
+        fileMock
+            .Setup(f => f.OpenReadStream(It.IsAny<long>(), default))
+            .Returns(() => stream);
+        _fileUpload.fileInfo = fileMock.Object;
+
+        _mnemonicServiceMock
+            .Setup(service => service.GetMnemonicsAsync())
+            .ReturnsAsync(existingMnemonics);
+
+        
+        await _fileUpload.UploadFile();
+
+
+        _mnemonicServiceMock.Verify(service => service.CreateMnemonicAsync(It.IsAny<MnemonicsType>()), Times.Never);
+    }
+}
+
+public class TestNavigationManager : NavigationManager
+{
+    public string? NavigatedTo { get; private set; }
+
+    public TestNavigationManager()
+    {
+        Initialize("http://localhost/", "http://localhost/");
+    }
+
+    protected override void NavigateToCore(string uri, bool forceLoad)
+    {
+        NavigatedTo = uri; // Capture the navigation URI for assertion
+    }
+}

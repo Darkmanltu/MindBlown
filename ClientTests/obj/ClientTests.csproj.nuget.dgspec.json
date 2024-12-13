@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\noske\\Desktop\\Studijom\\3 Semestras\\PS inzinerija\\PSIProjektas\\ClientTests\\ClientTests.csproj": {}
+    "C:\\Users\\noske\\RiderProjects\\Projektas\\ClientTests\\ClientTests.csproj": {}
   },
   "projects": {
-    "C:\\Users\\noske\\Desktop\\Studijom\\3 Semestras\\PS inzinerija\\PSIProjektas\\ClientTests\\ClientTests.csproj": {
+    "C:\\Users\\noske\\RiderProjects\\Projektas\\ClientTests\\ClientTests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\noske\\Desktop\\Studijom\\3 Semestras\\PS inzinerija\\PSIProjektas\\ClientTests\\ClientTests.csproj",
+        "projectUniqueName": "C:\\Users\\noske\\RiderProjects\\Projektas\\ClientTests\\ClientTests.csproj",
         "projectName": "ClientTests",
-        "projectPath": "C:\\Users\\noske\\Desktop\\Studijom\\3 Semestras\\PS inzinerija\\PSIProjektas\\ClientTests\\ClientTests.csproj",
+        "projectPath": "C:\\Users\\noske\\RiderProjects\\Projektas\\ClientTests\\ClientTests.csproj",
         "packagesPath": "C:\\Users\\noske\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\noske\\Desktop\\Studijom\\3 Semestras\\PS inzinerija\\PSIProjektas\\ClientTests\\obj\\",
+        "outputPath": "C:\\Users\\noske\\RiderProjects\\Projektas\\ClientTests\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\noske\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -26,11 +26,11 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\noske\\Desktop\\Studijom\\3 Semestras\\PS inzinerija\\PSIProjektas\\MindBlown.Server\\MindBlown.Server.csproj": {
-                "projectPath": "C:\\Users\\noske\\Desktop\\Studijom\\3 Semestras\\PS inzinerija\\PSIProjektas\\MindBlown.Server\\MindBlown.Server.csproj"
+              "C:\\Users\\noske\\RiderProjects\\Projektas\\MindBlown.Server\\MindBlown.Server.csproj": {
+                "projectPath": "C:\\Users\\noske\\RiderProjects\\Projektas\\MindBlown.Server\\MindBlown.Server.csproj"
               },
-              "C:\\Users\\noske\\Desktop\\Studijom\\3 Semestras\\PS inzinerija\\PSIProjektas\\MindBlown\\MindBlown.csproj": {
-                "projectPath": "C:\\Users\\noske\\Desktop\\Studijom\\3 Semestras\\PS inzinerija\\PSIProjektas\\MindBlown\\MindBlown.csproj"
+              "C:\\Users\\noske\\RiderProjects\\Projektas\\MindBlown\\MindBlown.csproj": {
+                "projectPath": "C:\\Users\\noske\\RiderProjects\\Projektas\\MindBlown\\MindBlown.csproj"
               }
             }
           }
@@ -50,6 +50,10 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "FluentAssertions": {
+              "target": "Package",
+              "version": "[8.0.0-alpha.1, )"
+            },
             "Microsoft.AspNetCore.TestHost": {
               "target": "Package",
               "version": "[8.0.0, )"
@@ -99,14 +103,14 @@
         }
       }
     },
-    "C:\\Users\\noske\\Desktop\\Studijom\\3 Semestras\\PS inzinerija\\PSIProjektas\\MindBlown.Server\\MindBlown.Server.csproj": {
+    "C:\\Users\\noske\\RiderProjects\\Projektas\\MindBlown.Server\\MindBlown.Server.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\noske\\Desktop\\Studijom\\3 Semestras\\PS inzinerija\\PSIProjektas\\MindBlown.Server\\MindBlown.Server.csproj",
+        "projectUniqueName": "C:\\Users\\noske\\RiderProjects\\Projektas\\MindBlown.Server\\MindBlown.Server.csproj",
         "projectName": "MindBlown.Server",
-        "projectPath": "C:\\Users\\noske\\Desktop\\Studijom\\3 Semestras\\PS inzinerija\\PSIProjektas\\MindBlown.Server\\MindBlown.Server.csproj",
+        "projectPath": "C:\\Users\\noske\\RiderProjects\\Projektas\\MindBlown.Server\\MindBlown.Server.csproj",
         "packagesPath": "C:\\Users\\noske\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\noske\\Desktop\\Studijom\\3 Semestras\\PS inzinerija\\PSIProjektas\\MindBlown.Server\\obj\\",
+        "outputPath": "C:\\Users\\noske\\RiderProjects\\Projektas\\MindBlown.Server\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\noske\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -121,8 +125,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\noske\\Desktop\\Studijom\\3 Semestras\\PS inzinerija\\PSIProjektas\\MindBlown\\MindBlown.csproj": {
-                "projectPath": "C:\\Users\\noske\\Desktop\\Studijom\\3 Semestras\\PS inzinerija\\PSIProjektas\\MindBlown\\MindBlown.csproj"
+              "C:\\Users\\noske\\RiderProjects\\Projektas\\MindBlown\\MindBlown.csproj": {
+                "projectPath": "C:\\Users\\noske\\RiderProjects\\Projektas\\MindBlown\\MindBlown.csproj"
               }
             }
           }
@@ -196,14 +200,14 @@
         }
       }
     },
-    "C:\\Users\\noske\\Desktop\\Studijom\\3 Semestras\\PS inzinerija\\PSIProjektas\\MindBlown\\MindBlown.csproj": {
+    "C:\\Users\\noske\\RiderProjects\\Projektas\\MindBlown\\MindBlown.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\noske\\Desktop\\Studijom\\3 Semestras\\PS inzinerija\\PSIProjektas\\MindBlown\\MindBlown.csproj",
+        "projectUniqueName": "C:\\Users\\noske\\RiderProjects\\Projektas\\MindBlown\\MindBlown.csproj",
         "projectName": "MindBlown",
-        "projectPath": "C:\\Users\\noske\\Desktop\\Studijom\\3 Semestras\\PS inzinerija\\PSIProjektas\\MindBlown\\MindBlown.csproj",
+        "projectPath": "C:\\Users\\noske\\RiderProjects\\Projektas\\MindBlown\\MindBlown.csproj",
         "packagesPath": "C:\\Users\\noske\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\noske\\Desktop\\Studijom\\3 Semestras\\PS inzinerija\\PSIProjektas\\MindBlown\\obj\\",
+        "outputPath": "C:\\Users\\noske\\RiderProjects\\Projektas\\MindBlown\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\noske\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -259,6 +263,10 @@
               "target": "Package",
               "version": "[8.0.8, )",
               "autoReferenced": true
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[8.2.1, )"
             }
           },
           "imports": [

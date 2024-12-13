@@ -4,6 +4,7 @@ using MindBlown.Interfaces;
 using MindBlown.Types;
 using Services;
 using Microsoft.JSInterop;
+using MindBlown.Services;
 
 namespace MindBlown.Pages
 {
@@ -12,10 +13,17 @@ namespace MindBlown.Pages
 
         // injecting for counter
         [Inject]
-        public required IActiveUserClient ActiveUserClient { get; set; }
+        public IActiveUserClient ActiveUserClient { get; set; }
         [Inject]
-        public required IMnemonicService MnemonicService { get; set; }
-
+        public IMnemonicService MnemonicService { get; set; }
+        [Inject]
+        public IAuthService AuthService { get; set; }
+        [Inject]
+        public ILWARecordService LWARecordService { get; set; }
+        [Inject]
+        public IJSRuntime JS { get; set; }
+        
+        
         public Guid userId { get; set; }
         public int ActiveUserCount {get; set;}
         public Repository<MnemonicsType> mnemonicsList = new Repository<MnemonicsType>();

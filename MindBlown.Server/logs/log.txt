@@ -60,3 +60,164 @@
    at MindBlown.Pages.Mnemonics.OnSubmit() in C:\Users\juran\OneDrive\Stalinis kompiuteris\stud\PSI\Projektas\MindBlown\MindBlown\Pages\Mnemonics.razor.cs:line 132
 23/11/2024 00:29:02 [Error]: Mnemonic with given Helper text already exists. - MindBlown.Exceptions.MnemonicAlreadyExistsException: Mnemonic with given Helper text already exists.
    at MindBlown.Pages.Mnemonics.OnSubmit() in C:\Users\juran\OneDrive\Stalinis kompiuteris\stud\PSI\Projektas\MindBlown\MindBlown\Pages\Mnemonics.razor.cs:line 132
+2024-12-09 14:54:39 [Error]: Unexpected error - System.Net.Http.HttpRequestException: TypeError: Failed to fetch
+ ---> TypeError: Failed to fetch
+   --- End of inner exception stack trace ---
+   at System.Net.Http.BrowserHttpInterop.<CancelationHelper>d__13`1[[System.Runtime.InteropServices.JavaScript.JSObject, System.Runtime.InteropServices.JavaScript, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a]].MoveNext()
+   at System.Net.Http.BrowserHttpHandler.CallFetch(HttpRequestMessage request, CancellationToken cancellationToken, Nullable`1 allowAutoRedirect)
+   at System.Net.Http.BrowserHttpHandler.<SendAsync>g__Impl|53_0(HttpRequestMessage request, CancellationToken cancellationToken, Nullable`1 allowAutoRedirect)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at AuthService.UpdateUserWithMnemonic(String username, MnemonicsType newMnemonic) in C:\Users\noske\RiderProjects\Projektas\MindBlown\Services\AuthService.cs:line 94
+   at MindBlown.Pages.Mnemonics.OnSubmit() in C:\Users\noske\RiderProjects\Projektas\MindBlown\Pages\Mnemonics.razor.cs:line 166
+2024-12-09 14:54:44 [Error]: Unexpected error - System.Net.Http.HttpRequestException: TypeError: Failed to fetch
+ ---> TypeError: Failed to fetch
+   --- End of inner exception stack trace ---
+   at System.Net.Http.BrowserHttpInterop.<CancelationHelper>d__13`1[[System.Runtime.InteropServices.JavaScript.JSObject, System.Runtime.InteropServices.JavaScript, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a]].MoveNext()
+   at System.Net.Http.BrowserHttpHandler.CallFetch(HttpRequestMessage request, CancellationToken cancellationToken, Nullable`1 allowAutoRedirect)
+   at System.Net.Http.BrowserHttpHandler.<SendAsync>g__Impl|53_0(HttpRequestMessage request, CancellationToken cancellationToken, Nullable`1 allowAutoRedirect)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at AuthService.UpdateUserWithMnemonic(String username, MnemonicsType newMnemonic) in C:\Users\noske\RiderProjects\Projektas\MindBlown\Services\AuthService.cs:line 94
+   at MindBlown.Pages.Mnemonics.OnSubmit() in C:\Users\noske\RiderProjects\Projektas\MindBlown\Pages\Mnemonics.razor.cs:line 166
+2024-12-09 14:54:56 [Error]: Unexpected error - System.Net.Http.HttpRequestException: TypeError: Failed to fetch
+ ---> TypeError: Failed to fetch
+   --- End of inner exception stack trace ---
+   at System.Net.Http.BrowserHttpInterop.<CancelationHelper>d__13`1[[System.Runtime.InteropServices.JavaScript.JSObject, System.Runtime.InteropServices.JavaScript, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a]].MoveNext()
+   at System.Net.Http.BrowserHttpHandler.CallFetch(HttpRequestMessage request, CancellationToken cancellationToken, Nullable`1 allowAutoRedirect)
+   at System.Net.Http.BrowserHttpHandler.<SendAsync>g__Impl|53_0(HttpRequestMessage request, CancellationToken cancellationToken, Nullable`1 allowAutoRedirect)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at AuthService.UpdateUserWithMnemonic(String username, MnemonicsType newMnemonic) in C:\Users\noske\RiderProjects\Projektas\MindBlown\Services\AuthService.cs:line 94
+   at MindBlown.Pages.Mnemonics.OnSubmit() in C:\Users\noske\RiderProjects\Projektas\MindBlown\Pages\Mnemonics.razor.cs:line 166
+2024-12-09 14:55:13 [Error]: Unexpected error - System.Net.Http.HttpRequestException: TypeError: Failed to fetch
+ ---> TypeError: Failed to fetch
+   --- End of inner exception stack trace ---
+   at System.Net.Http.BrowserHttpInterop.<CancelationHelper>d__13`1[[System.Runtime.InteropServices.JavaScript.JSObject, System.Runtime.InteropServices.JavaScript, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a]].MoveNext()
+   at System.Net.Http.BrowserHttpHandler.CallFetch(HttpRequestMessage request, CancellationToken cancellationToken, Nullable`1 allowAutoRedirect)
+   at System.Net.Http.BrowserHttpHandler.<SendAsync>g__Impl|53_0(HttpRequestMessage request, CancellationToken cancellationToken, Nullable`1 allowAutoRedirect)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at AuthService.UpdateUserWithMnemonic(String username, MnemonicsType newMnemonic) in C:\Users\noske\RiderProjects\Projektas\MindBlown\Services\AuthService.cs:line 94
+   at MindBlown.Pages.Mnemonics.OnSubmit() in C:\Users\noske\RiderProjects\Projektas\MindBlown\Pages\Mnemonics.razor.cs:line 166
+2024-12-09 14:56:04 [Error]: Unexpected error - System.Net.Http.HttpRequestException: TypeError: Failed to fetch
+ ---> TypeError: Failed to fetch
+   --- End of inner exception stack trace ---
+   at System.Net.Http.BrowserHttpInterop.<CancelationHelper>d__13`1[[System.Runtime.InteropServices.JavaScript.JSObject, System.Runtime.InteropServices.JavaScript, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a]].MoveNext()
+   at System.Net.Http.BrowserHttpHandler.CallFetch(HttpRequestMessage request, CancellationToken cancellationToken, Nullable`1 allowAutoRedirect)
+   at System.Net.Http.BrowserHttpHandler.<SendAsync>g__Impl|53_0(HttpRequestMessage request, CancellationToken cancellationToken, Nullable`1 allowAutoRedirect)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at AuthService.UpdateUserWithMnemonic(String username, MnemonicsType newMnemonic) in C:\Users\noske\RiderProjects\Projektas\MindBlown\Services\AuthService.cs:line 94
+   at MindBlown.Pages.Mnemonics.OnSubmit() in C:\Users\noske\RiderProjects\Projektas\MindBlown\Pages\Mnemonics.razor.cs:line 166
+2024-12-09 14:57:47 [Error]: Unexpected error - System.Net.Http.HttpRequestException: TypeError: Failed to fetch
+ ---> TypeError: Failed to fetch
+   --- End of inner exception stack trace ---
+   at System.Net.Http.BrowserHttpInterop.<CancelationHelper>d__13`1[[System.Runtime.InteropServices.JavaScript.JSObject, System.Runtime.InteropServices.JavaScript, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a]].MoveNext()
+   at System.Net.Http.BrowserHttpHandler.CallFetch(HttpRequestMessage request, CancellationToken cancellationToken, Nullable`1 allowAutoRedirect)
+   at System.Net.Http.BrowserHttpHandler.<SendAsync>g__Impl|53_0(HttpRequestMessage request, CancellationToken cancellationToken, Nullable`1 allowAutoRedirect)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at AuthService.UpdateUserWithMnemonic(String username, MnemonicsType newMnemonic) in C:\Users\noske\RiderProjects\Projektas\MindBlown\Services\AuthService.cs:line 94
+   at MindBlown.Pages.Mnemonics.OnSubmit() in C:\Users\noske\RiderProjects\Projektas\MindBlown\Pages\Mnemonics.razor.cs:line 166
+2024-12-09 14:59:43 [Error]: Unexpected error - System.Net.Http.HttpRequestException: TypeError: Failed to fetch
+ ---> TypeError: Failed to fetch
+   --- End of inner exception stack trace ---
+   at System.Net.Http.BrowserHttpInterop.<CancelationHelper>d__13`1[[System.Runtime.InteropServices.JavaScript.JSObject, System.Runtime.InteropServices.JavaScript, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a]].MoveNext()
+   at System.Net.Http.BrowserHttpHandler.CallFetch(HttpRequestMessage request, CancellationToken cancellationToken, Nullable`1 allowAutoRedirect)
+   at System.Net.Http.BrowserHttpHandler.<SendAsync>g__Impl|53_0(HttpRequestMessage request, CancellationToken cancellationToken, Nullable`1 allowAutoRedirect)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at AuthService.UpdateUserWithMnemonic(String username, MnemonicsType newMnemonic) in C:\Users\noske\RiderProjects\Projektas\MindBlown\Services\AuthService.cs:line 94
+   at MindBlown.Pages.Mnemonics.OnSubmit() in C:\Users\noske\RiderProjects\Projektas\MindBlown\Pages\Mnemonics.razor.cs:line 166
+2024-12-09 15:00:25 [Error]: Unexpected error - System.Net.Http.HttpRequestException: TypeError: Failed to fetch
+ ---> TypeError: Failed to fetch
+   --- End of inner exception stack trace ---
+   at System.Net.Http.BrowserHttpInterop.<CancelationHelper>d__13`1[[System.Runtime.InteropServices.JavaScript.JSObject, System.Runtime.InteropServices.JavaScript, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a]].MoveNext()
+   at System.Net.Http.BrowserHttpHandler.CallFetch(HttpRequestMessage request, CancellationToken cancellationToken, Nullable`1 allowAutoRedirect)
+   at System.Net.Http.BrowserHttpHandler.<SendAsync>g__Impl|53_0(HttpRequestMessage request, CancellationToken cancellationToken, Nullable`1 allowAutoRedirect)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at AuthService.UpdateUserWithMnemonic(String username, MnemonicsType newMnemonic) in C:\Users\noske\RiderProjects\Projektas\MindBlown\Services\AuthService.cs:line 94
+   at MindBlown.Pages.Mnemonics.OnSubmit() in C:\Users\noske\RiderProjects\Projektas\MindBlown\Pages\Mnemonics.razor.cs:line 166
+2024-12-09 15:01:04 [Error]: Unexpected error - System.Net.Http.HttpRequestException: TypeError: Failed to fetch
+ ---> TypeError: Failed to fetch
+   --- End of inner exception stack trace ---
+   at System.Net.Http.BrowserHttpInterop.<CancelationHelper>d__13`1[[System.Runtime.InteropServices.JavaScript.JSObject, System.Runtime.InteropServices.JavaScript, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a]].MoveNext()
+   at System.Net.Http.BrowserHttpHandler.CallFetch(HttpRequestMessage request, CancellationToken cancellationToken, Nullable`1 allowAutoRedirect)
+   at System.Net.Http.BrowserHttpHandler.<SendAsync>g__Impl|53_0(HttpRequestMessage request, CancellationToken cancellationToken, Nullable`1 allowAutoRedirect)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at AuthService.UpdateUserWithMnemonic(String username, MnemonicsType newMnemonic) in C:\Users\noske\RiderProjects\Projektas\MindBlown\Services\AuthService.cs:line 94
+   at MindBlown.Pages.Mnemonics.OnSubmit() in C:\Users\noske\RiderProjects\Projektas\MindBlown\Pages\Mnemonics.razor.cs:line 166
+2024-12-09 15:01:55 [Error]: Unexpected error - System.Net.Http.HttpRequestException: TypeError: Failed to fetch
+ ---> TypeError: Failed to fetch
+   --- End of inner exception stack trace ---
+   at System.Net.Http.BrowserHttpInterop.<CancelationHelper>d__13`1[[System.Runtime.InteropServices.JavaScript.JSObject, System.Runtime.InteropServices.JavaScript, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a]].MoveNext()
+   at System.Net.Http.BrowserHttpHandler.CallFetch(HttpRequestMessage request, CancellationToken cancellationToken, Nullable`1 allowAutoRedirect)
+   at System.Net.Http.BrowserHttpHandler.<SendAsync>g__Impl|53_0(HttpRequestMessage request, CancellationToken cancellationToken, Nullable`1 allowAutoRedirect)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at AuthService.UpdateUserWithMnemonic(String username, MnemonicsType newMnemonic) in C:\Users\noske\RiderProjects\Projektas\MindBlown\Services\AuthService.cs:line 94
+   at MindBlown.Pages.Mnemonics.OnSubmit() in C:\Users\noske\RiderProjects\Projektas\MindBlown\Pages\Mnemonics.razor.cs:line 166
+2024-12-09 15:07:43 [Error]: Unexpected error - System.Net.Http.HttpRequestException: TypeError: Failed to fetch
+ ---> TypeError: Failed to fetch
+   --- End of inner exception stack trace ---
+   at System.Net.Http.BrowserHttpInterop.<CancelationHelper>d__13`1[[System.Runtime.InteropServices.JavaScript.JSObject, System.Runtime.InteropServices.JavaScript, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a]].MoveNext()
+   at System.Net.Http.BrowserHttpHandler.CallFetch(HttpRequestMessage request, CancellationToken cancellationToken, Nullable`1 allowAutoRedirect)
+   at System.Net.Http.BrowserHttpHandler.<SendAsync>g__Impl|53_0(HttpRequestMessage request, CancellationToken cancellationToken, Nullable`1 allowAutoRedirect)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at AuthService.UpdateUserWithMnemonic(String username, MnemonicsType newMnemonic) in C:\Users\noske\RiderProjects\Projektas\MindBlown\Services\AuthService.cs:line 94
+   at MindBlown.Pages.Mnemonics.OnSubmit() in C:\Users\noske\RiderProjects\Projektas\MindBlown\Pages\Mnemonics.razor.cs:line 166
+2024-12-09 15:37:23 [Error]: Unexpected error - System.Net.Http.HttpRequestException: TypeError: Failed to fetch
+ ---> TypeError: Failed to fetch
+   --- End of inner exception stack trace ---
+   at System.Net.Http.BrowserHttpInterop.<CancelationHelper>d__13`1[[System.Runtime.InteropServices.JavaScript.JSObject, System.Runtime.InteropServices.JavaScript, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a]].MoveNext()
+   at System.Net.Http.BrowserHttpHandler.CallFetch(HttpRequestMessage request, CancellationToken cancellationToken, Nullable`1 allowAutoRedirect)
+   at System.Net.Http.BrowserHttpHandler.<SendAsync>g__Impl|53_0(HttpRequestMessage request, CancellationToken cancellationToken, Nullable`1 allowAutoRedirect)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at AuthService.UpdateUserWithMnemonic(String username, MnemonicsType newMnemonic) in C:\Users\noske\RiderProjects\Projektas\MindBlown\Services\AuthService.cs:line 94
+   at MindBlown.Pages.Mnemonics.OnSubmit() in C:\Users\noske\RiderProjects\Projektas\MindBlown\Pages\Mnemonics.razor.cs:line 166
+2024-12-09 15:37:27 [Error]: Unexpected error - System.Net.Http.HttpRequestException: TypeError: Failed to fetch
+ ---> TypeError: Failed to fetch
+   --- End of inner exception stack trace ---
+   at System.Net.Http.BrowserHttpInterop.<CancelationHelper>d__13`1[[System.Runtime.InteropServices.JavaScript.JSObject, System.Runtime.InteropServices.JavaScript, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a]].MoveNext()
+   at System.Net.Http.BrowserHttpHandler.CallFetch(HttpRequestMessage request, CancellationToken cancellationToken, Nullable`1 allowAutoRedirect)
+   at System.Net.Http.BrowserHttpHandler.<SendAsync>g__Impl|53_0(HttpRequestMessage request, CancellationToken cancellationToken, Nullable`1 allowAutoRedirect)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at AuthService.UpdateUserWithMnemonic(String username, MnemonicsType newMnemonic) in C:\Users\noske\RiderProjects\Projektas\MindBlown\Services\AuthService.cs:line 94
+   at MindBlown.Pages.Mnemonics.OnSubmit() in C:\Users\noske\RiderProjects\Projektas\MindBlown\Pages\Mnemonics.razor.cs:line 166
+2024-12-09 15:37:31 [Error]: Unexpected error - System.Net.Http.HttpRequestException: TypeError: Failed to fetch
+ ---> TypeError: Failed to fetch
+   --- End of inner exception stack trace ---
+   at System.Net.Http.BrowserHttpInterop.<CancelationHelper>d__13`1[[System.Runtime.InteropServices.JavaScript.JSObject, System.Runtime.InteropServices.JavaScript, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a]].MoveNext()
+   at System.Net.Http.BrowserHttpHandler.CallFetch(HttpRequestMessage request, CancellationToken cancellationToken, Nullable`1 allowAutoRedirect)
+   at System.Net.Http.BrowserHttpHandler.<SendAsync>g__Impl|53_0(HttpRequestMessage request, CancellationToken cancellationToken, Nullable`1 allowAutoRedirect)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at AuthService.UpdateUserWithMnemonic(String username, MnemonicsType newMnemonic) in C:\Users\noske\RiderProjects\Projektas\MindBlown\Services\AuthService.cs:line 94
+   at MindBlown.Pages.Mnemonics.OnSubmit() in C:\Users\noske\RiderProjects\Projektas\MindBlown\Pages\Mnemonics.razor.cs:line 166
+2024-12-09 15:37:43 [Error]: Unexpected error - System.Net.Http.HttpRequestException: TypeError: Failed to fetch
+ ---> TypeError: Failed to fetch
+   --- End of inner exception stack trace ---
+   at System.Net.Http.BrowserHttpInterop.<CancelationHelper>d__13`1[[System.Runtime.InteropServices.JavaScript.JSObject, System.Runtime.InteropServices.JavaScript, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a]].MoveNext()
+   at System.Net.Http.BrowserHttpHandler.CallFetch(HttpRequestMessage request, CancellationToken cancellationToken, Nullable`1 allowAutoRedirect)
+   at System.Net.Http.BrowserHttpHandler.<SendAsync>g__Impl|53_0(HttpRequestMessage request, CancellationToken cancellationToken, Nullable`1 allowAutoRedirect)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at AuthService.UpdateUserWithMnemonic(String username, MnemonicsType newMnemonic) in C:\Users\noske\RiderProjects\Projektas\MindBlown\Services\AuthService.cs:line 94
+   at MindBlown.Pages.Mnemonics.OnSubmit() in C:\Users\noske\RiderProjects\Projektas\MindBlown\Pages\Mnemonics.razor.cs:line 166
+2024-12-09 15:39:57 [Error]: Mnemonic with given Helper text already exists. - MindBlown.Exceptions.MnemonicAlreadyExistsException: Mnemonic with given Helper text already exists.
+   at MindBlown.Pages.Mnemonics.OnSubmit() in C:\Users\noske\RiderProjects\Projektas\MindBlown\Pages\Mnemonics.razor.cs:line 153
+2024-12-09 15:40:55 [Error]: Unexpected error - System.Net.Http.HttpRequestException: TypeError: Failed to fetch
+ ---> TypeError: Failed to fetch
+   --- End of inner exception stack trace ---
+   at System.Net.Http.BrowserHttpInterop.<CancelationHelper>d__13`1[[System.Runtime.InteropServices.JavaScript.JSObject, System.Runtime.InteropServices.JavaScript, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a]].MoveNext()
+   at System.Net.Http.BrowserHttpHandler.CallFetch(HttpRequestMessage request, CancellationToken cancellationToken, Nullable`1 allowAutoRedirect)
+   at System.Net.Http.BrowserHttpHandler.<SendAsync>g__Impl|53_0(HttpRequestMessage request, CancellationToken cancellationToken, Nullable`1 allowAutoRedirect)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at AuthService.UpdateUserWithMnemonic(String username, MnemonicsType newMnemonic) in C:\Users\noske\RiderProjects\Projektas\MindBlown\Services\AuthService.cs:line 94
+   at MindBlown.Pages.Mnemonics.OnSubmit() in C:\Users\noske\RiderProjects\Projektas\MindBlown\Pages\Mnemonics.razor.cs:line 166
+2024-12-09 15:40:57 [Error]: Unexpected error - System.Net.Http.HttpRequestException: TypeError: Failed to fetch
+ ---> TypeError: Failed to fetch
+   --- End of inner exception stack trace ---
+   at System.Net.Http.BrowserHttpInterop.<CancelationHelper>d__13`1[[System.Runtime.InteropServices.JavaScript.JSObject, System.Runtime.InteropServices.JavaScript, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a]].MoveNext()
+   at System.Net.Http.BrowserHttpHandler.CallFetch(HttpRequestMessage request, CancellationToken cancellationToken, Nullable`1 allowAutoRedirect)
+   at System.Net.Http.BrowserHttpHandler.<SendAsync>g__Impl|53_0(HttpRequestMessage request, CancellationToken cancellationToken, Nullable`1 allowAutoRedirect)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at AuthService.UpdateUserWithMnemonic(String username, MnemonicsType newMnemonic) in C:\Users\noske\RiderProjects\Projektas\MindBlown\Services\AuthService.cs:line 94
+   at MindBlown.Pages.Mnemonics.OnSubmit() in C:\Users\noske\RiderProjects\Projektas\MindBlown\Pages\Mnemonics.razor.cs:line 166
+2024-12-11 11:27:26 [Error]: Mnemonic with given Helper text already exists. - MindBlown.Exceptions.MnemonicAlreadyExistsException: Mnemonic with given Helper text already exists.
+   at MindBlown.Pages.Mnemonics.OnSubmit() in C:\Users\noske\RiderProjects\Projektas\MindBlown\Pages\Mnemonics.razor.cs:line 154
+2024-12-11 11:27:32 [Error]: Mnemonic with given Helper text already exists. - MindBlown.Exceptions.MnemonicAlreadyExistsException: Mnemonic with given Helper text already exists.
+   at MindBlown.Pages.Mnemonics.OnSubmit() in C:\Users\noske\RiderProjects\Projektas\MindBlown\Pages\Mnemonics.razor.cs:line 154
+2024-12-11 11:27:32 [Error]: Mnemonic with given Helper text already exists. - MindBlown.Exceptions.MnemonicAlreadyExistsException: Mnemonic with given Helper text already exists.
+   at MindBlown.Pages.Mnemonics.OnSubmit() in C:\Users\noske\RiderProjects\Projektas\MindBlown\Pages\Mnemonics.razor.cs:line 154

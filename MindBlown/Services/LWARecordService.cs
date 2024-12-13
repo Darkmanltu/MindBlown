@@ -1,9 +1,10 @@
 using System.Net.Http.Json;
+using MindBlown.Services;
 using MindBlown.Types;
 
 namespace Services
 {
-    public class LWARecordService
+    public class LWARecordService : ILWARecordService
     {
         public readonly HttpClient _httpClient;
 
@@ -69,14 +70,20 @@ namespace Services
 
             try
             {
-                await _httpClient.PostAsJsonAsync("api/logs", logEntry);
+                var response = await _httpClient.PostAsJsonAsync("api/logs", logEntry);
+                
+                response.EnsureSuccessStatusCode(); // Throws exception if not 2xx
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Failed to log to server: {ex.Message}");
+                
                 // Fallback logging (e.g., browser console)
             }
+            
+            
         }
+        
     }
     
     public class IdLWARecordRequest

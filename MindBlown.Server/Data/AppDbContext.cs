@@ -7,12 +7,12 @@ namespace MindBlown.Server.Data
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-        public required DbSet<Mnemonic> Mnemonics { get; set; }
+        public DbSet<Mnemonic> Mnemonics { get; set; }
 
-        public required DbSet<LastWrongAnswerRecord> Record { get; set; }
+        public DbSet<LastWrongAnswerRecord> Record { get; set; }
 
-        public required DbSet<User> ActiveUserSession { get; set; }
+        public DbSet<User> ActiveUserSession { get; set; }
 
-        public required DbSet<UserMnemonicIDs> UserWithMnemonicsIDs { get; set; }
+        public DbSet<UserMnemonicIDs> UserWithMnemonicsIDs { get; set; }
     }
 }

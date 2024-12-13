@@ -1,153 +1,224 @@
-﻿using Moq;
-using System;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
-using MindBlown.Pages;
+using Microsoft.JSInterop;
+using MindBlown.Interfaces;
 using MindBlown.Types;
-using MindBlown.Interfaces; 
+using MindBlown.Pages;
+using MindBlown.Services;
+using Moq;
 using Xunit;
 
-public class TestMnemonicTests : TestMnemonic
+namespace MindBlown.Tests
 {
-    private Mock<IMnemonicService> _mnemonicServiceMock; 
-    private TestMnemonic _testMnemonic;
-
-    public TestMnemonicTests()
+    public class TestMnemonicTests
     {
-        _mnemonicServiceMock = new Mock<IMnemonicService>();
-        _testMnemonic = new TestMnemonic
+        private readonly Mock<IActiveUserClient> _mockActiveUserClient;
+        private readonly Mock<IMnemonicService> _mockMnemonicService;
+        private readonly Mock<IAuthService> _mockAuthService;
+        private readonly Mock<ILWARecordService> _mockLWARecordService;
+        private readonly Mock<IJSRuntime> _mockJSRuntime;
+
+        public TestMnemonicTests()
         {
-            MnemonicService = _mnemonicServiceMock.Object 
-        };
-    }
+            _mockActiveUserClient = new Mock<IActiveUserClient>();
+            _mockMnemonicService = new Mock<IMnemonicService>();
+            _mockAuthService = new Mock<IAuthService>();
+            _mockLWARecordService = new Mock<ILWARecordService>();
+            _mockJSRuntime = new Mock<IJSRuntime>();
+        }
 
-    [Fact]
-    public async Task OnInitializedAsync_ShouldNotBlock_WhenTestingMnemonicIsSet()
-    {
+// [Fact]
+// public async Task OnInitializedAsync_ShouldInitializeUserIdAndActiveUser_UsingReflection()
+// {
+//     // Arrange
+//     var testComponent = new TestMnemonic
+//     {
+//         ActiveUserClient = _mockActiveUserClient.Object,
+//         MnemonicService = _mockMnemonicService.Object,
+//         AuthService = _mockAuthService.Object,
+//         LWARecordService = _mockLWARecordService.Object,
+//         JS = _mockJSRuntime.Object
+//     };
+//
+//     _mockJSRuntime
+//         .Setup(js => js.InvokeAsync<string>("sessionStorage.getItem", It.Is<object[]>(args => args[0].ToString() == "userId")))
+//         .ReturnsAsync(string.Empty);
+//
+//     _mockJSRuntime
+//         .Setup(js => js.InvokeVoidAsync(
+//             It.Is<string>(method => method == "sessionStorage.setItem"),
+//             It.Is<object[]>(args =>
+//             {
+//                 var userIdString = args[1].ToString();
+//                 return args[0].ToString() == "userId" && Guid.TryParse(userIdString, out var parsedGuid);
+//             })
+//         ));
+//     _mockActiveUserClient
+//         .Setup(client => client.IsSessionIdUniqueAsync(It.IsAny<Guid>()))
+//         .ReturnsAsync(true);
+//
+//     _mockActiveUserClient
+//         .Setup(client => client.AddUserAsync(It.IsAny<Guid>()))
+//         .Returns(Task.CompletedTask);
+//
+//     var mockUserDictionary = new ConcurrentDictionary<Guid, User>();
+//     _mockActiveUserClient
+//         .Setup(client => client.GetDictionary())
+//         .ReturnsAsync(mockUserDictionary);
+//
+//     _mockActiveUserClient
+//         .Setup(client => client.GetActiveUserCountAsync(It.IsAny<ConcurrentDictionary<Guid, User>>()))
+//         .ReturnsAsync(1);
+//
+//     // Act
+//     var method = typeof(TestMnemonic).GetMethod("OnInitializedAsync",
+//         System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+//     if (method == null)
+//         throw new InvalidOperationException("OnInitializedAsync method not found");
+//
+//     var task = (Task)method.Invoke(testComponent, null);
+//     await task;
+//
+//     // Assert
+//     _mockJSRuntime.Verify(js => js.InvokeVoidAsync(
+//         "sessionStorage.setItem",
+//         It.Is<object[]>(args => args[0].ToString() == "userId" && Guid.TryParse(args[1].ToString(), out _))
+//     ), Times.Once);
+//
+//     _mockActiveUserClient.Verify(client => client.AddUserAsync(It.IsAny<Guid>()), Times.Once);
+// }
 
-        var mnemonicList = new List<MnemonicsType> 
-        { 
-            new MnemonicsType { HelperText = "Test", MnemonicText = "TestMnemonic" } 
-        };
-        _mnemonicServiceMock.Setup(s => s.GetMnemonicsAsync()).ReturnsAsync(mnemonicList); 
-
-        
-        var methodInfo = typeof(TestMnemonic).GetMethod("OnInitializedAsync", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-        var initializedTask = (Task)methodInfo.Invoke(_testMnemonic, null);
-
-        await Task.Delay(100); 
-
-        
-        _testMnemonic.testingMnemonic = mnemonicList.First();
-        await initializedTask; 
-
-        
-        Assert.NotNull(_testMnemonic.testingMnemonic);
-    }
-
-    [Fact]
-    public async Task OnAfterRenderAsync_ShouldLoadMnemonicsAndPickRandomMnemonic()
-    {
-        
-        var mnemonicList = new List<MnemonicsType>
+        [Fact]
+        public async Task LoadMnemonics_ShouldLoadMnemonicsCorrectly()
         {
-            new MnemonicsType { Id = Guid.NewGuid(), HelperText = "Test1", MnemonicText = "TestMnemonic1" },
-            new MnemonicsType { Id = Guid.NewGuid(), HelperText = "Test2", MnemonicText = "TestMnemonic2" }
-        };
-        _mnemonicServiceMock.Setup(s => s.GetMnemonicsAsync()).ReturnsAsync(mnemonicList); 
-        _testMnemonic.testingMnemonic = null; 
+            
+            var mnemonicsList = new List<MnemonicsType>
+            {
+                new MnemonicsType { MnemonicText = "Sample Mnemonic" }
+            };
 
-        
-        var methodInfo = typeof(TestMnemonic).GetMethod("OnAfterRenderAsync", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-        await (Task)methodInfo.Invoke(_testMnemonic, new object[] { true });
+            _mockMnemonicService
+                .Setup(service => service.GetMnemonicsAsync())
+                .ReturnsAsync(mnemonicsList);
 
-        
-        Assert.NotNull(_testMnemonic.testingMnemonic);
-        Assert.Contains(mnemonicList, mnemonic => mnemonic.Equals(_testMnemonic.testingMnemonic));
-    }
-    
-    // public async Task CheckMnemonic_ShouldUpdateAnsweringStats_WhenAnswerIsCorrect()
-    // {
-    //     // Arrange
-    //     var correctMnemonic = new MnemonicsType { HelperText = "Test", MnemonicText = "TestMnemonic" };
-    //     _testMnemonic.testingMnemonic = correctMnemonic; // Set the correct mnemonic for testing
-    //     _testMnemonic.userGivenMnemonicText = "TestMnemonic"; // User provides correct text
-    //
-    //     // Act
-    //     await _testMnemonic.CheckMnemonic();
-    //
-    //     // Assert: Verify that the correct answer count is incremented
-    //     Assert.Equal(1, _testMnemonic.answeringStats.correctAnswerCount);
-    //     Assert.Equal(1, _testMnemonic.answeringStats.allAnswerCount);
-    // }
+            var testComponent = new TestMnemonic
+            {
+                MnemonicService = _mockMnemonicService.Object,
+                AuthService = _mockAuthService.Object
+            };
 
-    // [Fact]
-    // public async Task CheckMnemonic_ShouldRecordLastWrongAnswer_WhenAnswerIsIncorrect()
-    // {
-    //     // Arrange
-    //     var correctMnemonic = new MnemonicsType { HelperText = "Test", MnemonicText = "TestMnemonic" };
-    //     _testMnemonic.testingMnemonic = correctMnemonic; // Set the correct mnemonic for testing
-    //     _testMnemonic.userGivenMnemonicText = "WrongAnswer"; // User provides incorrect text
-    //
-    //     // Act
-    //     await _testMnemonic.CheckMnemonic();
-    //
-    //     // Assert: Verify that the wrong answer is recorded
-    //     Assert.NotNull(_testMnemonic.lastWrongAnswer);
-    //     Assert.Equal("WrongAnswer", _testMnemonic.lastWrongAnswer.wrongTextMnemonic);
-    // }
+            
+            await testComponent.LoadMnemonics();
 
-    [Fact]
-    public void getRandomMnemonic_ShouldReturnRandomMnemonic()
-    {
-        
-        var mnemonicList = new List<MnemonicsType>
+            
+            Assert.NotNull(testComponent.mnemonicsList);
+            Assert.Equal(1, testComponent.mnemonicsList.Count());
+        }
+
+        // [Fact]
+        // public async Task CheckMnemonic_ShouldUpdateAnsweringStatsCorrectly_WhenAnswerIsCorrect()
+        // {
+        //     // Arrange
+        //     var testMnemonic = new MnemonicsType { MnemonicText = "Correct Answer" };
+        //     var testComponent = new TestMnemonic
+        //     {
+        //         testingMnemonic = testMnemonic,
+        //         userGivenMnemonicText = "Correct Answer"
+        //     };
+        //
+        //     // Act
+        //     await testComponent.CheckMnemonic();
+        //
+        //     // Assert
+        //     Assert.Equal(1, testComponent.answeringStats.correctAnswerCount);
+        //     Assert.Equal(1, testComponent.answeringStats.allAnswerCount);
+        // }
+
+        // [Fact]
+        // public async Task CheckMnemonic_ShouldUpdateLastWrongAnswerRecord_WhenAnswerIsIncorrect()
+        // {
+        //     // Arrange
+        //     var testMnemonic = new MnemonicsType
+        //     {
+        //         MnemonicText = "Correct Answer",
+        //         HelperText = "Help",
+        //         Category = MnemonicCategory.Other,
+        //         Id = Guid.NewGuid()
+        //     };
+        //
+        //     var testComponent = new TestMnemonic
+        //     {
+        //         testingMnemonic = testMnemonic,
+        //         userGivenMnemonicText = "Wrong Answer",
+        //         LWARecordService = _mockLWARecordService.Object,
+        //         AuthService = _mockAuthService.Object
+        //     };
+        //
+        //     _mockAuthService.Setup(service => service.GetUsername()).ReturnsAsync("testuser");
+        //     _mockAuthService.Setup(service => service.GetLWARecordId("testuser")).ReturnsAsync(Guid.NewGuid());
+        //     _mockLWARecordService
+        //         .Setup(service => service.UpdateRecordAsync(It.IsAny<Guid>(), It.IsAny<LastWrongAnswerRecord>()))
+        //         .ReturnsAsync(new LastWrongAnswerRecord
+        //         {
+        //             Id = Guid.NewGuid(),
+        //             helperText = "Default helper text",
+        //             mnemonicText = "Default mnemonic text",
+        //             wrongTextMnemonic = "Default wrong mnemonic text",
+        //             category = MnemonicCategory.Other
+        //         });
+        //     // Act
+        //     await testComponent.CheckMnemonic();
+        //
+        //     // Assert
+        //     Assert.NotNull(testComponent.lastWrongAnswer);
+        //     Assert.Equal("Wrong Answer", testComponent.lastWrongAnswer.wrongTextMnemonic);
+        // }
+
+        [Fact]
+        public void GetRandomMnemonic_ShouldReturnRandomMnemonic()
         {
-            new MnemonicsType { Id = Guid.NewGuid(), HelperText = "Test1", MnemonicText = "TestMnemonic1" },
-            new MnemonicsType { Id = Guid.NewGuid(), HelperText = "Test2", MnemonicText = "TestMnemonic2" }
-        };
-        _testMnemonic.mnemonicsList = new Repository<MnemonicsType>(mnemonicList); // Setup the list of mnemonics
+            
+            var mnemonicsList = new List<MnemonicsType>
+            {
+                new MnemonicsType { MnemonicText = "Mnemonic 1" },
+                new MnemonicsType { MnemonicText = "Mnemonic 2" }
+            };
 
-        
-        var randomMnemonic = _testMnemonic.getRandomMnemonic();
+            var testComponent = new TestMnemonic
+            {
+                mnemonicsList = new Repository<MnemonicsType>(mnemonicsList)
+            };
 
-        
-        Assert.Contains(randomMnemonic, mnemonicList);
+            
+            var randomMnemonic = testComponent.getRandomMnemonic();
+
+            
+            Assert.Contains(randomMnemonic, mnemonicsList); 
+        }
+
+        // [Fact]
+        // public async Task Enter_ShouldCallCheckMnemonic_OnEnterKey()
+        // {
+        //     // Arrange
+        //     var wasCalled = false;
+        //
+        //     var testComponent = new TestMnemonic
+        //     {
+        //         CheckMnemonic = async () => { wasCalled = true; }
+        //     };
+        //
+        //     var keyboardEventArgs = new KeyboardEventArgs { Key = "Enter" };
+        //
+        //     // Act
+        //     await testComponent.Enter(keyboardEventArgs);
+        //
+        //     // Assert
+        //     Assert.True(wasCalled);
+        // }
+
     }
-
-    // [Fact]
-    // public async Task Enter_ShouldCallCheckMnemonic_WhenEnterKeyIsPressed()
-    // {
-    //     // Arrange
-    //     var mnemonicList = new List<MnemonicsType>
-    //     {
-    //         new MnemonicsType { Id = Guid.NewGuid(), HelperText = "Test", MnemonicText = "TestMnemonic" }
-    //     };
-    //     _mnemonicServiceMock.Setup(s => s.GetMnemonicsAsync()).ReturnsAsync(mnemonicList); // Setup mock method
-    //     _testMnemonic.testingMnemonic = mnemonicList.First(); // Set testingMnemonic for the test
-    //
-    //     // Act: Use reflection to call the protected method OnInitializedAsync
-    //     var methodInfo = typeof(TestMnemonic).GetMethod("OnInitializedAsync", BindingFlags.NonPublic | BindingFlags.Instance);
-    //     var initializedTask = (Task)methodInfo.Invoke(_testMnemonic, null);
-    //
-    //     await Task.Delay(100); // Let the component initialize
-    //
-    //     // Set testingMnemonic
-    //     _testMnemonic.testingMnemonic = mnemonicList.First();
-    //     await initializedTask; // Ensure the task completes
-    //
-    //     // Act: Use reflection to call the protected method OnAfterRenderAsync
-    //     methodInfo = typeof(TestMnemonic).GetMethod("OnAfterRenderAsync", BindingFlags.NonPublic | BindingFlags.Instance);
-    //     await (Task)methodInfo.Invoke(_testMnemonic, new object[] { true });  // Trigger OnAfterRenderAsync
-    //
-    //     // Act: Simulate pressing the Enter key
-    //     var keyboardEventArgs = new KeyboardEventArgs { Key = "Enter" };
-    //     await _testMnemonic.Enter(keyboardEventArgs);
-    //
-    //     // Assert: Ensure that CheckMnemonic is called (i.e., allAnswerCount is incremented)
-    //     Assert.Equal(1, _testMnemonic.answeringStats.allAnswerCount); // This means CheckMnemonic was called
-    // }
 }

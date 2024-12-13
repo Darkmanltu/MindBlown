@@ -1,9 +1,10 @@
 ﻿@inherits LayoutComponentBase
 @using MindBlown.Types
 @using MindBlown.Layout.Modal
+@using MindBlown.Interfaces
 @using System
-@inject AuthService AuthService
-@inject NavigationManager NavigationManager
+@* @inject AuthService AuthService *@
+@* @inject NavigationManager NavigationManager *@
 
 <div class="page">
     <div class="sidebar">
@@ -85,17 +86,23 @@
 }
 
 @code {
+    [Inject]
+    public required IAuthService AuthService { get; set; }
+
+    [Inject]
+    public required NavigationManager NavigationManager { get; set; }
+    
     public bool isLoggedIn = false;
-    private string? username;
-    private string? errorMessage = null;
+    public string? username;
+    public string? errorMessage = null;
 
     // Modal visibility state
-    private bool isSignupModalVisible = false;
-    private bool isLoginModalVisible = false;
+    public bool isSignupModalVisible = false;
+    public bool isLoginModalVisible = false;
 
     // Models for login and signup
-    private AccRequest registerRequest = new AccRequest();
-    private AccRequest loginRequest = new AccRequest();
+    public AccRequest registerRequest = new AccRequest();
+    public AccRequest loginRequest = new AccRequest();
 
     protected override async Task OnInitializedAsync()
     {
@@ -107,7 +114,7 @@
         }
     }
 
-    private async Task HandleLogout()
+    public async Task HandleLogout()
     {
         await AuthService.LogoutAsync(); // Log the user out
         isLoggedIn = false; // Update the login state
@@ -117,30 +124,30 @@
 
 
     // Show signup modal
-    private void ShowSignupModal()
+    public void ShowSignupModal()
     {
         isSignupModalVisible = true;
     }
 
     // Show login modal
-    private void ShowLoginModal()
+    public void ShowLoginModal()
     {
         isLoginModalVisible = true;
     }
 
     // Handle visibility changes
-    private void OnSignupModalVisibilityChanged(bool isVisible)
+    public void OnSignupModalVisibilityChanged(bool isVisible)
     {
         isSignupModalVisible = isVisible;
     }
 
-    private void OnLoginModalVisibilityChanged(bool isVisible)
+    public void OnLoginModalVisibilityChanged(bool isVisible)
     {
         isLoginModalVisible = isVisible;
     }
 
     // Handle signup form submission
-    private async Task HandleSignup()
+    public async Task HandleSignup()
     {
         // Replace with actual API call to register
         string? response = await AuthService.SignupAsync(registerRequest);
@@ -161,7 +168,7 @@
     }
 
     // Handle login form submission
-    private async Task HandleLogin()
+    public async Task HandleLogin()
     {
         // Replace with actual API call to login
         string? response = await AuthService.LoginAsync(loginRequest);
