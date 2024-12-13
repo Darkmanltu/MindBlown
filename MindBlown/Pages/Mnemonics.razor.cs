@@ -43,6 +43,9 @@ namespace MindBlown.Pages
 
         protected override async Task OnInitializedAsync()
         {
+            await LoadMnemonics();
+            StateHasChanged();
+
             var chechifnull = await JS.InvokeAsync<string>("sessionStorage.getItem", "userId");
 
             // If userId is null or empty, it means it doesn't exist
