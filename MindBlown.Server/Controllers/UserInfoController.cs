@@ -42,7 +42,7 @@ namespace MindBlow.Server.Controllers
             if (isUnique)
             {
                 var passwordHasher = new PasswordHasher<object>();
-                string hashedPassword = passwordHasher.HashPassword(null, user.Password);
+                string hashedPassword = passwordHasher.HashPassword(new object(), user.Password);
 
                 var newUserRow = new UserMnemonicIDs {
                     Id = Guid.NewGuid(),
@@ -72,7 +72,7 @@ namespace MindBlow.Server.Controllers
             }
             
             var passwordHasher = new PasswordHasher<object>();
-            var hashedPasswordVerification = passwordHasher.VerifyHashedPassword(null, userInDb.Password, user.Password);
+            var hashedPasswordVerification = passwordHasher.VerifyHashedPassword(new object(), userInDb.Password, user.Password);
             var verificationResult = hashedPasswordVerification == PasswordVerificationResult.Failed;
             
             if (verificationResult)
