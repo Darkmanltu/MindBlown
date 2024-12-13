@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "7t3dBDcjtJk=",
+  "dgSpecHash": "+4HA2+Z7Uek=",
   "success": true,
-  "projectFilePath": "C:\\Users\\noske\\Desktop\\Studijom\\3 Semestras\\PS inzinerija\\PSIProjektas\\ServerTests\\ServerTests.csproj",
+  "projectFilePath": "C:\\Users\\noske\\RiderProjects\\Projektas\\ServerTests\\ServerTests.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\noske\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\noske\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",

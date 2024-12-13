@@ -164,7 +164,7 @@ namespace MindBlown.Pages
 
                 var addedMnemonic = await MnemonicService.CreateMnemonicAsync(newMnemonic);
                 var username = await AuthService.GetUsername();
-                await AuthService.UpdateUserWithMnemonic(username, newMnemonic);
+                await AuthService.UpdateUserWithMnemonic(username, newMnemonic, true);
                 mnemonicsList.Add(newMnemonic);
 
                 if (addedMnemonic == null)
@@ -235,7 +235,10 @@ namespace MindBlown.Pages
                 var mnemonicInDB = await MnemonicService.GetMnemonicAsync(mnemonicToRemove.Id);
                 if (mnemonicInDB != null)
                 {
+                    var username = await AuthService.GetUsername();
+                    
                     await MnemonicService.DeleteMnemonicAsync(mnemonicToRemove.Id);
+                    await AuthService.UpdateUserWithMnemonic(username, mnemonicToRemove, false);
 
                 }
                 else

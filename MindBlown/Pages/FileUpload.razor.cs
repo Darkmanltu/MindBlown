@@ -11,6 +11,7 @@ namespace MindBlown.Pages
     {
         [Inject] public required IMnemonicService MnemonicService { get; set; }
         [Inject] public required NavigationManager Navigation { get; set; }
+        [Inject] public required IAuthService AuthService { get; set; }
 
         public IBrowserFile? fileInfo;
 
@@ -73,6 +74,19 @@ namespace MindBlown.Pages
 
                                         existingMnemonics.Add(mnemonicFromList);
                                         await MnemonicService.CreateMnemonicAsync(mnemonicFromList);
+                                        
+                                        var username = await AuthService.GetUsername();
+                                        if (mnemonicFromList != null)
+                                        {
+                                            Console.WriteLine(username);
+                                            Console.WriteLine(mnemonicFromList);
+                                            Console.WriteLine(mnemonicFromList.HelperText);
+                                            Console.WriteLine(mnemonicFromList.MnemonicText);
+                                            Console.WriteLine(mnemonicFromList.Category);
+                                            Console.WriteLine(mnemonicFromList.Id);
+
+                                             await AuthService.UpdateUserWithMnemonic(username, mnemonicFromList, true);
+                                        }
                                     }
                                 }
                             }

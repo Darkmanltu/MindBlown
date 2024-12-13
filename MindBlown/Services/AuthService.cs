@@ -84,14 +84,15 @@ public class AuthService : IAuthService
         return null; // Signup failed
     }
 
-    public async Task<MnemonicsType?> UpdateUserWithMnemonic(string? username, MnemonicsType newMnemonic)
+    public async Task<MnemonicsType?> UpdateUserWithMnemonic(string? username, MnemonicsType newMnemonic, bool toAdd)
     {
         if (username != null)
         {
             var request = new MnemonicUpdateRequest()
             {
                 Username = username,
-                MnemonicToAdd = newMnemonic
+                MnemonicToAdd = newMnemonic,
+                ToAdd = toAdd
             };
             var response = await _httpClient.PutAsJsonAsync("api/userinfo", request);
             if (response.IsSuccessStatusCode)
@@ -215,6 +216,8 @@ public class MnemonicUpdateRequest
 {
     public required string Username { get; set; }
     public required MnemonicsType MnemonicToAdd { get; set; }
+    
+    public required bool ToAdd { get; set; }
 }
 
 public class LWARecordUpdateRequest
