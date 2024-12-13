@@ -222,8 +222,22 @@ public class UserCredentials
     public required string Password { get; set; }
 }
 
-// public class MnemonicUpdateRequest
-// {
-//     public required string Username { get; set; }
-//     public required Mnemonic MnemonicToAdd { get; set; }
-// }
+public class MnemonicUpdateRequest
+{
+    public required string Username { get; set; }
+    public required Mnemonic MnemonicToAdd { get; set; }
+    
+    public required bool ToAdd { get; set; }
+}
+
+public class LWARecordUpdateRequest
+{
+    public required string Username { get; set; }
+    public required Guid NewId { get; set; }
+}
+
+
+public class TokenResponse
+{
+    public required string Token { get; set; }
+}
