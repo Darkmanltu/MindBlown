@@ -7,7 +7,6 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Identity;
-using MindBlown.Server.Models;
 
 namespace MindBlow.Server.Controllers
 {
