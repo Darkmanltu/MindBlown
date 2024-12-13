@@ -12,6 +12,8 @@ on:
 jobs:
   build:
     runs-on: windows-latest
+    env:
+      DefaultConnection: ${{ secrets.CONNECTION_STRING }}
 
     steps:
       - uses: actions/checkout@v4
@@ -48,6 +50,9 @@ jobs:
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
+      - name: Set environment variable for DefaultConnection
+        run: echo "DefaultConnection=${{ secrets.OnlineConnectionDB }}" >> $GITHUB_ENV
+    
       - name: Download artifact from build job
         uses: actions/download-artifact@v3
         with:
