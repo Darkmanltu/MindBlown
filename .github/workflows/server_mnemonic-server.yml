@@ -22,6 +22,9 @@ jobs:
           dotnet-version: '8.x'
           include-prerelease: true
 
+      - name: Set environment variable for DefaultConnection
+        run: echo "DefaultConnection=${{ secrets.OnlineConnectionDB }}" >> $GITHUB_ENV
+        
       - name: Build with dotnet
         run: dotnet build --configuration Release
 
