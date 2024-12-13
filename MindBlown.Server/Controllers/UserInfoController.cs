@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Identity;
 
 namespace MindBlow.Server.Controllers
 {
@@ -40,10 +41,13 @@ namespace MindBlow.Server.Controllers
 
             if (isUnique)
             {
+                var passwordHasher = new PasswordHasher<object>();
+                string hashedPassword = passwordHasher.HashPassword(null, user.Password);
+
                 var newUserRow = new UserMnemonicIDs {
                     Id = Guid.NewGuid(),
                     Username = user.Username,
-                    Password = user.Password,
+                    Password = hashedPassword,
                     MnemonicGuids = new List<Guid>(),
                     LWARecordId = new Guid()
                 };
@@ -61,7 +65,12 @@ namespace MindBlow.Server.Controllers
         public async Task<ActionResult<TokenResponse>> LoginUser([FromBody] UserCredentials user)
         {
             var userInDb = await _context.UserWithMnemonicsIDs.FirstOrDefaultAsync(u => u.Username == user.Username);
-            if (userInDb == null || userInDb.Password != user.Password)
+            
+            var passwordHasher = new PasswordHasher<object>();
+            var hashedPasswordVerification = passwordHasher.VerifyHashedPassword(null, userInDb.Password, user.Password);
+            var verificationResult = hashedPasswordVerification == PasswordVerificationResult.Failed;
+            
+            if (userInDb == null || verificationResult)
             {
                 return BadRequest("Invalid login credentials");
             }
