@@ -12,8 +12,6 @@ on:
 jobs:
   build:
     runs-on: windows-latest
-    env:
-      DefaultConnection: "Server=tcp:mindblownsqlserver.database.windows.net,1433;Initial Catalog=mindblownDB;Persist Security Info=False;User ID=sqladmin;Password=C3Yef2e6vO7W3qa4;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
 
     steps:
       - uses: actions/checkout@v4
@@ -23,10 +21,6 @@ jobs:
         with:
           dotnet-version: '8.x'
           include-prerelease: true
-
-      # Debugging the DefaultConnection environment variable
-      - name: Debug environment variable
-        run: echo "DefaultConnection=${{ env.DefaultConnection }}"  # Use env.DefaultConnection, not secrets
         
       - name: Build with dotnet
         run: dotnet build --configuration Release
