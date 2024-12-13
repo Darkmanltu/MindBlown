@@ -66,11 +66,16 @@ namespace MindBlow.Server.Controllers
         {
             var userInDb = await _context.UserWithMnemonicsIDs.FirstOrDefaultAsync(u => u.Username == user.Username);
             
+            if (userInDb == null)
+            {
+                return BadRequest("Invalid login credentials");
+            }
+            
             var passwordHasher = new PasswordHasher<object>();
             var hashedPasswordVerification = passwordHasher.VerifyHashedPassword(null, userInDb.Password, user.Password);
             var verificationResult = hashedPasswordVerification == PasswordVerificationResult.Failed;
             
-            if (userInDb == null || verificationResult)
+            if (verificationResult)
             {
                 return BadRequest("Invalid login credentials");
             }
