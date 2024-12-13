@@ -13,7 +13,7 @@ jobs:
   build:
     runs-on: windows-latest
     env:
-      DefaultConnection: ${{ secrets.CONNECTION_STRING }}
+      DefaultConnection: "Server=tcp:mindblownsqlserver.database.windows.net,1433;Initial Catalog=mindblownDB;Persist Security Info=False;User ID=sqladmin;Password=C3Yef2e6vO7W3qa4;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
 
     steps:
       - uses: actions/checkout@v4
@@ -28,7 +28,7 @@ jobs:
         run: echo "DefaultConnection=${{ secrets.OnlineConnectionDB }}"
 
       - name: Set environment variable for DefaultConnection
-        run: echo "DefaultConnection=${{ secrets.OnlineConnectionDB }}" >> $GITHUB_ENV
+        run: echo "DefaultConnection=Server=tcp:mindblownsqlserver.database.windows.net,1433;Initial Catalog=mindblownDB;Persist Security Info=False;User ID=sqladmin;Password=C3Yef2e6vO7W3qa4;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;" >> $GITHUB_ENV
         
       - name: Build with dotnet
         run: dotnet build --configuration Release
@@ -50,9 +50,6 @@ jobs:
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
-      - name: Set environment variable for DefaultConnection
-        run: echo "DefaultConnection=${{ secrets.OnlineConnectionDB }}" >> $GITHUB_ENV
-    
       - name: Download artifact from build job
         uses: actions/download-artifact@v3
         with:
