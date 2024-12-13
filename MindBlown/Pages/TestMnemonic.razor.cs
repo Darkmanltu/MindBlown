@@ -13,15 +13,15 @@ namespace MindBlown.Pages
 
         // injecting for counter
         [Inject]
-        public IActiveUserClient ActiveUserClient { get; set; }
+        public required IActiveUserClient ActiveUserClient { get; set; }
         [Inject]
-        public IMnemonicService MnemonicService { get; set; }
+        public required IMnemonicService MnemonicService { get; set; }
         [Inject]
-        public IAuthService AuthService { get; set; }
+        public required IAuthService AuthService { get; set; }
         [Inject]
-        public ILWARecordService LWARecordService { get; set; }
+        public required ILWARecordService LWARecordService { get; set; }
         [Inject]
-        public IJSRuntime JS { get; set; }
+        public required IJSRuntime JS { get; set; }
         
         
         public Guid userId { get; set; }
