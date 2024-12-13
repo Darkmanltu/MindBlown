@@ -7,6 +7,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Identity;
+using MindBlown.Server.Models;
 
 namespace MindBlow.Server.Controllers
 {
@@ -225,7 +226,7 @@ public class UserCredentials
 public class MnemonicUpdateRequest
 {
     public required string Username { get; set; }
-    public required MnemonicsType MnemonicToAdd { get; set; }
+    public required Mnemonic MnemonicToAdd { get; set; }
     
     public required bool ToAdd { get; set; }
 }
