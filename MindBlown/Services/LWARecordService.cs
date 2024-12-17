@@ -17,8 +17,13 @@ namespace Services
         {
             try
             {
-                var result = await _httpClient.GetFromJsonAsync<LastWrongAnswerRecord?>($"api/lwarecord?id={id}");
-                return result;
+                var resp = await _httpClient.GetAsync($"api/lwarecord?id={id}");
+                if (resp.IsSuccessStatusCode)
+                {
+                    var result = await resp.Content.ReadFromJsonAsync<LastWrongAnswerRecord>();
+                    return result;
+                }
+                else return null;
             }
             catch (HttpRequestException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
