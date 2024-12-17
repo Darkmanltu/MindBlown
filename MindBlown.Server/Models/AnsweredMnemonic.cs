@@ -9,6 +9,6 @@ public class AnsweredMnemonic
     public bool IsCorrect { get; set; } // Whether the answer was correct
 
     // Navigation property to parent AnswerSession
-    public  AnswerSession AnswerSession { get; set; }
+    public required AnswerSession AnswerSession { get; set; }
 }
 }
