@@ -61,7 +61,6 @@ namespace MindBlown.Pages
             // Retrieve user ID from session storage or generate a new one if it doesn't exist
             userId = await JS.InvokeAsync<Guid>("sessionStorage.getItem", "userId");
 
-
             // Console.WriteLine("User ID: " + userId);
             // Add the user to ActiveUserClient
             bool isUnique = await ActiveUserClient.IsSessionIdUniqueAsync(userId);
@@ -278,7 +277,8 @@ namespace MindBlown.Pages
         {
             // Perform async cleanup
             var userId = await JS.InvokeAsync<Guid>("sessionStorage.getItem", "userId");
-            await ActiveUserClient.RemoveUserAsync(userId);
+            // unnecasary
+            // await ActiveUserClient.RemoveUserAsync(userId);
             var activeUserDict = await ActiveUserClient.GetDictionary();
             //ActiveUserCount = await ActiveUserClient.GetActiveUserCountAsync();
             ActiveUserCount = await ActiveUserClient.GetActiveUserCountAsync(activeUserDict);
