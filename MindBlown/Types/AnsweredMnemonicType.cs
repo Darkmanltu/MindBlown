@@ -12,7 +12,7 @@ namespace MindBlown.Types
     public bool IsCorrect { get; set; } // Whether the answer was correct
 
     // Navigation property to parent AnswerSession
-    public  AnswerSessionType AnswerSession { get; set; }
+    public required AnswerSessionType AnswerSession { get; set; }
     }
 
 
