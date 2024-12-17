@@ -22,18 +22,7 @@ namespace MindBlow.Server.Controllers
             _context = context;
         }
 
-        // [HttpGet]
-        // public async Task<ActionResult<bool>> IsUsernameUnique([FromBody] UserCredentials user)
-        // {
-        //     // returns Record or null if doesn't exist
-        //     var userInDB = await _context.UserWithMnemonicsIDs.FirstOrDefaultAsync(u => u.Username == user.Username);
-        //     if (user == null)
-        //     {
-        //         return true;
-        //     }
-        //     return false;
-        // }
-
+     
         [HttpPost("signup")]
         public async Task<ActionResult> PostUser([FromBody] UserCredentials user)
         {
