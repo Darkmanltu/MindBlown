@@ -18,12 +18,6 @@ public class ActiveUserClient : IActiveUserClient
     public async Task<bool> IsSessionIdUniqueAsync(Guid sessionId)
     {
         var activeUsers = await GetActiveUsersAsync();
-        //System.Console.WriteLine("Session ID: " + sessionId);
-        //System.Console.WriteLine("Active Users: " );
-        // foreach (var userSessionId in activeUsers)
-        // {
-            // Console.WriteLine(userSessionId);
-        // }
         return !activeUsers.Contains(sessionId);
         
     }

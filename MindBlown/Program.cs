@@ -18,6 +18,7 @@ builder.Services.AddScoped<ILoggingService, LoggingService>();   // Register the
 builder.Services.AddScoped<IActiveUserClient, ActiveUserClient>();  // Register the interface
 builder.Services.AddScoped<ILWARecordService, LWARecordService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<AnswerStatService>();
 
 
 await builder.Build().RunAsync();

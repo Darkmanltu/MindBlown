@@ -5,6 +5,8 @@ using MindBlown.Types;
 using Services;
 using Microsoft.JSInterop;
 using MindBlown.Services;
+using System.Dynamic;
+using System.Text.Json;
 
 namespace MindBlown.Pages
 {
@@ -22,19 +24,22 @@ namespace MindBlown.Pages
         public required ILWARecordService LWARecordService { get; set; }
         [Inject]
         public required IJSRuntime JS { get; set; }
-        
-        
+        [Inject]
+        public required AnswerStatService answerStatService { get; set;}
+        public required List<AnswerSessionType> displayingStat {get; set;}
+        public required  AnswerSessionType answerSessionType {get; set;} 
+        public ICollection<AnsweredMnemonicType> answeredMnemonicTypes = new List<AnsweredMnemonicType>();
+        // to track userSessions
+        public bool isDropdownVisible = false;
+        public Guid answerSessionId = Guid.NewGuid();
         public Guid userId { get; set; }
         public int ActiveUserCount {get; set;}
         public Repository<MnemonicsType> mnemonicsList = new Repository<MnemonicsType>();
         public string userGivenMnemonicText = "";
 
-        // Initializes to 0 both values
         public AnsweringStatsStruct answeringStats = new AnsweringStatsStruct();
 
         public MnemonicsType? testingMnemonic;
-
-        // LastWrongAnswerRecord is defined below
         public LastWrongAnswerRecord? lastWrongAnswer;
 
         public bool nextMnemonic = false;
@@ -44,7 +49,13 @@ namespace MindBlown.Pages
         // Checks whether testingMnemonic is no longer null every 1s
         protected override async Task OnInitializedAsync()
         {
-             var chechifnull = await JS.InvokeAsync<string>("sessionStorage.getItem", "userId");
+            answerSessionType = new AnswerSessionType{
+                UserName = await AuthService.GetUsername() ?? string.Empty,
+            };
+            
+            var temp = Guid.NewGuid().ToString();
+            await JS.InvokeVoidAsync("sessionStorage.setItem", "answerSessionId",temp);
+            var chechifnull = await JS.InvokeAsync<string>("sessionStorage.getItem", "userId");
 
             // If userId is null or empty, it means it doesn't exist
             if (string.IsNullOrEmpty(chechifnull))
@@ -58,9 +69,9 @@ namespace MindBlown.Pages
 
             // Retrieve user ID from session storage or generate a new one if it doesn't exist
             userId = await JS.InvokeAsync<Guid>("sessionStorage.getItem", "userId");
+            answerSessionType.AnswerSessionId = await JS.InvokeAsync<Guid>("sessionStorage.getItem", "answerSessionId");
 
-
-            // Console.WriteLine("User ID: " + userId);
+            
             // Add the user to ActiveUserClient
             bool isUnique = await ActiveUserClient.IsSessionIdUniqueAsync(userId);
 
@@ -76,9 +87,7 @@ namespace MindBlown.Pages
 
             await ActiveUserClient.RemoveInnactive();
             var activeUserDict = await ActiveUserClient.GetDictionary();
-            //ActiveUserCount = await ActiveUserClient.GetActiveUserCountAsync();
             ActiveUserCount = await ActiveUserClient.GetActiveUserCountAsync(activeUserDict);
-            //await ActiveUserClient.RemoveUserAsync(userId);
             _timer = new Timer(async async =>
             {
                 await CheckActiveUserCountAsync();
@@ -89,7 +98,6 @@ namespace MindBlown.Pages
                 await Task.Delay(50);
             }
 
-            // testingMnemonic is no longer null
         }
 
         /*
@@ -101,14 +109,15 @@ namespace MindBlown.Pages
         {
             try
             {
+                
                 // Blocking call for asynchronous logic in Dispose()
                 DisposeAsync().GetAwaiter().GetResult();
             }
             catch (Exception )
             {   
                 // throws an exception but still executes it fine idk why
-                //Console.WriteLine($"Error during Dispose: {ex.Message}");
-            }
+                
+           }
 
 
             // Disposing timer for checking whether active user count updated
@@ -116,13 +125,19 @@ namespace MindBlown.Pages
         }
 
         public async Task DisposeAsync()
+        {        
+             var l = await answerStatService.AddAnswerSessionAsync(answerSessionType, answeredMnemonicTypes);
+             if (l != true){
+                // keep for to incase of a  problem
+                Console.WriteLine("Failed adding Statistic");
+             }
+             var name = await AuthService.GetUsername();
+            answerSessionType.UserName = name ?? string.Empty;
 
-        {
+           
             // Perform async cleanup
             var userId = await JS.InvokeAsync<Guid>("sessionStorage.getItem", "userId");
-            await ActiveUserClient.RemoveUserAsync(userId);
             var activeUserDict = await ActiveUserClient.GetDictionary();
-            //ActiveUserCount = await ActiveUserClient.GetActiveUserCountAsync();
             ActiveUserCount = await ActiveUserClient.GetActiveUserCountAsync(activeUserDict);
         }
 
@@ -131,18 +146,24 @@ namespace MindBlown.Pages
         {
             if (firstRender)
             {
+                
                 await JS.InvokeVoidAsync("detectTabCloseF", DotNetObjectReference.Create(this));
                 await LoadMnemonics();
                 var username = await AuthService.GetUsername();
                 var recordId = await AuthService.GetLWARecordId(username);
                 lastWrongAnswer = await LWARecordService.GetRecordAsync(recordId);
-
+                answerSessionType.AnswerSessionId = await JS.InvokeAsync<Guid>("sessionStorage.getItem", "answerSessionId");
+                var name = await AuthService.GetUsername();
+                answerSessionType.UserName = name ?? string.Empty;
                 if (mnemonicsList.Count() != 0)
                 {
                     getRandomMnemonic();
                 }
+                
             }
-
+     
+            answerSessionId =  await JS.InvokeAsync<Guid>("sessionStorage.getItem", "answerSessionId");
+            
             if (nextMnemonic)
             {
                 nextMnemonic = false;
@@ -161,8 +182,6 @@ namespace MindBlown.Pages
         {
             // Retrieve the active user count
             var activeUserCountCheck = await ActiveUserClient.GetActiveUserCountAsync(await ActiveUserClient.GetDictionary());
-            // Console.WriteLine($"Active user recounter: {activeUserCountCheck}");
-
             // Update the state if the count has changed
             if (ActiveUserCount != activeUserCountCheck)
             {
@@ -186,14 +205,41 @@ namespace MindBlown.Pages
         // Task when Check button is pressed
         public async Task CheckMnemonic()
         {
+
+          
+            
             object userMnemonic = new MnemonicsType(newMnemonicText: userGivenMnemonicText);
 
             if (testingMnemonic != null && testingMnemonic.Equals((MnemonicsType)userMnemonic))
             {
+                
                 answeringStats.correctAnswerCount++;
+                answerSessionType.CorrectCount = answeringStats.correctAnswerCount;
+                 var ans = new AnsweredMnemonicType {
+                    AnswerSessionId = answerSessionType.AnswerSessionId,
+                    AnsweredMnemonicId = Guid.NewGuid(),
+                    MnemonicId = testingMnemonic.Id,
+                    IsCorrect = true,
+                    AnswerSession = answerSessionType
+                };
+                 answerSessionType.AnswerSessionId = await JS.InvokeAsync<Guid>("sessionStorage.getItem", "answerSessionId");
+                answeredMnemonicTypes.Add(ans);
+                
             }
             else
             {
+                answerSessionType.IncorrectCount++;
+                var ans = new AnsweredMnemonicType {
+                    AnswerSessionId = answerSessionType.AnswerSessionId,
+                    AnsweredMnemonicId = Guid.NewGuid(),
+                    MnemonicId = testingMnemonic?.Id ?? Guid.Empty,
+                    IsCorrect = false,
+                    AnswerSession = answerSessionType
+
+                };
+              
+                answeredMnemonicTypes.Add(ans);
+                
                 // Use record for last wrong answered mnemonic
                 if (testingMnemonic?.HelperText != null && testingMnemonic?.MnemonicText != null )
                 {
@@ -230,6 +276,21 @@ namespace MindBlown.Pages
             int randomNumber = random.Next(0, mnemonicsList.Count());
             MnemonicsType randomMnemonic = mnemonicsList[randomNumber];
             return testingMnemonic = randomMnemonic;
+        }
+         private async void ToggleDropdown()
+        {
+           
+            var username = await AuthService.GetUsername();
+            if (username != null){
+                
+                displayingStat = await answerStatService.GetList(username);
+                
+            }
+            if (displayingStat == null || !displayingStat.Any()){
+                
+            }
+            else 
+            isDropdownVisible = !isDropdownVisible;
         }
         public async Task Enter(KeyboardEventArgs e)
         {
