@@ -26,7 +26,7 @@ namespace MindBlown.Server.Controllers
         [HttpPost ("add")]
         public async Task<ActionResult<AnswerSession>> CreateAnswerSession([FromBody] AnswerSession answerSession)
         {
-            Console.WriteLine("Sent id:" + answerSession.AnswerSessionId + " and :" + " and :" + answerSession.CorrectCount + " and :" + answerSession.LastAnswerTime + " and :" + answerSession.UserName);
+            
             // Ensure that required properties are set
             if (answerSession == null)
             {
@@ -91,15 +91,17 @@ namespace MindBlown.Server.Controllers
             }
 
             // Log the incoming request data
-            //Console.WriteLine($"Received AnsweredMnemonic: " + answeredMnemonic.AnswerSessionId);
+          
             try
             {
                     // Ensure the AnswerSession exists
-        var answerSession = await _context.AnswerSessions.FindAsync(answeredMnemonic.AnswerSessionId);
-        if (answerSession == null)
-        {
-            return NotFound();
-        }
+                if (answeredMnemonic != null && answeredMnemonic.AnswerSessionId != Guid.Empty)
+                {
+                    var answerSession = await _context.AnswerSessions.FindAsync(answeredMnemonic.AnswerSessionId);
+                    if (answerSession == null)
+                    {
+                        return NotFound();
+                    }
                 
 
                 _context.AnsweredMnemonics.Add(m);
@@ -107,20 +109,21 @@ namespace MindBlown.Server.Controllers
 
                 answerSession.LastAnswerTime = DateTime.UtcNow;
                 
-                try
-                {
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateException ex)
-                {
-                    return StatusCode(500, $"Internal server error: {ex.Message}");
-                }
+                    try
+                    {
+                        await _context.SaveChangesAsync();
+                    }
+                    catch (DbUpdateException ex)
+                    {
+                        return StatusCode(500, $"Internal server error: {ex.Message}");
+                    }
 
+                }
             }
             catch (Exception e)
             {
                 
-                return BadRequest("AnswerSession was not generated yet");
+                return BadRequest("AnswerSession was not generated yet" + e.Message);
             }
         
             return Ok();
