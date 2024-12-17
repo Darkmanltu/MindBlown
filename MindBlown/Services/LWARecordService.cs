@@ -21,6 +21,10 @@ namespace Services
                 if (resp.IsSuccessStatusCode)
                 {
                     var result = await resp.Content.ReadFromJsonAsync<LastWrongAnswerRecord>();
+                    if ( result == null || result.Id == Guid.Empty || result.helperText == null || result.mnemonicText == null || result.wrongTextMnemonic == null) 
+                    {
+                        return null;
+                    }
                     return result;
                 }
                 else return null;
