@@ -1,0 +1,10 @@
+MindBlown/obj
+MindBlown/bin
+MindBlown.sln
+MindBlown.Server/obj
+MindBlown.Server/bin
+ClientTests/obj
+ClientTests/bin
+ServerTests/obj
+ServerTests/bin
+.idea
