@@ -126,12 +126,7 @@ namespace MindBlown.Pages
 
         public async Task DisposeAsync()
         {        
-             var l = await answerStatService.AddAnswerSessionAsync(answerSessionType, answeredMnemonicTypes);
-             if (l != true){
-                // keep for to incase of a  problem
-                Console.WriteLine("Failed adding Statistic");
-             }
-             var name = await AuthService.GetUsername();
+            var name = await AuthService.GetUsername();
             answerSessionType.UserName = name ?? string.Empty;
 
            
