@@ -20,8 +20,19 @@ public class AnswerStatService {
     }
 
     public async Task<List<AnswerSessionType>> GetList(string username){
-        var list = await _httpClient.GetFromJsonAsync<List<AnswerSessionType>>($"api/answersession/list?user={Uri.EscapeDataString(username)}") ?? new List<AnswerSessionType>();
-        return list;
+        var response = await _httpClient.GetAsync($"api/answersession/list?user={Uri.EscapeDataString(username)}");
+
+         if (response.IsSuccessStatusCode)
+         {
+             // Parse the JSON only if the request was successful (status code 200-299)
+             var list = await response.Content.ReadFromJsonAsync<List<AnswerSessionType>>() ?? new List<AnswerSessionType>();
+             return list;
+         }
+         else if (response.StatusCode == HttpStatusCode.NotFound)
+         {
+             // Handle 404 Not Found case here
+             return new List<AnswerSessionType>();
+         }
     }
 
     public async Task<bool> CreateAnswerSessionAsync(AnswerSessionType answerSession){
