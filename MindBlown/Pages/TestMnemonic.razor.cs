@@ -272,21 +272,17 @@ namespace MindBlown.Pages
             MnemonicsType randomMnemonic = mnemonicsList[randomNumber];
             return testingMnemonic = randomMnemonic;
         }
-         private async void ToggleDropdown()
+        
+        private async void ToggleDropdown()
         {
-           
             var username = await AuthService.GetUsername();
             if (username != null){
-                
                 displayingStat = await answerStatService.GetList(username);
-                
             }
-            if (displayingStat == null || !displayingStat.Any()){
-                
-            }
-            else 
+
             isDropdownVisible = !isDropdownVisible;
         }
+        
         public async Task Enter(KeyboardEventArgs e)
         {
             if (e.Key == "Enter" || e.Key == "NumpadEnter")
