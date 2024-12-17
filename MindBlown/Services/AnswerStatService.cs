@@ -20,8 +20,13 @@ public class AnswerStatService {
     }
 
     public async Task<List<AnswerSessionType>> GetList(string username){
-        var list = await _httpClient.GetFromJsonAsync<List<AnswerSessionType>>($"api/answersession/list?user={Uri.EscapeDataString(username)}") ?? new List<AnswerSessionType>();
-        return list;
+        var response = await _httpClient.GetAsync($"api/answersession/list?user={Uri.EscapeDataString(username)}");
+        if (response.IsSuccessStatusCode)
+        {
+            var resp = await response.Content.ReadFromJsonAsync<List<AnswerSessionType>>() ?? new List<AnswerSessionType>();
+            return resp;
+        }
+        return new List<AnswerSessionType>();
     }
 
     public async Task<bool> CreateAnswerSessionAsync(AnswerSessionType answerSession){
