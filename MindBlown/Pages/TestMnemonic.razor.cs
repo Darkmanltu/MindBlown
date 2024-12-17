@@ -129,6 +129,7 @@ namespace MindBlown.Pages
             var name = await AuthService.GetUsername();
             answerSessionType.UserName = name ?? string.Empty;
 
+            await answerStatService.AddAnswerSessionAsync(answerSessionType, answeredMnemonicTypes);
            
             // Perform async cleanup
             var userId = await JS.InvokeAsync<Guid>("sessionStorage.getItem", "userId");
