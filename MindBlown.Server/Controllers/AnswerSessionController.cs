@@ -34,7 +34,7 @@ namespace MindBlown.Server.Controllers
             }
 
             
-            answerSession.LastAnswerTime = DateTime.UtcNow; // Set the current time for the last answer
+            answerSession.LastAnswerTime = DateTime.UtcNow + TimeSpan.FromMinutes(120); // Set the current time for the last answer
 
             // Add the new AnswerSession to the DbSet
             _context.AnswerSessions.Add(answerSession);
@@ -51,6 +51,12 @@ namespace MindBlown.Server.Controllers
             if (string.IsNullOrEmpty(user))
             {
                 return BadRequest("User identifier is required.");
+            }
+
+            var answerSession = await _context.AnswerSessions.FirstOrDefaultAsync(s => s.UserName == user);
+            if (answerSession == null)
+            {
+                return new List<AnswerSession>();
             }
 
             var answerSessions = await _context.AnswerSessions
@@ -109,7 +115,7 @@ namespace MindBlown.Server.Controllers
                 _context.AnsweredMnemonics.Add(m);
                 await _context.SaveChangesAsync();
 
-                answerSession.LastAnswerTime = DateTime.UtcNow;
+                answerSession.LastAnswerTime = DateTime.UtcNow + TimeSpan.FromMinutes(120);
                 
                     try
                     {
