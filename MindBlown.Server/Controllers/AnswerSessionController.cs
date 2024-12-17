@@ -52,6 +52,12 @@ namespace MindBlown.Server.Controllers
             {
                 return BadRequest("User identifier is required.");
             }
+            
+            var answerSession = await _context.AnswerSessions.FirstOrDefaultAsync(s => s.UserName == user);
+            if (answerSession == null)
+            {
+                return new List<AnswerSession>();
+            }
 
             var answerSessions = await _context.AnswerSessions
                 .Where(s => s.UserName == user) // Assuming AnswerSession has UserId property
