@@ -83,7 +83,7 @@ public class AnswerStatService {
                         var resp = await _httpClient.PostAsJsonAsync("api/answersession/addAnsweredMnemonic", ans);
                         if (!resp.IsSuccessStatusCode)
                         {
-                            Console.WriteLine("Error answredmnem: " + resp.ReasonPhrase);
+                            Console.WriteLine("Error bad answered mnemonic: " + resp.ReasonPhrase);
                             return false;
                         }
                     }
