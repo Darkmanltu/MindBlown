@@ -47,12 +47,11 @@ public class AnswerStatService {
      public async Task<bool> AddAnswerSessionAsync(AnswerSessionType answerSession, ICollection<AnsweredMnemonicType> answerMnemonics)
     {
             
-           //  Console.WriteLine("Trying to create session: " + answerSession.AnswerSessionId + " and: " + answerSession.CorrectCount );
-
+           
         
         if (answerMnemonics == null || !answerMnemonics.Any())
         {
-            Console.WriteLine("empty list");
+            
             return false;
         }
 
@@ -67,13 +66,7 @@ public class AnswerStatService {
 
         try
         {   
-            
-             //Console.WriteLine("AnswerSession: " + JsonSerializer.Serialize(answerSession));
-            
-
             // Sending POST request to the AnswerSessionController API endpoint
-        
-           
                 try
                 {
                     foreach (var m in answerMnemonics)
@@ -90,8 +83,7 @@ public class AnswerStatService {
                         var resp = await _httpClient.PostAsJsonAsync("api/answersession/addAnsweredMnemonic", ans);
                         if (!resp.IsSuccessStatusCode)
                         {
-                          //  Console.WriteLine("Error answredmnem: " + resp.ReasonPhrase);
-                            // Console.WriteLine("AnsweredMnemonics: " + JsonSerializer.Serialize(ans));
+                            Console.WriteLine("Error answredmnem: " + resp.ReasonPhrase);
                             return false;
                         }
                     }
