@@ -24,7 +24,7 @@ namespace MindBlow.Server.Controllers
             var record = await _context.Record.FirstOrDefaultAsync(r => r.Id == id);
             if (record == null)
             {
-                return NotFound();
+                return new LastWrongAnswerRecord{Id = Guid.Empty, helperText = null, mnemonicText = null, wrongTextMnemonic = null};
             }
             return Ok(record);
         }
