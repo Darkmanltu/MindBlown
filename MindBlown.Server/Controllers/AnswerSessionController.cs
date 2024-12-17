@@ -79,11 +79,14 @@ namespace MindBlown.Server.Controllers
         [HttpPost("addAnsweredMnemonic")]
         public async Task<IActionResult> AddAnsweredMnemonic([FromBody] AnsweredMnemonic answeredMnemonic)
         {
+
+            var answerSessionForMnemonic = await _context.AnswerSessions.FindAsync(answeredMnemonic.AnswerSessionId);
             var m = new AnsweredMnemonic{
                 AnsweredMnemonicId = Guid.NewGuid(),
                 AnswerSessionId = answeredMnemonic.AnswerSessionId,
                 MnemonicId = answeredMnemonic.MnemonicId,
-                IsCorrect = answeredMnemonic.IsCorrect
+                IsCorrect = answeredMnemonic.IsCorrect,
+                AnswerSession = answerSessionForMnemonic!
             };
             if (answeredMnemonic == null)
             {
@@ -104,10 +107,10 @@ namespace MindBlown.Server.Controllers
                     }
                 
 
-                _context.AnsweredMnemonics.Add(m);
-                await _context.SaveChangesAsync();
+                    _context.AnsweredMnemonics.Add(m);
+                    await _context.SaveChangesAsync();
 
-                answerSession.LastAnswerTime = DateTime.UtcNow;
+                    answerSession.LastAnswerTime = DateTime.UtcNow;
                 
                     try
                     {
