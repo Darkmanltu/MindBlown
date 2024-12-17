@@ -78,9 +78,6 @@ namespace MindBlow.Server.Controllers
                 await _context.SaveChangesAsync();
             }
 
-            // _context.Mnemonics.AddRange(mnemonics);
-            // await _context.SaveChangesAsync();
-
             return CreatedAtAction(nameof(GetMnemonics), uniqueMnemonics);
         }
 
