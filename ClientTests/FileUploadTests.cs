@@ -17,16 +17,19 @@ public class FileUploadTests
     private readonly Mock<IMnemonicService> _mnemonicServiceMock;
     private readonly FileUpload _fileUpload;
     private readonly Mock<NavigationManager> _navigationMock;
+    private readonly Mock<IAuthService> _authServiceMock;
 
     public FileUploadTests()
     {
         _mnemonicServiceMock = new Mock<IMnemonicService>();
         _navigationMock = new Mock<NavigationManager>(MockBehavior.Strict);
+        _authServiceMock = new Mock<IAuthService>(MockBehavior.Strict);
 
         _fileUpload = new FileUpload
         {
             MnemonicService = _mnemonicServiceMock.Object,
-            Navigation = _navigationMock.Object
+            Navigation = _navigationMock.Object,
+            AuthService = _authServiceMock.Object
         };
     }
 
@@ -62,10 +65,10 @@ public class FileUploadTests
     [Fact]
     public async Task UploadFile_Should_ProcessValidJsonAndCallService()
     {
-        
-        var mnemonicJson = JsonSerializer.Serialize(new List<MnemonicsType>
+     
+        var mnemonicJson = JsonSerializer.Serialize(new List<object>
         {
-            new MnemonicsType { HelperText = "Test", MnemonicText = "T", Category = MnemonicCategory.Other }
+            new { HelperText = "Test", MnemonicText = "T", Category = MnemonicCategory.Other }
         });
 
         var stream = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(mnemonicJson));
@@ -73,10 +76,10 @@ public class FileUploadTests
         fileMock
             .Setup(f => f.OpenReadStream(It.IsAny<long>(), default))
             .Returns(() => stream);
-        
+
         _fileUpload.fileInfo = fileMock.Object;
 
-        var existingMnemonics = new List<MnemonicsType>(); // Simulate no existing mnemonics
+        var existingMnemonics = new List<MnemonicsType>(); 
         _mnemonicServiceMock
             .Setup(service => service.GetMnemonicsAsync())
             .ReturnsAsync(existingMnemonics);
@@ -85,17 +88,23 @@ public class FileUploadTests
             .Setup(service => service.CreateMnemonicAsync(It.IsAny<MnemonicsType>()))
             .ReturnsAsync((MnemonicsType mnemonic) => mnemonic);
 
-        _mnemonicServiceMock
-            .Setup(service => service.LogErrorToServerAsync(It.IsAny<string>(), It.IsAny<string>()))
-            .Returns(Task.CompletedTask);
+        _authServiceMock
+            .Setup(auth => auth.GetUsername())
+            .ReturnsAsync("testuser");
 
+        _authServiceMock
+            .Setup(auth => auth.UpdateUserWithMnemonic(It.IsAny<string>(), It.IsAny<MnemonicsType>(), It.IsAny<bool>()))
+            .ReturnsAsync((string username, MnemonicsType mnemonic, bool toAdd) => mnemonic);
         
         await _fileUpload.UploadFile();
 
-        
+       
         _mnemonicServiceMock.Verify(service => service.CreateMnemonicAsync(It.Is<MnemonicsType>(m => m.HelperText == "Test")), Times.Once);
+        _authServiceMock.Verify(auth => auth.UpdateUserWithMnemonic("testuser", It.Is<MnemonicsType>(m => m.HelperText == "Test"), true), Times.Once);
         Assert.Equal("File uploaded and mnemonics unboxed successfully!", _fileUpload.message);
     }
+
+    
     [Fact]
     public async Task UploadFile_Should_HandleInvalidJsonGracefully()
     {
@@ -119,7 +128,7 @@ public class FileUploadTests
     [Fact]
     public async Task UploadFile_Should_NotDuplicateMnemonics()
     {
-        // Arrange
+       
         var existingMnemonics = new List<MnemonicsType>
         {
             new MnemonicsType { HelperText = "Duplicate", MnemonicText = "D", Category = MnemonicCategory.Other }
@@ -160,6 +169,6 @@ public class TestNavigationManager : NavigationManager
 
     protected override void NavigateToCore(string uri, bool forceLoad)
     {
-        NavigatedTo = uri; // Capture the navigation URI for assertion
+        NavigatedTo = uri; 
     }
 }

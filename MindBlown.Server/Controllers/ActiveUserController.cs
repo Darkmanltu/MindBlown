@@ -36,7 +36,6 @@ public class ActiveUserController : ControllerBase
     [HttpPost("add")]
     public async Task<IActionResult> AddUser([FromBody] Guid userId, Guid sessionId)
     {
-        //System.Console.WriteLine("Adding user:");
         await _sessionTrackingService.AddSessionAsync(userId, sessionId);
         return Ok();
     }
@@ -87,7 +86,6 @@ public async Task<IActionResult> GetActiveUsersFull()
         var users = await _sessionTrackingService.GetActiveUsersAsync();
 
         foreach (var u in users){
-            // Console.WriteLine($"Removing user with ID: {u.SessionId}");
             if (u.LastActive < DateTime.UtcNow.AddMinutes(-5)){
                 await RemoveUser(u.SessionId);
                 // might help with thread race condition
@@ -95,9 +93,7 @@ public async Task<IActionResult> GetActiveUsersFull()
             }
         }
 
-        //await Task.Wait(500);
-    
-
+      
     return Ok();
     }
 }

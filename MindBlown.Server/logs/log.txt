@@ -221,3 +221,4 @@
    at MindBlown.Pages.Mnemonics.OnSubmit() in C:\Users\noske\RiderProjects\Projektas\MindBlown\Pages\Mnemonics.razor.cs:line 154
 2024-12-11 11:27:32 [Error]: Mnemonic with given Helper text already exists. - MindBlown.Exceptions.MnemonicAlreadyExistsException: Mnemonic with given Helper text already exists.
    at MindBlown.Pages.Mnemonics.OnSubmit() in C:\Users\noske\RiderProjects\Projektas\MindBlown\Pages\Mnemonics.razor.cs:line 154
+2024-12-17 14:54:46 [Error]: Error fetching mnemonics - TypeError: Failed to fetch

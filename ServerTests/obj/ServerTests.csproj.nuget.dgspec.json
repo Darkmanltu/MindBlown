@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\noske\\RiderProjects\\Projektas\\ServerTests\\ServerTests.csproj": {}
+    "C:\\Users\\noske\\Desktop\\Studijom\\3 Semestras\\PS inzinerija\\PSIProjektas\\ServerTests\\ServerTests.csproj": {}
   },
   "projects": {
-    "C:\\Users\\noske\\RiderProjects\\Projektas\\MindBlown.Server\\MindBlown.Server.csproj": {
+    "C:\\Users\\noske\\Desktop\\Studijom\\3 Semestras\\PS inzinerija\\PSIProjektas\\MindBlown.Server\\MindBlown.Server.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\noske\\RiderProjects\\Projektas\\MindBlown.Server\\MindBlown.Server.csproj",
+        "projectUniqueName": "C:\\Users\\noske\\Desktop\\Studijom\\3 Semestras\\PS inzinerija\\PSIProjektas\\MindBlown.Server\\MindBlown.Server.csproj",
         "projectName": "MindBlown.Server",
-        "projectPath": "C:\\Users\\noske\\RiderProjects\\Projektas\\MindBlown.Server\\MindBlown.Server.csproj",
+        "projectPath": "C:\\Users\\noske\\Desktop\\Studijom\\3 Semestras\\PS inzinerija\\PSIProjektas\\MindBlown.Server\\MindBlown.Server.csproj",
         "packagesPath": "C:\\Users\\noske\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\noske\\RiderProjects\\Projektas\\MindBlown.Server\\obj\\",
+        "outputPath": "C:\\Users\\noske\\Desktop\\Studijom\\3 Semestras\\PS inzinerija\\PSIProjektas\\MindBlown.Server\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\noske\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -26,8 +26,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\noske\\RiderProjects\\Projektas\\MindBlown\\MindBlown.csproj": {
-                "projectPath": "C:\\Users\\noske\\RiderProjects\\Projektas\\MindBlown\\MindBlown.csproj"
+              "C:\\Users\\noske\\Desktop\\Studijom\\3 Semestras\\PS inzinerija\\PSIProjektas\\MindBlown\\MindBlown.csproj": {
+                "projectPath": "C:\\Users\\noske\\Desktop\\Studijom\\3 Semestras\\PS inzinerija\\PSIProjektas\\MindBlown\\MindBlown.csproj"
               }
             }
           }
@@ -47,6 +47,10 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "Microsoft.AspNetCore.Identity": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
               "version": "[8.0.8, )"
@@ -101,14 +105,14 @@
         }
       }
     },
-    "C:\\Users\\noske\\RiderProjects\\Projektas\\MindBlown\\MindBlown.csproj": {
+    "C:\\Users\\noske\\Desktop\\Studijom\\3 Semestras\\PS inzinerija\\PSIProjektas\\MindBlown\\MindBlown.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\noske\\RiderProjects\\Projektas\\MindBlown\\MindBlown.csproj",
+        "projectUniqueName": "C:\\Users\\noske\\Desktop\\Studijom\\3 Semestras\\PS inzinerija\\PSIProjektas\\MindBlown\\MindBlown.csproj",
         "projectName": "MindBlown",
-        "projectPath": "C:\\Users\\noske\\RiderProjects\\Projektas\\MindBlown\\MindBlown.csproj",
+        "projectPath": "C:\\Users\\noske\\Desktop\\Studijom\\3 Semestras\\PS inzinerija\\PSIProjektas\\MindBlown\\MindBlown.csproj",
         "packagesPath": "C:\\Users\\noske\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\noske\\RiderProjects\\Projektas\\MindBlown\\obj\\",
+        "outputPath": "C:\\Users\\noske\\Desktop\\Studijom\\3 Semestras\\PS inzinerija\\PSIProjektas\\MindBlown\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\noske\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -201,14 +205,14 @@
         }
       }
     },
-    "C:\\Users\\noske\\RiderProjects\\Projektas\\ServerTests\\ServerTests.csproj": {
+    "C:\\Users\\noske\\Desktop\\Studijom\\3 Semestras\\PS inzinerija\\PSIProjektas\\ServerTests\\ServerTests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\noske\\RiderProjects\\Projektas\\ServerTests\\ServerTests.csproj",
+        "projectUniqueName": "C:\\Users\\noske\\Desktop\\Studijom\\3 Semestras\\PS inzinerija\\PSIProjektas\\ServerTests\\ServerTests.csproj",
         "projectName": "ServerTests",
-        "projectPath": "C:\\Users\\noske\\RiderProjects\\Projektas\\ServerTests\\ServerTests.csproj",
+        "projectPath": "C:\\Users\\noske\\Desktop\\Studijom\\3 Semestras\\PS inzinerija\\PSIProjektas\\ServerTests\\ServerTests.csproj",
         "packagesPath": "C:\\Users\\noske\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\noske\\RiderProjects\\Projektas\\ServerTests\\obj\\",
+        "outputPath": "C:\\Users\\noske\\Desktop\\Studijom\\3 Semestras\\PS inzinerija\\PSIProjektas\\ServerTests\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\noske\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -223,11 +227,11 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\noske\\RiderProjects\\Projektas\\MindBlown.Server\\MindBlown.Server.csproj": {
-                "projectPath": "C:\\Users\\noske\\RiderProjects\\Projektas\\MindBlown.Server\\MindBlown.Server.csproj"
+              "C:\\Users\\noske\\Desktop\\Studijom\\3 Semestras\\PS inzinerija\\PSIProjektas\\MindBlown.Server\\MindBlown.Server.csproj": {
+                "projectPath": "C:\\Users\\noske\\Desktop\\Studijom\\3 Semestras\\PS inzinerija\\PSIProjektas\\MindBlown.Server\\MindBlown.Server.csproj"
               },
-              "C:\\Users\\noske\\RiderProjects\\Projektas\\MindBlown\\MindBlown.csproj": {
-                "projectPath": "C:\\Users\\noske\\RiderProjects\\Projektas\\MindBlown\\MindBlown.csproj"
+              "C:\\Users\\noske\\Desktop\\Studijom\\3 Semestras\\PS inzinerija\\PSIProjektas\\MindBlown\\MindBlown.csproj": {
+                "projectPath": "C:\\Users\\noske\\Desktop\\Studijom\\3 Semestras\\PS inzinerija\\PSIProjektas\\MindBlown\\MindBlown.csproj"
               }
             }
           }

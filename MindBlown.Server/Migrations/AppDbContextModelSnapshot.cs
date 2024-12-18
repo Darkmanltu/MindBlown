@@ -22,6 +22,52 @@ namespace MindBlown.Server.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("MindBlown.Server.Models.AnswerSession", b =>
+                {
+                    b.Property<Guid>("AnswerSessionId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("CorrectCount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IncorrectCount")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("LastAnswerTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("AnswerSessionId");
+
+                    b.ToTable("AnswerSessions");
+                });
+
+            modelBuilder.Entity("MindBlown.Server.Models.AnsweredMnemonic", b =>
+                {
+                    b.Property<Guid>("AnsweredMnemonicId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AnswerSessionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsCorrect")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("MnemonicId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("AnsweredMnemonicId");
+
+                    b.HasIndex("AnswerSessionId");
+
+                    b.ToTable("AnsweredMnemonics");
+                });
+
             modelBuilder.Entity("MindBlown.Server.Models.LastWrongAnswerRecord", b =>
                 {
                     b.Property<Guid>("Id")
@@ -109,6 +155,22 @@ namespace MindBlown.Server.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("UserWithMnemonicsIDs");
+                });
+
+            modelBuilder.Entity("MindBlown.Server.Models.AnsweredMnemonic", b =>
+                {
+                    b.HasOne("MindBlown.Server.Models.AnswerSession", "AnswerSession")
+                        .WithMany("AnsweredMnemonics")
+                        .HasForeignKey("AnswerSessionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AnswerSession");
+                });
+
+            modelBuilder.Entity("MindBlown.Server.Models.AnswerSession", b =>
+                {
+                    b.Navigation("AnsweredMnemonics");
                 });
 #pragma warning restore 612, 618
         }

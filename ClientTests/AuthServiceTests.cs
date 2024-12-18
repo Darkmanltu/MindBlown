@@ -13,6 +13,8 @@ using Microsoft.JSInterop;
 using System.Net;
 using MindBlown.Types;
 using Moq.Protected;
+using MindBlown;
+using Services;
 
 public class AuthServiceTests
 {
@@ -53,13 +55,12 @@ public class AuthServiceTests
     [Fact]
     public async Task LoginAsync_ReturnsUsername_WhenLoginSuccessful()
     {
-
         var loginRequest = new AccRequest { Username = "testuser", Password = "password" };
-        var tokenResponse = new TokenResponse { Token = "dummyToken" };
+        
+        var jsonResponse = "{\"Token\": \"dummyToken\"}";
 
         var jsRuntimeMock = new Mock<IJSRuntime>();
-
-        // Mock HttpMessageHandler to mock SendAsync method
+        
         var httpClientMock = new Mock<HttpMessageHandler>();
         httpClientMock
             .Protected()
@@ -67,20 +68,19 @@ public class AuthServiceTests
             .ReturnsAsync(new HttpResponseMessage
             {
                 StatusCode = HttpStatusCode.OK,
-                Content = JsonContent.Create(tokenResponse)
+                Content = new StringContent(jsonResponse) 
             });
 
         var httpClient = new HttpClient(httpClientMock.Object)
         {
-            BaseAddress = new Uri("https://example.com/") // Set the BaseAddress for HttpClient
+            BaseAddress = new Uri("https://example.com/") 
         };
 
         var authService = new AuthService(jsRuntimeMock.Object, httpClient);
-
-
+        
         var result = await authService.LoginAsync(loginRequest);
         
-        Assert.Equal(loginRequest.Username, result);
+        Assert.Equal(loginRequest.Username, result);  
     }
 
     [Fact]
@@ -90,12 +90,11 @@ public class AuthServiceTests
         var loginRequest = new AccRequest { Username = "testuser", Password = "wrongpassword" };
         
         var jsRuntimeMock = new Mock<IJSRuntime>();
-
-        // Mock HttpMessageHandler to mock SendAsync method
+        
         var httpClientMock = new Mock<HttpMessageHandler>();
 
         httpClientMock
-            .Protected()  // Protected() to access protected methods like SendAsync
+            .Protected()  
             .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
             .ReturnsAsync(new HttpResponseMessage
             {
@@ -105,7 +104,7 @@ public class AuthServiceTests
 
         var httpClient = new HttpClient(httpClientMock.Object)
         {
-            BaseAddress = new Uri("https://example.com/") // Set the BaseAddress
+            BaseAddress = new Uri("https://example.com/") 
         };
 
         var authService = new AuthService(jsRuntimeMock.Object, httpClient);
@@ -130,7 +129,7 @@ public class AuthServiceTests
         var jsRuntimeMock = new Mock<IJSRuntime>();
         jsRuntimeMock.Setup(js => js.InvokeAsync<string>("localStorage.getItem", It.IsAny<object[]>())).ReturnsAsync(validToken);
 
-        var httpClientMock = new HttpClient(); // Not used here
+        var httpClientMock = new HttpClient();
         var authService = new AuthService(jsRuntimeMock.Object, httpClientMock);
 
         // Act
@@ -143,62 +142,66 @@ public class AuthServiceTests
     [Fact]
     public async Task GetUsername_ReturnsNull_WhenTokenIsInvalid()
     {
-        // Arrange
+     
         var invalidToken = "invalid.token.string";
 
         var jsRuntimeMock = new Mock<IJSRuntime>();
         jsRuntimeMock.Setup(js => js.InvokeAsync<string>("localStorage.getItem", It.IsAny<object[]>())).ReturnsAsync(invalidToken);
 
-        var httpClientMock = new HttpClient(); // Not used here
+        var httpClientMock = new HttpClient(); 
         var authService = new AuthService(jsRuntimeMock.Object, httpClientMock);
 
-        // Act
+       
         var result = await authService.GetUsername();
 
-        // Assert
+   
         Assert.Null(result);
     }
 
     [Fact]
     public async Task SomeMethod_ReturnsMnemonic_WhenSuccessful()
     {
-        // Arrange
-        var mnemonic = new MnemonicsType { /* Initialize your mnemonic object here */ };
+       
+        var mnemonic = new MnemonicsType
+        {
+            
+        };
+        var toAdd = true;
 
         var jsRuntimeMock = new Mock<IJSRuntime>();
 
-        // Mock HttpMessageHandler to mock SendAsync method
+       
         var httpClientMock = new Mock<HttpMessageHandler>();
 
-        // Set up the SendAsync method on HttpMessageHandler to return a successful response
+    
         httpClientMock
-            .Protected()  // Use Protected() to access protected methods like SendAsync
-            .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+            .Protected() 
+            .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(),
+                ItExpr.IsAny<CancellationToken>())
             .ReturnsAsync(new HttpResponseMessage
             {
                 StatusCode = HttpStatusCode.OK,
-                Content = JsonContent.Create(mnemonic)  // Return the mnemonic object as content
+                Content = JsonContent.Create(mnemonic) 
             });
-        
-        
+
         var httpClient = new HttpClient(httpClientMock.Object)
         {
-            BaseAddress = new Uri("https://example.com/") // Set the BaseAddress for HttpClient
+            BaseAddress = new Uri("https://example.com/") 
         };
 
         var authService = new AuthService(jsRuntimeMock.Object, httpClient);
 
-        // Act
-        var result = await authService.UpdateUserWithMnemonic("testuser", mnemonic);
+    
+        var result = await authService.UpdateUserWithMnemonic("testuser", mnemonic, toAdd);
 
-        // Assert
-        Assert.Equal(mnemonic, result);  // Check if the result is the same mnemonic object returned
+      
+        Assert.Equal(mnemonic, result);
     }
 
     [Fact]
     public async Task SomeMethod_ReturnsExpectedGuids_WhenSuccessful()
     {
-        // Arrange
+  
         var expectedGuids = new List<Guid>
         {
             Guid.NewGuid(),
@@ -207,67 +210,201 @@ public class AuthServiceTests
 
         var jsRuntimeMock = new Mock<IJSRuntime>();
 
-        // Mock HttpMessageHandler to mock SendAsync method
+      
         var httpClientMock = new Mock<HttpMessageHandler>();
 
-        // Set up the SendAsync method on HttpMessageHandler to return a successful response
+        
         httpClientMock
-            .Protected()  // Use Protected() to access protected methods like SendAsync
+            .Protected()  
             .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
             .ReturnsAsync(new HttpResponseMessage
             {
                 StatusCode = HttpStatusCode.OK,
-                Content = JsonContent.Create(expectedGuids)  // Return the expected Guids as content
+                Content = JsonContent.Create(expectedGuids) 
             });
         
         
         var httpClient = new HttpClient(httpClientMock.Object)
         {
-            BaseAddress = new Uri("https://example.com/") // Set the BaseAddress for HttpClient
+            BaseAddress = new Uri("https://example.com/") 
         };
 
         var authService = new AuthService(jsRuntimeMock.Object, httpClient);
 
-        // Act
+   
         var result = await authService.GetMnemonicsGuids("testuser");
 
-        // Assert
-        Assert.Equal(expectedGuids, result);  // Check if the result matches the expected list of Guids
+ 
+        Assert.Equal(expectedGuids, result);  
     }
 
     [Fact]
     public async Task SomeMethod_ReturnsNewId_WhenSuccessful()
     {
-        // Arrange
+     
         var newId = Guid.NewGuid();
 
         var jsRuntimeMock = new Mock<IJSRuntime>();
 
-        // Mock HttpMessageHandler to mock SendAsync method
+       
         var httpClientMock = new Mock<HttpMessageHandler>();
 
-        // Set up the SendAsync method on HttpMessageHandler to return a successful response
+      
         httpClientMock
-            .Protected()  // Use Protected() to access protected methods like SendAsync
+            .Protected()  
             .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
             .ReturnsAsync(new HttpResponseMessage
             {
                 StatusCode = HttpStatusCode.OK,
-                Content = JsonContent.Create(newId)  // Return the newId as content
+                Content = JsonContent.Create(newId)  
             });
         
         var httpClient = new HttpClient(httpClientMock.Object)
         {
-            BaseAddress = new Uri("https://example.com/") // Set the BaseAddress for HttpClient
+            BaseAddress = new Uri("https://example.com/") 
         };
 
         var authService = new AuthService(jsRuntimeMock.Object, httpClient);
 
-        // Act
+     
         var result = await authService.GetLWARecordId("testuser");
 
-        // Assert
-        Assert.Equal(newId, result);  // Check if the result matches the newId returned
+      
+        Assert.Equal(newId, result);  
     }
+    
+    
+    [Fact]
+    public async Task SignupAsync_ReturnsSuccess_WhenSignupSuccessful()
+    {
+      
+        var signupRequest = new AccRequest { Username = "testuser", Password = "password" };
+        var jsonResponse = "Success";
+
+        var jsRuntimeMock = new Mock<IJSRuntime>();
+
+        var httpClientMock = new Mock<HttpMessageHandler>();
+        httpClientMock
+            .Protected()
+            .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+            .ReturnsAsync(new HttpResponseMessage
+            {
+                StatusCode = HttpStatusCode.OK,
+                Content = new StringContent(jsonResponse)
+            });
+
+        var httpClient = new HttpClient(httpClientMock.Object)
+        {
+            BaseAddress = new Uri("https://example.com/")
+        };
+
+        var authService = new AuthService(jsRuntimeMock.Object, httpClient);
+
+    
+        var result = await authService.SignupAsync(signupRequest);
+
+        Assert.Equal("Success", result);
+    }
+    
+    [Fact]
+    public async Task SignupAsync_ReturnsError_WhenSignupFails()
+    {
+   
+        var signupRequest = new AccRequest { Username = "testuser", Password = "wrongpassword" };
+        var errorMessage = "Invalid input";
+
+        var jsRuntimeMock = new Mock<IJSRuntime>();
+
+        var httpClientMock = new Mock<HttpMessageHandler>();
+        httpClientMock
+            .Protected()
+            .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+            .ReturnsAsync(new HttpResponseMessage
+            {
+                StatusCode = HttpStatusCode.BadRequest,
+                Content = new StringContent(errorMessage)
+            });
+
+        var httpClient = new HttpClient(httpClientMock.Object)
+        {
+            BaseAddress = new Uri("https://example.com/")
+        };
+
+        var authService = new AuthService(jsRuntimeMock.Object, httpClient);
+
+       
+        var result = await authService.SignupAsync(signupRequest);
+
+     
+        Assert.Equal(errorMessage, result);
+    }
+    
+    [Fact]
+    public async Task UpdateLWARecord_ReturnsNewId_WhenSuccessful()
+    {
+      
+        var username = "testuser";
+        var newId = Guid.NewGuid();
+    
+        var jsRuntimeMock = new Mock<IJSRuntime>();
+    
+        var httpClientMock = new Mock<HttpMessageHandler>();
+        httpClientMock
+            .Protected()
+            .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+            .ReturnsAsync(new HttpResponseMessage
+            {
+                StatusCode = HttpStatusCode.OK,
+                Content = JsonContent.Create(newId)
+            });
+    
+        var httpClient = new HttpClient(httpClientMock.Object)
+        {
+            BaseAddress = new Uri("https://example.com/")
+        };
+    
+        var authService = new AuthService(jsRuntimeMock.Object, httpClient);
+    
+       
+        var result = await authService.UpdateLWARecord(username, newId);
+    
+  
+        Assert.Equal(newId, result);
+    }
+    
+    [Fact]
+    public async Task UpdateLWARecord_ReturnsNull_WhenUpdateFails()
+    {
+  
+        var username = "testuser";
+        var newId = Guid.NewGuid();
+
+        var jsRuntimeMock = new Mock<IJSRuntime>();
+
+        var httpClientMock = new Mock<HttpMessageHandler>();
+        httpClientMock
+            .Protected()
+            .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+            .ReturnsAsync(new HttpResponseMessage
+            {
+                StatusCode = HttpStatusCode.BadRequest,
+                Content = new StringContent("Error updating LWA record")
+            });
+
+        var httpClient = new HttpClient(httpClientMock.Object)
+        {
+            BaseAddress = new Uri("https://example.com/")
+        };
+
+        var authService = new AuthService(jsRuntimeMock.Object, httpClient);
+
+     
+        var result = await authService.UpdateLWARecord(username, newId);
+
+     
+        Assert.Null(result);
+    }
+
+    
 
 }

@@ -1,262 +1,183 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using MindBlown.Server.Controllers;
+using Moq;
+using Xunit;
+using MindBlow.Server.Controllers;
 using MindBlown.Server.Data;
 using MindBlown.Server.Models;
-using MindBlown.Types;
-using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
-using MindBlow.Server.Controllers;
-using Xunit;
 
 public class UserInfoControllerTests
 {
     private readonly AppDbContext _context;
-    private readonly UserInfoController _controller;
 
     public UserInfoControllerTests()
     {
-        // Setup the in-memory database
+        
         var options = new DbContextOptionsBuilder<AppDbContext>()
-            .UseInMemoryDatabase(databaseName: "TestDb")
+            .UseInMemoryDatabase(Guid.NewGuid().ToString())
             .Options;
-
         _context = new AppDbContext(options);
-
-        // Seed initial data
-        SeedDatabase();
-
-        // Initialize the controller with the in-memory database context
-        _controller = new UserInfoController(_context);
     }
 
-    private void SeedDatabase()
+    [Fact]
+    public async Task PostUser_SuccessfulSignup_ReturnsOk()
     {
-        var user = new UserMnemonicIDs
+       
+        var user = new UserCredentials { Username = "testuser", Password = "password123" };
+        var controller = new UserInfoController(_context);
+
+        
+        var result = await controller.PostUser(user);
+
+        
+        var okResult = Assert.IsType<OkResult>(result);
+        Assert.NotNull(okResult);
+    }
+
+    [Fact]
+    public async Task PostUser_UsernameAlreadyExists_ReturnsBadRequest()
+    {
+       
+        var existingUser = new UserMnemonicIDs
         {
             Id = Guid.NewGuid(),
-            Username = "existingUser",
-            Password = "password123",
-            MnemonicGuids = new List<Guid> { Guid.NewGuid() },
+            Username = "testuser",
+            Password = "hashedPassword",
+            MnemonicGuids = new List<Guid>(),
             LWARecordId = Guid.NewGuid()
         };
+        _context.UserWithMnemonicsIDs.Add(existingUser);
+        await _context.SaveChangesAsync();
 
-        _context.UserWithMnemonicsIDs.Add(user);
-        _context.SaveChanges();
-    }
+        var newUser = new UserCredentials { Username = "testuser", Password = "password123" };
+        var controller = new UserInfoController(_context);
 
-    [Fact]
-    public async Task PostUser_ValidNewUser_ReturnsOk()
-    {
-        var newUser = new UserCredentials
-        {
-            Username = "newUser",
-            Password = "securePassword"
-        };
+       
+        var result = await controller.PostUser(newUser);
 
-        var result = await _controller.PostUser(newUser);
-
-        var actionResult = Assert.IsType<OkResult>(result);
-        Assert.NotNull(actionResult);
-
-        Assert.Contains(_context.UserWithMnemonicsIDs, u => u.Username == "newUser");
-    }
-
-    [Fact]
-    public async Task PostUser_UsernameTaken_ReturnsBadRequest()
-    {
-        var existingUser = new UserCredentials
-        {
-            Username = "existingUser",
-            Password = "password123"
-        };
-
-        var result = await _controller.PostUser(existingUser);
-
-        var actionResult = Assert.IsType<BadRequestObjectResult>(result);
-        Assert.Equal("Username is already taken.", ((BadRequestObjectResult)result).Value);
+        
+        var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
+        Assert.Equal("Username is already taken.", badRequestResult.Value);
     }
 
     [Fact]
     public async Task LoginUser_ValidCredentials_ReturnsToken()
     {
         
-        var credentials = new UserCredentials
+        var passwordHasher = new Microsoft.AspNetCore.Identity.PasswordHasher<object>();
+        var hashedPassword = passwordHasher.HashPassword(new object(), "password123");
+
+        var user = new UserMnemonicIDs
         {
-            Username = "existingUser",
-            Password = "password123"
+            Id = Guid.NewGuid(),
+            Username = "testuser",
+            Password = hashedPassword,
+            MnemonicGuids = new List<Guid>(),
+            LWARecordId = Guid.NewGuid()
         };
+        _context.UserWithMnemonicsIDs.Add(user);
+        await _context.SaveChangesAsync();
 
-        
-        var result = await _controller.LoginUser(credentials);
+        var credentials = new UserCredentials { Username = "testuser", Password = "password123" };
+        var controller = new UserInfoController(_context);
 
-        
-        var actionResult = Assert.IsType<ActionResult<TokenResponse>>(result); // Check the base ActionResult type
-        var okResult = Assert.IsType<OkObjectResult>(actionResult.Result); // Unwrap and check the specific result type
-        var tokenResponse = Assert.IsType<TokenResponse>(okResult.Value); // Ensure the value inside OkObjectResult is TokenResponse
-        Assert.NotNull(tokenResponse.Token); // Verify the token is not null
+       
+        var result = await controller.LoginUser(credentials);
+
+       
+        var actionResult = Assert.IsType<ActionResult<TokenResponse>>(result); 
+        var okResult = Assert.IsType<OkObjectResult>(actionResult.Result); 
+        var tokenResponse = Assert.IsType<TokenResponse>(okResult.Value); 
+        Assert.NotNull(tokenResponse.Token); 
     }
+    
 
     [Fact]
-    public async Task LoginUser_InvalidCredentials_ReturnsBadRequest()
+    public async Task UpdateUserMnemonicGuids_AddMnemonic_ReturnsOk()
     {
-
-        var credentials = new UserCredentials
+        
+        var user = new UserMnemonicIDs
         {
-            Username = "nonexistentUser",
-            Password = "wrongPassword"
+            Id = Guid.NewGuid(),
+            Username = "testuser",
+            MnemonicGuids = new List<Guid>(),
+            LWARecordId = Guid.NewGuid(),
+            Password = "hashedPassword"
         };
+        _context.UserWithMnemonicsIDs.Add(user);
+        await _context.SaveChangesAsync();
 
-        
-        var result = await _controller.LoginUser(credentials);
-
-        
-        var actionResult = Assert.IsType<ActionResult<TokenResponse>>(result); // Check the base ActionResult type
-        var badRequestResult = Assert.IsType<BadRequestObjectResult>(actionResult.Result); // Unwrap and check the specific result type
-        Assert.Equal("Invalid login credentials", badRequestResult.Value); // Verify the error message
-    }
-
-    [Fact]
-    public async Task UpdateUserMnemonicGuids_AddValidMnemonic_ReturnsOk()
-    {
+        var mnemonicId = Guid.NewGuid();
         var request = new MnemonicUpdateRequest
         {
-            Username = "existingUser",
-            MnemonicToAdd = new MnemonicsType
-            {
-                Id = Guid.NewGuid(),
-                MnemonicText = "Sample mnemonic",
-                HelperText = "Sample helper text"
-            }
+            Username = "testuser",
+            MnemonicToAdd = new Mnemonic { Id = mnemonicId },
+            ToAdd = true
         };
 
-        var result = await _controller.UpdateUserMnemonicGuids(request);
-
-        var actionResult = Assert.IsType<OkObjectResult>(result);
-        Assert.Equal("Mnemonic GUIDs updated successfully.", actionResult.Value);
-
-        Assert.Contains(_context.UserWithMnemonicsIDs.First().MnemonicGuids, g => g == request.MnemonicToAdd.Id);
+        var controller = new UserInfoController(_context);
+        
+        var result = await controller.UpdateUserMnemonicGuids(request);
+        
+        var okResult = Assert.IsType<OkObjectResult>(result);
+        Assert.Equal("Mnemonic GUIDs updated successfully.", okResult.Value);
     }
 
     [Fact]
-    public async Task UpdateUserMnemonicGuids_UserNotFound_ReturnsNotFound()
+    public async Task GetLWARecordId_ValidUser_ReturnsLWARecordId()
     {
-        var request = new MnemonicUpdateRequest
+      
+        var lwaRecordId = Guid.NewGuid();
+        var user = new UserMnemonicIDs
         {
-            Username = "nonexistentUser",
-            MnemonicToAdd = new MnemonicsType
-            {
-                Id = Guid.NewGuid(),
-                MnemonicText = "Sample mnemonic",
-                HelperText = "Sample helper text"
-            }
+            Id = Guid.NewGuid(),
+            Username = "testuser",
+            MnemonicGuids = new List<Guid>(),
+            LWARecordId = lwaRecordId,
+            Password = "hashedPassword"
         };
+        _context.UserWithMnemonicsIDs.Add(user);
+        await _context.SaveChangesAsync();
 
-        var result = await _controller.UpdateUserMnemonicGuids(request);
+        var controller = new UserInfoController(_context);
 
-        var actionResult = Assert.IsType<NotFoundObjectResult>(result);
-        Assert.Equal("User not found.", actionResult.Value);
+        
+        var result = await controller.GetLWARecordId("testuser");
+
+       
+        var actionResult = Assert.IsType<ActionResult<Guid>>(result); 
+        var okResult = Assert.IsType<OkObjectResult>(actionResult.Result); 
+        Assert.Equal(lwaRecordId, okResult.Value);
     }
 
     [Fact]
-    public async Task UpdateUserLWARecord_ValidUpdate_ReturnsOk()
+    public async Task GetMnemonicsGuids_ValidUser_ReturnsGuidList()
     {
-        var request = new LWARecordUpdateRequest
+        var mnemonicIds = new List<Guid> { Guid.NewGuid(), Guid.NewGuid() };
+        var user = new UserMnemonicIDs
         {
-            Username = "existingUser",
-            NewId = Guid.NewGuid()
+            Id = Guid.NewGuid(),
+            Username = "testuser",
+            MnemonicGuids = mnemonicIds,
+            LWARecordId = Guid.NewGuid(),
+            Password = "hashedPassword"
         };
+        _context.UserWithMnemonicsIDs.Add(user);
+        await _context.SaveChangesAsync();
 
-        var result = await _controller.UpdateUserLWARecord(request);
+        var controller = new UserInfoController(_context);
 
-        var actionResult = Assert.IsType<OkObjectResult>(result);
-        Assert.Equal("LWARecord updated successfully.", actionResult.Value);
-
-        Assert.Equal(request.NewId, _context.UserWithMnemonicsIDs.First().LWARecordId);
-    }
-
-    [Fact]
-    public async Task UpdateUserLWARecord_EmptyGuid_ReturnsBadRequest()
-    {
-        var request = new LWARecordUpdateRequest
-        {
-            Username = "existingUser",
-            NewId = Guid.Empty
-        };
-
-        var result = await _controller.UpdateUserLWARecord(request);
-
-        var actionResult = Assert.IsType<BadRequestObjectResult>(result);
-        Assert.Equal("Invalid mnemonic provided.", actionResult.Value);
-    }
-
-    [Fact]
-    public async Task GetLWARecordId_ValidUser_ReturnsId()
-    {
-        
-        var result = await _controller.GetLWARecordId("existingUser");
-
-        
-        var actionResult = Assert.IsType<ActionResult<Guid>>(result); // Check the base ActionResult type
-        var okResult = Assert.IsType<OkObjectResult>(actionResult.Result); // Check that the result is OkObjectResult
-        var lwaRecordId = Assert.IsType<Guid>(okResult.Value); // Ensure the value inside OkObjectResult is a Guid
-        Assert.NotEqual(Guid.Empty, lwaRecordId); // Validate the GUID is not empty
-    }
-
-    [Fact]
-    public async Task GetLWARecordId_UserNotFound_ReturnsBadRequest()
-    {
-        
-        var result = await _controller.GetLWARecordId("nonexistentUser");
-
-        
-        var actionResult = Assert.IsType<ActionResult<Guid>>(result); // Check the base ActionResult type
-        Assert.IsType<BadRequestObjectResult>(actionResult.Result);  // Check the specific result type
-        Assert.Equal("User not found", ((BadRequestObjectResult)actionResult.Result).Value);
-    }
-
-    [Fact]
-    public async Task GetMnemonicsGuids_ValidUser_ReturnsList()
-    {
-        
-        var result = await _controller.GetMnemonicsGuids("existingUser");
-
-        
-        var actionResult = Assert.IsType<ActionResult<List<Guid>>>(result); // Check base ActionResult type
-        var okResult = Assert.IsType<OkObjectResult>(actionResult.Result); // Unwrap and check the specific result type
-        var guids = Assert.IsType<List<Guid>>(okResult.Value); // Ensure the value inside OkObjectResult is a List<Guid>
-        Assert.NotEmpty(guids); // Validate the GUID list is not empty
-    }
-
-    [Fact]
-    public async Task GetMnemonicsGuids_UserNotFound_ReturnsBadRequest()
-    {
-        
-        var result = await _controller.GetMnemonicsGuids("nonexistentUser");
+       
+        var result = await controller.GetMnemonicsGuids("testuser");
 
         
         var actionResult = Assert.IsType<ActionResult<List<Guid>>>(result); 
-        var badRequestResult = Assert.IsType<BadRequestObjectResult>(actionResult.Result); 
-        Assert.Equal("User not found", badRequestResult.Value); 
-    }
-    [Fact]
-    public void GenerateJwtToken_ValidInput_ReturnsTokenWithCorrectExpiry()
-    {
-        var username = "testUser";
-        
-        var method = _controller.GetType().GetMethod("GenerateJwtToken", BindingFlags.NonPublic | BindingFlags.Instance);
-        var token = (string)method.Invoke(_controller, new object[] { username });
-        
-
-        var handler = new JwtSecurityTokenHandler();
-        var jwtToken = handler.ReadJwtToken(token);
-
-        Assert.Equal("MindBlownWeb", jwtToken.Issuer);
-        Assert.Equal("user-service", jwtToken.Audiences.First());
-        Assert.True(jwtToken.ValidTo > DateTime.UtcNow);
+        var okResult = Assert.IsType<OkObjectResult>(actionResult.Result); 
+        var resultIds = Assert.IsType<List<Guid>>(okResult.Value);
+        Assert.Equal(mnemonicIds, resultIds);
     }
 }

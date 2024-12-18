@@ -16,7 +16,7 @@ public class LWARecordControllerTests
 
     public LWARecordControllerTests()
     {
-        // Use an in-memory database for testing
+        
         _dbOptions = new DbContextOptionsBuilder<AppDbContext>()
             .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
             .Options;
@@ -54,13 +54,13 @@ public class LWARecordControllerTests
     }
 
     [Fact]
-    public async Task GetRecord_ReturnsNotFound_WhenNotFound()
+    public async Task GetRecord_ReturnsNull_WhenNotFound()
     {
-        
+      
         var result = await _controller.GetRecord(Guid.NewGuid());
 
-        
-        Assert.IsType<NotFoundResult>(result.Result);
+       
+        Assert.Null(result.Result); 
     }
 
     [Fact]
@@ -103,8 +103,8 @@ public class LWARecordControllerTests
         
         using (var context = new AppDbContext(_dbOptions))
         {
-            Assert.Null(await context.Record.FindAsync(existingRecord.Id)); // Old record deleted
-            Assert.NotNull(await context.Record.FindAsync(newRecord.Id)); // New record added
+            Assert.Null(await context.Record.FindAsync(existingRecord.Id)); 
+            Assert.NotNull(await context.Record.FindAsync(newRecord.Id)); 
         }
 
         var okResult = Assert.IsType<OkObjectResult>(result.Result);

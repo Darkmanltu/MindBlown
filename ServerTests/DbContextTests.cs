@@ -7,116 +7,188 @@ using Xunit;
 
 namespace MindBlown.Tests
 {
-    public class AppDbContextTests
+    public class DbContextTests
     {
-        private DbContextOptions<AppDbContext> GetInMemoryOptions()
+        
+        private AppDbContext GetInMemoryDbContext()
         {
-            return new DbContextOptionsBuilder<AppDbContext>()
-                .UseInMemoryDatabase(databaseName: $"TestDb_{Guid.NewGuid()}")
+            var options = new DbContextOptionsBuilder<AppDbContext>()
+                .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString()) 
                 .Options;
+
+            return new AppDbContext(options);
         }
 
         [Fact]
-        public void Can_Add_And_Retrieve_Mnemonic()
+        public void CanInsertAnswerSessionIntoDatabase()
         {
-            
-            var options = GetInMemoryOptions();
-            var mnemonic = new Mnemonic
+            using var context = GetInMemoryDbContext();
+            var answerSession = new AnswerSession
             {
-                Id = Guid.NewGuid(),
-                HelperText = "Test Helper",
-                MnemonicText = "Test Mnemonic",
-                Category = MnemonicCategory.Science
+                AnswerSessionId = Guid.NewGuid(), 
+                UserName = "TestUser"
             };
 
-            
-            using (var context = new AppDbContext(options))
-            {
-                context.Mnemonics.Add(mnemonic);
-                context.SaveChanges();
-            }
+            context.AnswerSessions.Add(answerSession);
+            context.SaveChanges();
 
-            
-            using (var context = new AppDbContext(options))
-            {
-                var retrievedMnemonic = context.Mnemonics.FirstOrDefault();
-                Assert.NotNull(retrievedMnemonic);
-                Assert.Equal(mnemonic.Id, retrievedMnemonic.Id);
-                Assert.Equal("Test Helper", retrievedMnemonic.HelperText);
-                Assert.Equal("Test Mnemonic", retrievedMnemonic.MnemonicText);
-                Assert.Equal(MnemonicCategory.Science, retrievedMnemonic.Category);
-            }
+            var result = context.AnswerSessions.FirstOrDefault(a => a.UserName == "TestUser");
+
+            Assert.NotNull(result);
+            Assert.Equal("TestUser", result.UserName);
         }
 
         [Fact]
-        public void Can_Update_Mnemonic()
+        public void CanInsertAnsweredMnemonicIntoDatabase()
         {
-            
-            var options = GetInMemoryOptions();
-            var mnemonic = new Mnemonic
+            using var context = GetInMemoryDbContext();
+
+            var answerSession = new AnswerSession
             {
-                Id = Guid.NewGuid(),
-                HelperText = "Old Helper",
-                MnemonicText = "Old Mnemonic",
-                Category = MnemonicCategory.Math
+                AnswerSessionId = Guid.NewGuid(),
+                UserName = "TestUser"
             };
 
-            
-            using (var context = new AppDbContext(options))
+            var answeredMnemonic = new AnsweredMnemonic
             {
-                context.Mnemonics.Add(mnemonic);
-                context.SaveChanges();
-            }
+                AnsweredMnemonicId = Guid.NewGuid(),
+                AnswerSessionId = answerSession.AnswerSessionId,
+                AnswerSession = answerSession
+            };
 
-            using (var context = new AppDbContext(options))
-            {
-                var toUpdate = context.Mnemonics.First();
-                toUpdate.HelperText = "Updated Helper";
-                toUpdate.MnemonicText = "Updated Mnemonic";
-                context.SaveChanges();
-            }
+            context.AnswerSessions.Add(answerSession);
+            context.AnsweredMnemonics.Add(answeredMnemonic);
+            context.SaveChanges();
 
-            
-            using (var context = new AppDbContext(options))
-            {
-                var updatedMnemonic = context.Mnemonics.First();
-                Assert.Equal("Updated Helper", updatedMnemonic.HelperText);
-                Assert.Equal("Updated Mnemonic", updatedMnemonic.MnemonicText);
-            }
+            var result = context.AnsweredMnemonics
+                .Include(am => am.AnswerSession) // Include related AnswerSession
+                .FirstOrDefault(am => am.AnsweredMnemonicId == answeredMnemonic.AnsweredMnemonicId);
+
+            Assert.NotNull(result);
+            Assert.NotNull(result.AnswerSession);
+            Assert.Equal("TestUser", result.AnswerSession.UserName);
         }
 
         [Fact]
-        public void Can_Delete_Mnemonic()
+        public void CanEstablishOneToManyRelationshipBetweenAnswerSessionAndAnsweredMnemonics()
         {
-            
-            var options = GetInMemoryOptions();
-            var mnemonic = new Mnemonic
+            using var context = GetInMemoryDbContext();
+
+            var sessionId = Guid.NewGuid();
+            var answerSession = new AnswerSession
             {
-                Id = Guid.NewGuid(),
-                HelperText = "To Be Deleted",
-                MnemonicText = "To Be Deleted",
-                Category = MnemonicCategory.Geography
+                AnswerSessionId = sessionId,
+                UserName = "SessionOwner"
             };
 
-            
-            using (var context = new AppDbContext(options))
+            var answeredMnemonic1 = new AnsweredMnemonic
             {
-                context.Mnemonics.Add(mnemonic);
-                context.SaveChanges();
-            }
+                AnsweredMnemonicId = Guid.NewGuid(),
+                AnswerSessionId = sessionId,
+                AnswerSession = answerSession
+            };
 
-            using (var context = new AppDbContext(options))
+            var answeredMnemonic2 = new AnsweredMnemonic
             {
-                var toDelete = context.Mnemonics.First();
-                context.Mnemonics.Remove(toDelete);
-                context.SaveChanges();
-            }
+                AnsweredMnemonicId = Guid.NewGuid(),
+                AnswerSessionId = sessionId,
+                AnswerSession = answerSession
+            };
+
+            context.AnswerSessions.Add(answerSession);
+            context.AnsweredMnemonics.AddRange(answeredMnemonic1, answeredMnemonic2);
+            context.SaveChanges();
+
+            var result = context.AnswerSessions
+                .Include(a => a.AnsweredMnemonics)
+                .FirstOrDefault(a => a.AnswerSessionId == sessionId);
+
+            Assert.NotNull(result);
+            Assert.Equal(2, result.AnsweredMnemonics.Count);
+        }
+
+        [Fact]
+        public void CascadeDelete_RemovesAnsweredMnemonics_WhenAnswerSessionDeleted()
+        {
+            using var context = GetInMemoryDbContext();
+
+            var sessionId = Guid.NewGuid();
+            var answerSession = new AnswerSession
+            {
+                AnswerSessionId = sessionId,
+                UserName = "SessionOwner"
+            };
+
+            var answeredMnemonic = new AnsweredMnemonic
+            {
+                AnsweredMnemonicId = Guid.NewGuid(),
+                AnswerSessionId = sessionId,
+                AnswerSession = answerSession
+            };
+
+            context.AnswerSessions.Add(answerSession);
+            context.AnsweredMnemonics.Add(answeredMnemonic);
+            context.SaveChanges();
 
             
-            using (var context = new AppDbContext(options))
+            Assert.Equal(1, context.AnswerSessions.Count());
+            Assert.Equal(1, context.AnsweredMnemonics.Count());
+
+          
+            context.AnswerSessions.Remove(answerSession);
+            context.SaveChanges();
+
+           
+            Assert.Equal(0, context.AnswerSessions.Count());
+            Assert.Equal(0, context.AnsweredMnemonics.Count());
+        }
+
+        [Fact]
+        public void CascadeDelete_DoesNotRemoveUnrelatedAnsweredMnemonics()
+        {
+            using var context = GetInMemoryDbContext();
+
+            var sessionId1 = Guid.NewGuid();
+            var sessionId2 = Guid.NewGuid();
+
+            var answerSession1 = new AnswerSession
             {
-                Assert.Empty(context.Mnemonics);
-            }
+                AnswerSessionId = sessionId1,
+                UserName = "Session1"
+            };
+
+            var answerSession2 = new AnswerSession
+            {
+                AnswerSessionId = sessionId2,
+                UserName = "Session2"
+            };
+
+            var answeredMnemonic1 = new AnsweredMnemonic
+            {
+                AnsweredMnemonicId = Guid.NewGuid(),
+                AnswerSessionId = sessionId1,
+                AnswerSession = answerSession1
+            };
+
+            var answeredMnemonic2 = new AnsweredMnemonic
+            {
+                AnsweredMnemonicId = Guid.NewGuid(),
+                AnswerSessionId = sessionId2,
+                AnswerSession = answerSession2
+            };
+
+            context.AnswerSessions.AddRange(answerSession1, answerSession2);
+            context.AnsweredMnemonics.AddRange(answeredMnemonic1, answeredMnemonic2);
+            context.SaveChanges();
+
+    
+            context.AnswerSessions.Remove(answerSession1);
+            context.SaveChanges();
+
+            
+            Assert.Single(context.AnswerSessions);
+            Assert.Single(context.AnsweredMnemonics);
+            Assert.Equal(answeredMnemonic2.AnsweredMnemonicId, context.AnsweredMnemonics.First().AnsweredMnemonicId);
         }
     }
 }

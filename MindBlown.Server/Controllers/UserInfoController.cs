@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Identity;
 
 namespace MindBlow.Server.Controllers
 {
@@ -21,18 +22,7 @@ namespace MindBlow.Server.Controllers
             _context = context;
         }
 
-        // [HttpGet]
-        // public async Task<ActionResult<bool>> IsUsernameUnique([FromBody] UserCredentials user)
-        // {
-        //     // returns Record or null if doesn't exist
-        //     var userInDB = await _context.UserWithMnemonicsIDs.FirstOrDefaultAsync(u => u.Username == user.Username);
-        //     if (user == null)
-        //     {
-        //         return true;
-        //     }
-        //     return false;
-        // }
-
+     
         [HttpPost("signup")]
         public async Task<ActionResult> PostUser([FromBody] UserCredentials user)
         {
@@ -40,10 +30,13 @@ namespace MindBlow.Server.Controllers
 
             if (isUnique)
             {
+                var passwordHasher = new PasswordHasher<object>();
+                string hashedPassword = passwordHasher.HashPassword(new object(), user.Password);
+
                 var newUserRow = new UserMnemonicIDs {
                     Id = Guid.NewGuid(),
                     Username = user.Username,
-                    Password = user.Password,
+                    Password = hashedPassword,
                     MnemonicGuids = new List<Guid>(),
                     LWARecordId = new Guid()
                 };
@@ -61,7 +54,17 @@ namespace MindBlow.Server.Controllers
         public async Task<ActionResult<TokenResponse>> LoginUser([FromBody] UserCredentials user)
         {
             var userInDb = await _context.UserWithMnemonicsIDs.FirstOrDefaultAsync(u => u.Username == user.Username);
-            if (userInDb == null || userInDb.Password != user.Password)
+            
+            if (userInDb == null)
+            {
+                return BadRequest("Invalid login credentials");
+            }
+            
+            var passwordHasher = new PasswordHasher<object>();
+            var hashedPasswordVerification = passwordHasher.VerifyHashedPassword(new object(), userInDb.Password, user.Password);
+            var verificationResult = hashedPasswordVerification == PasswordVerificationResult.Failed;
+            
+            if (verificationResult)
             {
                 return BadRequest("Invalid login credentials");
             }
@@ -208,8 +211,22 @@ public class UserCredentials
     public required string Password { get; set; }
 }
 
-// public class MnemonicUpdateRequest
-// {
-//     public required string Username { get; set; }
-//     public required Mnemonic MnemonicToAdd { get; set; }
-// }
+public class MnemonicUpdateRequest
+{
+    public required string Username { get; set; }
+    public required Mnemonic MnemonicToAdd { get; set; }
+    
+    public required bool ToAdd { get; set; }
+}
+
+public class LWARecordUpdateRequest
+{
+    public required string Username { get; set; }
+    public required Guid NewId { get; set; }
+}
+
+
+public class TokenResponse
+{
+    public required string Token { get; set; }
+}

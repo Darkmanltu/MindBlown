@@ -15,7 +15,7 @@ public class ActiveUserControllerTests
     private AppDbContext CreateInMemoryDbContext()
     {
         var options = new DbContextOptionsBuilder<AppDbContext>()
-            .UseInMemoryDatabase(Guid.NewGuid().ToString()) // Unique DB for each test
+            .UseInMemoryDatabase(Guid.NewGuid().ToString())
             .Options;
 
         return new AppDbContext(options);
@@ -70,7 +70,7 @@ public class ActiveUserControllerTests
         {
             SessionId = Guid.NewGuid(),
             UserId = Guid.NewGuid(),
-            IsActive = false, // Inactive user
+            IsActive = false, 
             LastActive = DateTime.UtcNow.AddMinutes(-10)
         };
 
@@ -136,7 +136,7 @@ public class ActiveUserControllerTests
             SessionId = Guid.NewGuid(),
             UserId = Guid.NewGuid(),
             IsActive = true,
-            LastActive = DateTime.UtcNow.AddMinutes(-10) // Inactive
+            LastActive = DateTime.UtcNow.AddMinutes(-10) 
         };
 
         await context.ActiveUserSession.AddRangeAsync(activeUser, inactiveUser);
@@ -148,5 +148,88 @@ public class ActiveUserControllerTests
         var remainingUsers = await context.ActiveUserSession.ToListAsync();
         Assert.Single(remainingUsers);
         Assert.Equal(activeUser.SessionId, remainingUsers.First().SessionId);
+    }
+    
+    [Fact]
+    public async Task GetActiveUsersFull_ShouldReturnOnlyActiveUsers()
+    {
+        
+        using var context = CreateInMemoryDbContext();
+        var controller = CreateController(context);
+
+        var activeUser1 = new User
+        {
+            SessionId = Guid.NewGuid(),
+            UserId = Guid.NewGuid(),
+            IsActive = true,
+            LastActive = DateTime.UtcNow
+        };
+
+        var activeUser2 = new User
+        {
+            SessionId = Guid.NewGuid(),
+            UserId = Guid.NewGuid(),
+            IsActive = true,
+            LastActive = DateTime.UtcNow.AddMinutes(-4) 
+        };
+
+        var inactiveUser = new User
+        {
+            SessionId = Guid.NewGuid(),
+            UserId = Guid.NewGuid(),
+            IsActive = false,
+            LastActive = DateTime.UtcNow.AddMinutes(-10) 
+        };
+
+        await context.ActiveUserSession.AddRangeAsync(activeUser1, activeUser2, inactiveUser);
+        await context.SaveChangesAsync();
+
+       
+        var response = await controller.GetActiveUsersFull() as OkObjectResult;
+
+       
+        Assert.NotNull(response);
+
+        var users = Assert.IsType<List<User>>(response.Value);
+        Assert.Equal(2, users.Count); 
+        Assert.Contains(users, u => u.SessionId == activeUser1.SessionId);
+        Assert.Contains(users, u => u.SessionId == activeUser2.SessionId);
+        Assert.DoesNotContain(users, u => u.SessionId == inactiveUser.SessionId);
+    }
+    
+    [Fact]
+    public async Task GetActiveUsersFull_ShouldReturnEmptyListWhenNoActiveUsers()
+    {
+       
+        using var context = CreateInMemoryDbContext();
+        var controller = CreateController(context);
+
+        var inactiveUser1 = new User
+        {
+            SessionId = Guid.NewGuid(),
+            UserId = Guid.NewGuid(),
+            IsActive = false,
+            LastActive = DateTime.UtcNow.AddMinutes(-10)
+        };
+
+        var inactiveUser2 = new User
+        {
+            SessionId = Guid.NewGuid(),
+            UserId = Guid.NewGuid(),
+            IsActive = false,
+            LastActive = DateTime.UtcNow.AddMinutes(-15)
+        };
+
+        await context.ActiveUserSession.AddRangeAsync(inactiveUser1, inactiveUser2);
+        await context.SaveChangesAsync();
+
+     
+        var response = await controller.GetActiveUsersFull() as OkObjectResult;
+
+       
+        Assert.NotNull(response);
+
+        var users = Assert.IsType<List<User>>(response.Value);
+        Assert.Empty(users);
     }
 }

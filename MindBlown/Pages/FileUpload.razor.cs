@@ -78,14 +78,7 @@ namespace MindBlown.Pages
                                         var username = await AuthService.GetUsername();
                                         if (mnemonicFromList != null)
                                         {
-                                            Console.WriteLine(username);
-                                            Console.WriteLine(mnemonicFromList);
-                                            Console.WriteLine(mnemonicFromList.HelperText);
-                                            Console.WriteLine(mnemonicFromList.MnemonicText);
-                                            Console.WriteLine(mnemonicFromList.Category);
-                                            Console.WriteLine(mnemonicFromList.Id);
-
-                                             await AuthService.UpdateUserWithMnemonic(username, mnemonicFromList, true);
+                                            await AuthService.UpdateUserWithMnemonic(username, mnemonicFromList, true);
                                         }
                                     }
                                 }

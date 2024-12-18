@@ -1005,3 +1005,4 @@ C:\Users\noske\RiderProjects\Projektas\ServerTests\obj\Debug\net8.0\ServerTe.E7B
 C:\Users\noske\RiderProjects\Projektas\ServerTests\obj\Debug\net8.0\ServerTests.genruntimeconfig.cache
 C:\Users\noske\RiderProjects\Projektas\ServerTests\obj\Debug\net8.0\ref\ServerTests.dll
 C:\Users\noske\RiderProjects\Projektas\ServerTests\bin\Debug\net8.0\FluentAssertions.dll
+C:\Users\noske\RiderProjects\MindBlown\ServerTests\bin\Debug\net8.0\FluentAssertions.dll

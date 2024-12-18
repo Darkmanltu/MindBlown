@@ -83,4 +83,25 @@
             <div><strong>@("category".CapitalizeWords()):</strong> @lastWrongAnswer.category</div>
         </div>
     }
+    <button @onclick="ToggleDropdown">View Past Sessions</button>
+
+    @if (isDropdownVisible)
+    {
+        <div class="dropdown-list">
+            @if (displayingStat.Count() == 0)
+            {
+                <p>No past sessions found.</p>
+            }
+            else
+            {
+                <ul>
+                    @foreach (var session in displayingStat)
+                    {
+                        <li> @session.UserName  - @session.LastAnswerTime - @session.CorrectCount correct answers. Accuracy:  <strong>@(Math.Round(((double)session.CorrectCount / (session.CorrectCount + session.IncorrectCount)) *
+            100, answeringStats.precision)) %</strong></li>
+                    }
+                </ul>
+            }
+        </div>
+    }
 </div>

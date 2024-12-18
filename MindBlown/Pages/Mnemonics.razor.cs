@@ -21,8 +21,8 @@ namespace MindBlown.Pages
         public required IActiveUserClient ActiveUserClient { get; set; }
         [Inject]
         public required IAuthService AuthService { get; set; }
-
-        // private TimedRemovalService TimedRemovalService { get; set; } = default!;
+        [Inject]
+        public IJSRuntime JS {get;set;} 
         public MnemonicsType Model { get; set; } = new MnemonicsType();
 
         public int ActiveUserCount {get; set;}
@@ -38,11 +38,14 @@ namespace MindBlown.Pages
         public string? successMessage { get; set; }
         public bool successMessageIsVisible { get; set; }
         public bool loadMnemonicsButtonWasPressed { get; set; }
-        private Timer? _timer;
+        public Timer? _timer;
 
 
         protected override async Task OnInitializedAsync()
         {
+            await LoadMnemonics();
+            StateHasChanged();
+
             var chechifnull = await JS.InvokeAsync<string>("sessionStorage.getItem", "userId");
 
             // If userId is null or empty, it means it doesn't exist
@@ -58,8 +61,6 @@ namespace MindBlown.Pages
             // Retrieve user ID from session storage or generate a new one if it doesn't exist
             userId = await JS.InvokeAsync<Guid>("sessionStorage.getItem", "userId");
 
-
-            // Console.WriteLine("User ID: " + userId);
             // Add the user to ActiveUserClient
             bool isUnique = await ActiveUserClient.IsSessionIdUniqueAsync(userId);
 
@@ -68,9 +69,6 @@ namespace MindBlown.Pages
             {
                 // Add the user to ActiveUserClient only if the sessionId is unique
                 await ActiveUserClient.AddUserAsync(userId);
-
-                // Update the active user count
-
             }
 
 
@@ -78,9 +76,7 @@ namespace MindBlown.Pages
 
             await ActiveUserClient.RemoveInnactive();
             var activeUserDict = await ActiveUserClient.GetDictionary();
-            //ActiveUserCount = await ActiveUserClient.GetActiveUserCountAsync();
             ActiveUserCount = await ActiveUserClient.GetActiveUserCountAsync(activeUserDict);
-            //await ActiveUserClient.RemoveUserAsync(userId);
 
 
             _timer = new Timer(async async =>
@@ -111,7 +107,6 @@ namespace MindBlown.Pages
         {
             // Retrieve the active user count
             var activeUserCountCheck = await ActiveUserClient.GetActiveUserCountAsync(await ActiveUserClient.GetDictionary());
-            // Console.WriteLine($"Active user recounter: {activeUserCountCheck}");
 
             // Update the state if the count has changed
             if (ActiveUserCount != activeUserCountCheck)
@@ -146,7 +141,7 @@ namespace MindBlown.Pages
                     }
                 }
 
-                // mnemonicAlreadyExists = existingMnemonics.Any(m => m.HelperText == Model.HelperText);
+             
                 mnemonicAlreadyExists = existingMnemonics.Where(m => m.HelperText == Model.HelperText).Count() > 0;
 
                 if (mnemonicAlreadyExists)
@@ -182,7 +177,7 @@ namespace MindBlown.Pages
                     Message = ex.Message,
                     Details = ex.ToString()
                 });
-                // await ShowErrorMessage(ex.Message);
+                
                 Model = new MnemonicsType();
                 StateHasChanged();
                 await Task.Delay(3000);
@@ -202,7 +197,7 @@ namespace MindBlown.Pages
         public async Task LoadMnemonics()
         {
             // Get mnemonics from database. Returns a list of MnemonicsType
-            // mnemonicsList = await MnemonicService.GetMnemonicsAsync() ?? new List<MnemonicsType>();
+            
             if(await AuthService.IsUserLoggedInAsync())
             {    
                 var username = await AuthService.GetUsername();
@@ -262,7 +257,6 @@ namespace MindBlown.Pages
             catch (Exception )
             {   
                 // throws an exception but still executes it fine idk why
-                //Console.WriteLine($"Error during Dispose: {ex.Message}");
             }
 
 
@@ -275,9 +269,7 @@ namespace MindBlown.Pages
         {
             // Perform async cleanup
             var userId = await JS.InvokeAsync<Guid>("sessionStorage.getItem", "userId");
-            await ActiveUserClient.RemoveUserAsync(userId);
             var activeUserDict = await ActiveUserClient.GetDictionary();
-            //ActiveUserCount = await ActiveUserClient.GetActiveUserCountAsync();
             ActiveUserCount = await ActiveUserClient.GetActiveUserCountAsync(activeUserDict);
         }
 

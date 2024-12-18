@@ -170,4 +170,53 @@ public class MnemonicsControllerTests
 
         Assert.False(result);
     }
+    
+    [Fact]
+    public async Task PostMnemonics_ShouldAddUniqueMnemonics_Bulk()
+    {
+        using var context = GetInMemoryDbContext();
+        var controller = new MnemonicsController(context);
+
+        var mnemonics = new List<Mnemonic>
+        {
+            new Mnemonic { Id = Guid.NewGuid(), HelperText = "Helper 1", MnemonicText = "Mnemonic 1" },
+            new Mnemonic { Id = Guid.NewGuid(), HelperText = "Helper 2", MnemonicText = "Mnemonic 2" }
+        };
+
+        var result = await controller.PostMnemonics(mnemonics);
+
+        var createdAtActionResult = Assert.IsType<CreatedAtActionResult>(result);
+        var createdMnemonics = Assert.IsType<List<Mnemonic>>(createdAtActionResult.Value);
+        Assert.Equal(2, createdMnemonics.Count);
+
+        var savedMnemonics = await context.Mnemonics.ToListAsync();
+        Assert.Equal(2, savedMnemonics.Count);  
+        Assert.Contains(savedMnemonics, m => m.HelperText == "Helper 1");
+        Assert.Contains(savedMnemonics, m => m.HelperText == "Helper 2");
+    }
+    
+    [Fact]
+    public async Task PostMnemonics_ShouldReturnBadRequest_WhenNoMnemonicsProvided_Bulk()
+    {
+        using var context = GetInMemoryDbContext();
+        var controller = new MnemonicsController(context);
+
+        var result = await controller.PostMnemonics(new List<Mnemonic>());
+
+        var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
+        Assert.Equal("No mnemonics provided.", badRequestResult.Value);
+    }
+    
+    [Fact]
+    public async Task PostMnemonics_ShouldReturnBadRequest_WhenNullMnemonicsProvided_Bulk()
+    {
+        using var context = GetInMemoryDbContext();
+        var controller = new MnemonicsController(context);
+
+        var result = await controller.PostMnemonics(null);
+
+        var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
+        Assert.Equal("No mnemonics provided.", badRequestResult.Value);
+    }
+    
 }

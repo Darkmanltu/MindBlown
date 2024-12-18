@@ -551,3 +551,4 @@ C:\Users\noske\RiderProjects\Projektas\ClientTests\obj\Debug\net8.0\ClientTests.
 C:\Users\noske\RiderProjects\Projektas\ClientTests\obj\Debug\net8.0\ClientTests.genruntimeconfig.cache
 C:\Users\noske\RiderProjects\Projektas\ClientTests\obj\Debug\net8.0\ref\ClientTests.dll
 C:\Users\noske\RiderProjects\Projektas\ClientTests\bin\Debug\net8.0\FluentAssertions.dll
+C:\Users\noske\RiderProjects\MindBlown\ClientTests\bin\Debug\net8.0\FluentAssertions.dll
