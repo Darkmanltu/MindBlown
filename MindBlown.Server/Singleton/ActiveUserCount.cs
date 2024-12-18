@@ -1,4 +1,3 @@
-// not used...
 namespace MindBlown.Server.Singleton{
     public class ActiveUserService 
 {

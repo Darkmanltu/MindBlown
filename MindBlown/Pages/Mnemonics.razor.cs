@@ -124,8 +124,6 @@ namespace MindBlown.Pages
 
                 if(await AuthService.IsUserLoggedInAsync())
                 {    
-                    // var username = await AuthService.GetUsername();
-
                     // Get user's ids
                     var guids = await AuthService.GetMnemonicsGuids(await AuthService.GetUsername());
 

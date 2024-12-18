@@ -51,7 +51,6 @@ public class AuthService : IAuthService
         else if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
         {
             var error = await response.Content.ReadAsStringAsync();
-            // Console.WriteLine("Error in login: " + error);
             return error;
         }
         
@@ -66,18 +65,10 @@ public class AuthService : IAuthService
         if (response.IsSuccessStatusCode)
         {
             return "Success";
-            // var tokenResponse = await response.Content.ReadFromJsonAsync<TokenResponse>();
-            // if (tokenResponse != null)
-            // {
-            //     // Store the token in localStorage for persistence
-            //     await _jsRuntime.InvokeVoidAsync("localStorage.setItem", "authToken", tokenResponse.Token);
-            //     return true; // Signup successful
-            // }
         }
         else if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
         {
             var error = await response.Content.ReadAsStringAsync();
-            // Console.WriteLine("Error in signup: " + error);
             return error;
         }
 
@@ -156,29 +147,6 @@ public class AuthService : IAuthService
         
         return null;
     }
-
-    // public async Task<string?> GetUsernameFromToken()
-    // {
-    //     var token = await _jsRuntime.InvokeAsync<string>("localStorage.getItem", "authToken");
-    //     if (token != null)
-    //     {
-    //         var payload = DecodeJwtToken(token); // Decode JWT token (you would need a custom method here)
-    //         return payload?.Username;
-    //     }
-    //     return null;
-    // }
-
-    // private dynamic? DecodeJwtToken(string token)
-    // {
-    //     var parts = token.Split('.');
-    //     var payload = parts.Length > 1 ? parts[1] : null;
-    //     if (payload != null)
-    //     {
-    //         var json = Encoding.UTF8.GetString(Convert.FromBase64String(payload));
-    //         return JsonSerializer.Deserialize<dynamic>(json); // Deserialize to access the claims
-    //     }
-    //     return null;
-    // }
 
     public async Task<string?> GetUsername()
     {

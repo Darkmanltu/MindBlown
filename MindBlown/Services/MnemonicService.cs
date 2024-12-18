@@ -68,7 +68,6 @@ namespace Services
                     catch (HttpRequestException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
                     {
                         // Do nothing
-                        // return null;
                     }
                     catch (HttpRequestException ex)
                     {
@@ -84,20 +83,6 @@ namespace Services
             }
         }
 
-        // Test to catch an exception
-        // public async Task<MnemonicsType?> GetMnemonicAsync(Guid id)
-        // {
-        //     try
-        //     {
-        //         // Use an invalid endpoint to trigger an error
-        //         return await _httpClient.GetFromJsonAsync<MnemonicsType>($"api/invalid/{id}");
-        //     }
-        //     catch (HttpRequestException ex)
-        //     {
-        //         await LogErrorToServerAsync($"Error fetching mnemonic with ID: {id}", ex.Message);
-        //         throw new MnemonicServiceException($"An error occurred while fetching the mnemonic with ID {id}.", ex);
-        //     }
-        // }
         // Create a new mnemonic
         public async Task<MnemonicsType?> CreateMnemonicAsync(MnemonicsType mnemonic)
         {

@@ -1,5 +1,3 @@
-// using MindBlown.Interfaces;
-
 using MindBlown.Interfaces;
 
 namespace MindBlown.Types
@@ -76,7 +74,6 @@ namespace MindBlown.Types
 
         public bool Equals(MnemonicsType? mnemonic)
         {
-            // return (this.MnemonicText) == (mnemonic?.MnemonicText);
             return string.Equals(MnemonicText, mnemonic?.MnemonicText);
         }
 

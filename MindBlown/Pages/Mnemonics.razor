@@ -7,10 +7,6 @@
 @inject HttpClient HttpClient
 @inject NavigationManager Navigation
 @inject IJSRuntime JS
-@* @inject MnemonicService MnemonicService *@
-@* @inject LoggingService LoggingService *@
-@* @inject ActiveUserClient ActiveUserClient *@
-@* @inject AuthService AuthService *@
 @using Services
 
 
@@ -93,5 +89,4 @@
     </table>
 }
 
-@* <button @onclick="LoadMnemonics">@("load mnemonics".CapitalizeWords())</button> *@
 <button @onclick="DownloadJson">@("download as".CapitalizeWords()) JSON</button>
