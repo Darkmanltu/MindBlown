@@ -10,7 +10,5 @@ namespace MindBlown.Types
     public int CorrectCount { get; set; } // Number of correct answers
     public int IncorrectCount { get; set; } // Number of incorrect answers
 
-    //public ICollection<AnsweredMnemonicType> AnsweredMnemonics { get; set; } = new List<AnsweredMnemonicType>();
-
     }
 }

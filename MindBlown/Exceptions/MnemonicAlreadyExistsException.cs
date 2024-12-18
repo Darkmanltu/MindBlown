@@ -1,5 +1,3 @@
-using System;
-
 namespace MindBlown.Exceptions
 {
     public class MnemonicAlreadyExistsException : Exception

@@ -27,8 +27,6 @@ namespace MindBlow.Server.Controllers
             return Ok(mnemonics);
         }
 
-        // If not needed, in future delete below Tasks
-
         // GET: api/mnemonics/{id}
         [HttpGet("{id}")]
         public async Task<ActionResult<Mnemonic>> GetMnemonic(Guid id)
@@ -125,13 +123,6 @@ namespace MindBlow.Server.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
-        }
-
-        // Only for testing purposes, delete later
-        [HttpGet("test")]
-        public IActionResult Test()
-        {
-            return Ok("API is reachable");
         }
 
 

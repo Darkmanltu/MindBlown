@@ -55,11 +55,6 @@ namespace Services
                 response.EnsureSuccessStatusCode();
                 return await response.Content.ReadFromJsonAsync<LastWrongAnswerRecord>();
             }
-            // catch (HttpRequestException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
-            // {
-            //     // Do nothing if the error is a "Not Found" (404) situation
-            //     return null;
-            // }
             catch (HttpRequestException ex)
             {
                 // await LogErrorToServerAsync($"Error updating record with ID: {id}", ex.Message);

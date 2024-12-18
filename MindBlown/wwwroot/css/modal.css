@@ -55,27 +55,27 @@ button:hover {
 
 /* General styling for the user info container */
 .user-info {
-    font-family: Arial, sans-serif; /* Clean, modern font */
-    font-size: 16px; /* Appropriate font size */
-    color: #333; /* Dark text color */
-    padding: 10px; /* Some padding around the text */
-    background-color: #f4f4f4; /* Light background color */
-    border-radius: 8px; /* Rounded corners */
-    display: flex; /* Flexbox to align the label and username */
-    align-items: center; /* Vertically center items */
-    gap: 8px; /* Space between the label and username */
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    color: #333;
+    padding: 10px;
+    background-color: #f4f4f4;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 /* Styling for the label (Logged in as:) */
 .user-info .label {
-    font-weight: bold; /* Bold for emphasis */
-    color: #555; /* Lighter text color for the label */
+    font-weight: bold;
+    color: #555;
 }
 
 /* Styling for the username */
 .user-info .username {
-    font-weight: bold; /* Bold to make the username stand out */
-    color: #5762d5ff; /* A blue color for the username */
-    font-size: 18px; /* Slightly larger font size for the username */
-    text-transform: capitalize; /* Capitalize first letter of the username */
+    font-weight: bold;
+    color: #5762d5ff;
+    font-size: 18px;
+    text-transform: capitalize;
 }
