@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
+using FluentAssertions;
 using MindBlow.Server.Controllers;
 
 public class LWARecordControllerTests
@@ -151,5 +152,90 @@ public class LWARecordControllerTests
 
         
         Assert.IsType<NotFoundResult>(result);
+    }
+    
+    [Fact]
+    public async Task PostRecord_ShouldAddRecord_WhenNoConflictExists()
+    {
+      
+        var newRecord = new LastWrongAnswerRecord
+        {
+            Id = Guid.NewGuid(),
+            helperText = "Helper text.",
+            mnemonicText = "Mnemonic text.",
+            wrongTextMnemonic = "Wrong text.",
+            category = MnemonicCategory.History
+        };
+
+        var request = new IdLWARecordRequest
+        {
+            IdToChange = Guid.Empty, 
+            RecordToSet = newRecord
+        };
+        
+        var result = await _controller.PostRecord(request);
+        
+        using (var context = new AppDbContext(_dbOptions))
+        {
+            var addedRecord = await context.Record.FindAsync(newRecord.Id);
+            addedRecord.Should().NotBeNull();
+            addedRecord.helperText.Should().Be(newRecord.helperText);
+            addedRecord.mnemonicText.Should().Be(newRecord.mnemonicText);
+            addedRecord.wrongTextMnemonic.Should().Be(newRecord.wrongTextMnemonic);
+        }
+
+        var okResult = Assert.IsType<OkObjectResult>(result.Result);
+        var returnedRecord = Assert.IsType<LastWrongAnswerRecord>(okResult.Value);
+        Assert.Equal(newRecord.Id, returnedRecord.Id);
+    }
+    
+    [Fact]
+    public async Task PostRecord_ShouldReplaceExistingRecord_WhenIdToChangeIsValid()
+    {
+        var existingRecord = new LastWrongAnswerRecord
+        {
+            Id = Guid.NewGuid(),
+            helperText = "Old helper text.",
+            mnemonicText = "Old mnemonic text.",
+            wrongTextMnemonic = "Old wrong text.",
+            category = MnemonicCategory.Math
+        };
+    
+        using (var context = new AppDbContext(_dbOptions))
+        {
+            context.Record.Add(existingRecord);
+            await context.SaveChangesAsync();
+        }
+    
+        var newRecord = new LastWrongAnswerRecord
+        {
+            Id = Guid.NewGuid(),
+            helperText = "New helper text.",
+            mnemonicText = "New mnemonic text.",
+            wrongTextMnemonic = "New wrong text.",
+            category = MnemonicCategory.Science
+        };
+    
+        var request = new IdLWARecordRequest
+        {
+            IdToChange = existingRecord.Id,
+            RecordToSet = newRecord
+        };
+        
+        var result = await _controller.PostRecord(request);
+        
+        using (var context = new AppDbContext(_dbOptions))
+        {
+            var replacedRecord = await context.Record.FindAsync(existingRecord.Id);
+            replacedRecord.Should().BeNull();
+    
+            var addedRecord = await context.Record.FindAsync(newRecord.Id);
+            addedRecord.Should().NotBeNull();
+            addedRecord.helperText.Should().Be(newRecord.helperText);
+        }
+    
+        var okResult = Assert.IsType<OkObjectResult>(result.Result);
+        var returnedRecord = Assert.IsType<LastWrongAnswerRecord>(okResult.Value);
+        Assert.Equal(newRecord.Id, returnedRecord.Id);
     }
 }

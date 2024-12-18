@@ -219,4 +219,34 @@ public class MnemonicsControllerTests
         Assert.Equal("No mnemonics provided.", badRequestResult.Value);
     }
     
+    [Fact]
+    public async Task DeleteMnemonic_ShouldReturnNotFound_WhenMnemonicDoesNotExist()
+    {
+        
+        using var context = GetInMemoryDbContext();
+        var controller = new MnemonicsController(context);
+        
+        var result = await controller.DeleteMnemonic(Guid.NewGuid());
+        
+        Assert.IsType<NotFoundResult>(result);
+    }
+    
+    [Fact]
+    public async Task PutMnemonic_ShouldReturnNotFound_WhenMnemonicDoesNotExist()
+    {
+        using var context = GetInMemoryDbContext();
+        var controller = new MnemonicsController(context);
+        var mnemonic = new Mnemonic
+        {
+            Id = Guid.NewGuid(),
+            HelperText = "Non-existent Mnemonic"
+        };
+
+  
+        var result = await controller.PutMnemonic(mnemonic.Id, mnemonic);
+        
+        Assert.IsType<NotFoundResult>(result);
+    }
+    
+    
 }

@@ -10564,11 +10564,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\noske\\Desktop\\Studijom\\3 Semestras\\PS inzinerija\\PSIProjektas\\ClientTests\\ClientTests.csproj",
+      "projectUniqueName": "C:\\Users\\noske\\RiderProjects\\MindBlown\\ClientTests\\ClientTests.csproj",
       "projectName": "ClientTests",
-      "projectPath": "C:\\Users\\noske\\Desktop\\Studijom\\3 Semestras\\PS inzinerija\\PSIProjektas\\ClientTests\\ClientTests.csproj",
+      "projectPath": "C:\\Users\\noske\\RiderProjects\\MindBlown\\ClientTests\\ClientTests.csproj",
       "packagesPath": "C:\\Users\\noske\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\noske\\Desktop\\Studijom\\3 Semestras\\PS inzinerija\\PSIProjektas\\ClientTests\\obj\\",
+      "outputPath": "C:\\Users\\noske\\RiderProjects\\MindBlown\\ClientTests\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\noske\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -10583,11 +10583,11 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\noske\\Desktop\\Studijom\\3 Semestras\\PS inzinerija\\PSIProjektas\\MindBlown.Server\\MindBlown.Server.csproj": {
-              "projectPath": "C:\\Users\\noske\\Desktop\\Studijom\\3 Semestras\\PS inzinerija\\PSIProjektas\\MindBlown.Server\\MindBlown.Server.csproj"
+            "C:\\Users\\noske\\RiderProjects\\MindBlown\\MindBlown.Server\\MindBlown.Server.csproj": {
+              "projectPath": "C:\\Users\\noske\\RiderProjects\\MindBlown\\MindBlown.Server\\MindBlown.Server.csproj"
             },
-            "C:\\Users\\noske\\Desktop\\Studijom\\3 Semestras\\PS inzinerija\\PSIProjektas\\MindBlown\\MindBlown.csproj": {
-              "projectPath": "C:\\Users\\noske\\Desktop\\Studijom\\3 Semestras\\PS inzinerija\\PSIProjektas\\MindBlown\\MindBlown.csproj"
+            "C:\\Users\\noske\\RiderProjects\\MindBlown\\MindBlown\\MindBlown.csproj": {
+              "projectPath": "C:\\Users\\noske\\RiderProjects\\MindBlown\\MindBlown\\MindBlown.csproj"
             }
           }
         }

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "6+x528leGvI=",
+  "dgSpecHash": "ESMhEb/4Sik=",
   "success": true,
-  "projectFilePath": "C:\\Users\\noske\\Desktop\\Studijom\\3 Semestras\\PS inzinerija\\PSIProjektas\\ClientTests\\ClientTests.csproj",
+  "projectFilePath": "C:\\Users\\noske\\RiderProjects\\MindBlown\\ClientTests\\ClientTests.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\noske\\.nuget\\packages\\anglesharp\\1.1.1\\anglesharp.1.1.1.nupkg.sha512",
     "C:\\Users\\noske\\.nuget\\packages\\anglesharp.css\\1.0.0-beta.139\\anglesharp.css.1.0.0-beta.139.nupkg.sha512",
