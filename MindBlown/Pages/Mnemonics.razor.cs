@@ -218,29 +218,33 @@ namespace MindBlown.Pages
 
         public async Task RemoveMnemonic(Guid mnemonicId)
         {
-            var existingMnemonics = await MnemonicService.GetMnemonicsAsync() ?? new List<MnemonicsType>();
+            var user = await AuthService.GetUsername();
+            if (user != null) {
+                var usersMnemonicGuids = await AuthService.GetMnemonicsGuids(user);
+                var existingMnemonics = await MnemonicService.GetMnemonicsByIdsAsync(usersMnemonicGuids) ?? new List<MnemonicsType>();
 
-            var mnemonicToRemove = existingMnemonics.FirstOrDefault(m => m.Id == mnemonicId);
-            if (mnemonicToRemove != null)
-            {
-                existingMnemonics.Remove(mnemonicToRemove);
-
-                var mnemonicInDB = await MnemonicService.GetMnemonicAsync(mnemonicToRemove.Id);
-                if (mnemonicInDB != null)
+                var mnemonicToRemove = existingMnemonics.FirstOrDefault(m => m.Id == mnemonicId);
+                if (mnemonicToRemove != null)
                 {
-                    var username = await AuthService.GetUsername();
-                    
-                    await MnemonicService.DeleteMnemonicAsync(mnemonicToRemove.Id);
-                    await AuthService.UpdateUserWithMnemonic(username, mnemonicToRemove, false);
+                    existingMnemonics.Remove(mnemonicToRemove);
 
-                }
-                else
-                {
-                    await ShowErrorMessage("Mnemonic to remove not found in database");
-                }
+                    var mnemonicInDB = await MnemonicService.GetMnemonicAsync(mnemonicToRemove.Id);
+                    if (mnemonicInDB != null)
+                    {
+                        var username = await AuthService.GetUsername();
 
-                // Refresh the mnemonics list after removal
-                mnemonicsList = existingMnemonics;
+                        await MnemonicService.DeleteMnemonicAsync(mnemonicToRemove.Id);
+                        await AuthService.UpdateUserWithMnemonic(username, mnemonicToRemove, false);
+
+                    }
+                    else
+                    {
+                        await ShowErrorMessage("Mnemonic to remove not found in database");
+                    }
+
+                    // Refresh the mnemonics list after removal
+                    mnemonicsList = existingMnemonics;
+                }
             }
         }
         
