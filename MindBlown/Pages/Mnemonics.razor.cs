@@ -288,15 +288,18 @@ namespace MindBlown.Pages
 
         public async Task DownloadJson()
         {
+            var user = await AuthService.GetUsername();
+            if (user != null) {
+                var usersMnemonicsGuids = await AuthService.GetMnemonicsGuids(user);
+                var usersMnemonics = await MnemonicService.GetMnemonicsByIdsAsync(usersMnemonicsGuids) ?? new List<MnemonicsType>();
 
-            var existingMnemonics = await MnemonicService.GetMnemonicsAsync() ?? new List<MnemonicsType>();
+                object boxedMnemonics = usersMnemonics;
 
-            object boxedMnemonics = existingMnemonics;
+                var fileName = "mnemonics.json";
+                var jsonFormattedData = JsonSerializer.Serialize(boxedMnemonics, options: new JsonSerializerOptions { WriteIndented = true });
 
-            var fileName = "mnemonics.json";
-            var jsonFormattedData = JsonSerializer.Serialize(boxedMnemonics, options: new JsonSerializerOptions { WriteIndented = true });
-
-            await JS.InvokeVoidAsync("downloadFile", fileName, jsonFormattedData);
+                await JS.InvokeVoidAsync("downloadFile", fileName, jsonFormattedData);
+            }
         }
 
         public async Task ShowErrorMessage(string givenErrorMessage)
